@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class User implements INameableEntity, INameableDto {
+public class Account implements INameableEntity, INameableDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,13 +30,13 @@ public class User implements INameableEntity, INameableDto {
     private Set<Role> roles;
 
     // @formatter:on
-    public User() {
+    public Account() {
         super();
 
         locked = false;
     }
 
-    public User(final String nameToSet, final String passwordToSet, final Set<Role> rolesToSet) {
+    public Account(final String nameToSet, final String passwordToSet, final Set<Role> rolesToSet) {
         super();
 
         name = nameToSet;
@@ -107,7 +107,7 @@ public class User implements INameableEntity, INameableDto {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final User other = (User) obj;
+        final Account other = (Account) obj;
         if (name == null) {
             if (other.name != null)
                 return false;

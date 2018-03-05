@@ -2,9 +2,9 @@ package io.office360.restapi.service;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import io.office360.restapi.persistence.model.Account;
 import io.office360.restapi.persistence.model.Privilege;
 import io.office360.restapi.persistence.model.Role;
-import io.office360.restapi.persistence.model.User;
 import io.office360.restapi.util.Office360Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,7 +109,7 @@ public class SecuritySetup implements ApplicationListener<ContextRefreshedEvent>
         }
     }
 
-    // User/User
+    // Account/Account
 
     final void createUserss() {
         final Role roleAdmin = roleService.findByName(Office360Constants.Roles.ROLE_ADMIN);
@@ -119,9 +119,9 @@ public class SecuritySetup implements ApplicationListener<ContextRefreshedEvent>
     }
 
     final void createUserIfNotExisting(final String loginName, final String pass, final Set<Role> roles) {
-        final User entityByName = userService.findByName(loginName);
+        final Account entityByName = userService.findByName(loginName);
         if (entityByName == null) {
-            final User entity = new User(loginName, pass, roles);
+            final Account entity = new Account(loginName, pass, roles);
             userService.create(entity);
         }
     }

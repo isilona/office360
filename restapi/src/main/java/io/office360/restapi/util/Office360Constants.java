@@ -22,7 +22,7 @@ public final class Office360Constants {
 
     public static final class Privileges {
 
-        // User
+        // Account
         public static final String CAN_USER_READ = "ROLE_USER_READ";
         public static final String CAN_USER_WRITE = "ROLE_USER_WRITE";
 

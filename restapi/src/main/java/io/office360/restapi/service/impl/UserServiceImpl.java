@@ -2,7 +2,7 @@ package io.office360.restapi.service.impl;
 
 import io.office360.common.persistence.service.AbstractService;
 import io.office360.restapi.persistence.dao.IUserJpaDao;
-import io.office360.restapi.persistence.model.User;
+import io.office360.restapi.persistence.model.Account;
 import io.office360.restapi.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserServiceImpl extends AbstractService<User> implements IUserService {
+public class UserServiceImpl extends AbstractService<Account> implements IUserService {
 
     @Autowired
     private IUserJpaDao dao;
@@ -27,7 +27,7 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
 
     @Override
     @Transactional(readOnly = true)
-    public User findByName(final String name) {
+    public Account findByName(final String name) {
         return dao.findByName(name);
     }
 
@@ -41,7 +41,7 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
     }
 
     @Override
-    protected JpaSpecificationExecutor<User> getSpecificationExecutor() {
+    protected JpaSpecificationExecutor<Account> getSpecificationExecutor() {
         return dao;
     }
 }
