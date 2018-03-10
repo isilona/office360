@@ -1,6 +1,6 @@
 package io.office360.common.web.controller;
 
-import io.office360.common.RestPreconditions;
+import io.office360.common.web.RestPreconditions;
 import io.office360.common.persistence.model.IEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 

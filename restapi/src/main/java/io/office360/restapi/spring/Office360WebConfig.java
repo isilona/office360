@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Configuration
-@ComponentScan({"io.office360.restapi.web"})
+@ComponentScan({"io.office360.restapi.web", "io.office360.common.web"})
 @EnableWebMvc
 public class Office360WebConfig extends WebMvcConfigurerAdapter {
 

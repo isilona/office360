@@ -1,4 +1,4 @@
-package io.office360.common;
+package io.office360.common.web;
 
 
 import io.office360.common.persistence.model.IEntity;

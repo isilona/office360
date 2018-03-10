@@ -1,4 +1,4 @@
-package io.office360.common;
+package io.office360.common.web;
 
 /**
  * Interface that provides some useful constants for the web usage (URLs)
