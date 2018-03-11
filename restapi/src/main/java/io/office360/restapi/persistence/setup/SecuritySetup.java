@@ -1,15 +1,20 @@
-package io.office360.restapi.service;
+package io.office360.restapi.persistence.setup;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import io.office360.common.spring.util.Profiles;
 import io.office360.restapi.persistence.model.Account;
 import io.office360.restapi.persistence.model.Privilege;
 import io.office360.restapi.persistence.model.Role;
+import io.office360.restapi.service.IPrivilegeService;
+import io.office360.restapi.service.IRoleService;
+import io.office360.restapi.service.IUserService;
 import io.office360.restapi.util.Office360Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +22,10 @@ import java.util.Set;
 
 /**
  * This simple setup class will run during the bootstrap process of Spring and will create some setup data <br>
- * The main focus here is creating some standard privileges, then roles and finally some default principals/users
+ * The main focus here is creating some standard privileges, then roles and finally some default users
  */
 @Component
+@Profile(Profiles.DEPLOYED)
 public class SecuritySetup implements ApplicationListener<ContextRefreshedEvent> {
     private final Logger logger = LoggerFactory.getLogger(SecuritySetup.class);
 
@@ -52,7 +58,7 @@ public class SecuritySetup implements ApplicationListener<ContextRefreshedEvent>
 
             createPrivileges();
             createRoles();
-            createUserss();
+            createUsers();
 
             setupDone = true;
             logger.info("Setup Done");
@@ -73,9 +79,13 @@ public class SecuritySetup implements ApplicationListener<ContextRefreshedEvent>
     }
 
     final void createPrivilegeIfNotExisting(final String name) {
+        createPrivilegeIfNotExisting(name, name);
+    }
+
+    final void createPrivilegeIfNotExisting(final String name, final String description) {
         final Privilege entityByName = privilegeService.findByName(name);
         if (entityByName == null) {
-            final Privilege entity = new Privilege(name);
+            final Privilege entity = new Privilege(name, description);
             privilegeService.create(entity);
         }
     }
@@ -111,7 +121,7 @@ public class SecuritySetup implements ApplicationListener<ContextRefreshedEvent>
 
     // Account/Account
 
-    final void createUserss() {
+    final void createUsers() {
         final Role roleAdmin = roleService.findByName(Office360Constants.Roles.ROLE_ADMIN);
 
         // createUserIfNotExisting(SecurityConstants.ADMIN_USERNAME, SecurityConstants.ADMIN_PASS, Sets.<Role> newHashSet(roleAdmin));

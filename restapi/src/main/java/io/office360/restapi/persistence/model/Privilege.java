@@ -5,8 +5,9 @@ import io.office360.common.interfaces.INameableDto;
 import io.office360.common.persistence.model.INameableEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
-
 
 @Entity
 public class Privilege implements INameableEntity, INameableDto {
@@ -17,9 +18,11 @@ public class Privilege implements INameableEntity, INameableDto {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @Size(min = 2, max = 30)
+    @NotNull
     private String name;
 
-    @Column(unique = false, nullable = true)
+    @Column(unique = false, nullable = false)
     private String description;
 
     @JsonIgnore
@@ -30,9 +33,11 @@ public class Privilege implements INameableEntity, INameableDto {
         super();
     }
 
-    public Privilege(final String nameToSet) {
+    public Privilege(final String name, final String description) {
         super();
-        name = nameToSet;
+
+        this.name = name;
+        this.description = description;
     }
 
     // API
