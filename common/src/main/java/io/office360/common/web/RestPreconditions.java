@@ -6,7 +6,9 @@ import io.office360.common.web.exception.MyResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 
 /**
- * Simple static methods to be called at the start of your own methods to verify correct arguments and state. If the Precondition fails, an {@link HttpStatus} code is thrown
+ * Simple static methods to be called at the start of your own methods to verify
+ * correct arguments and state. If the Precondition fails, an {@link HttpStatus}
+ * code is thrown
  */
 public final class RestPreconditions {
 
@@ -43,7 +45,8 @@ public final class RestPreconditions {
     }
 
     /**
-     * Ensures that an object reference passed as a parameter to the calling method is not null.
+     * Ensures that an object reference passed as a parameter to the calling
+     * method is not null.
      *
      * @param reference an object reference
      * @return the non-null reference that was validated
