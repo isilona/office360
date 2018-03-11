@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -33,6 +34,13 @@ public class Office360WebConfig extends WebMvcConfigurerAdapter {
             converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
             // deserialization will fail whenever we are passing property that does not map to the DTO
+            converter.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        }
+
+        final Optional<HttpMessageConverter<?>> jackson2XmlHttpMessageConverterFound = converters.stream().filter(c -> c instanceof MappingJackson2XmlHttpMessageConverter).findFirst();
+        if (jackson2XmlHttpMessageConverterFound.isPresent()) {
+            final MappingJackson2XmlHttpMessageConverter converter = (MappingJackson2XmlHttpMessageConverter) jackson2XmlHttpMessageConverterFound.get();
+            converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
             converter.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         }
     }
