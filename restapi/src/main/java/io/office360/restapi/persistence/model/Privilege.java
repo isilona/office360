@@ -1,13 +1,9 @@
 package io.office360.restapi.persistence.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.office360.common.interfaces.INameableDto;
 import io.office360.common.persistence.model.INameableEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Entity
 public class Privilege implements INameableEntity, INameableDto {
@@ -18,26 +14,18 @@ public class Privilege implements INameableEntity, INameableDto {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    @Size(min = 2, max = 30)
-    @NotNull
     private String name;
 
-    @Column(unique = false, nullable = false)
+    @Column(unique = false, nullable = true)
     private String description;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
-    private Set<Role> roles;
 
     public Privilege() {
         super();
     }
 
-    public Privilege(final String name, final String description) {
+    public Privilege(final String nameToSet) {
         super();
-
-        this.name = name;
-        this.description = description;
+        name = nameToSet;
     }
 
     // API
@@ -67,14 +55,6 @@ public class Privilege implements INameableEntity, INameableDto {
 
     public void setDescription(final String descriptionToSet) {
         description = descriptionToSet;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(final Set<Role> rolesToSet) {
-        roles = rolesToSet;
     }
 
     //

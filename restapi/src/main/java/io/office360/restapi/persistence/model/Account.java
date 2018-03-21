@@ -18,6 +18,9 @@ public class Account implements INameableEntity, INameableDto {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(unique = true, nullable = true)
+    private String email;
+
     @Column(nullable = false)
     private String password;
 
@@ -63,6 +66,14 @@ public class Account implements INameableEntity, INameableDto {
 
     public void setName(final String nameToSet) {
         name = nameToSet;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
     }
 
     public String getPassword() {
