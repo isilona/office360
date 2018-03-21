@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -70,7 +71,7 @@ public class UserController extends AbstractController<Account> implements ISort
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody final Account resource) {
+    public void create(@RequestBody @Valid final Account resource) {
         createInternal(resource);
     }
 
@@ -78,7 +79,7 @@ public class UserController extends AbstractController<Account> implements ISort
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") final Long id, @RequestBody final Account resource) {
+    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Account resource) {
         updateInternal(id, resource);
     }
 
