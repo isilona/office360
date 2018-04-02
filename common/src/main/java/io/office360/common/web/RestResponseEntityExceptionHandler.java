@@ -5,13 +5,16 @@ import io.office360.common.web.exception.ApiError;
 import io.office360.common.web.exception.MyConflictException;
 import io.office360.common.web.exception.MyResourceNotFoundException;
 import io.office360.common.web.exception.ValidationErrorDTO;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,10 +54,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, dto, headers, HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(value = { ConstraintViolationException.class, DataIntegrityViolationException.class })
+    @ExceptionHandler(value = {ConstraintViolationException.class, DataIntegrityViolationException.class})
     protected final ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
         logger.info("Bad Request: " + ex.getLocalizedMessage());
         logger.debug("Bad Request: ", ex);
+
+        if (ExceptionUtils.getRootCauseMessage(ex).contains("duplicate")) {
+            final ApiError apiError = message(HttpStatus.CONFLICT, ex);
+            return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+        }
 
         final ApiError apiError = message(HttpStatus.BAD_REQUEST, ex);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
@@ -67,7 +75,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 403
 
-    @ExceptionHandler({ AccessDeniedException.class })
+    @ExceptionHandler({AccessDeniedException.class})
     protected ResponseEntity<Object> handleEverything(final AccessDeniedException ex, final WebRequest request) {
         logger.error("403 Status Code", ex);
 
@@ -78,7 +86,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 404
 
-    @ExceptionHandler({ EntityNotFoundException.class, MyEntityNotFoundException.class, MyResourceNotFoundException.class })
+    @ExceptionHandler({EntityNotFoundException.class, MyEntityNotFoundException.class, MyResourceNotFoundException.class})
     protected ResponseEntity<Object> handleNotFound(final MyEntityNotFoundException ex, final WebRequest request) {
         logger.warn("Not Found: " + ex.getMessage());
 
@@ -88,7 +96,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 409
 
-    @ExceptionHandler({ InvalidDataAccessApiUsageException.class, DataAccessException.class, MyConflictException.class })
+    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class, MyConflictException.class})
     protected ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request) {
         logger.warn("Conflict: " + ex.getMessage());
 
@@ -96,9 +104,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
+    // 415
+
+    @ExceptionHandler({InvalidMimeTypeException.class, InvalidMediaTypeException.class})
+    protected ResponseEntity<Object> handleInvalidMimeTypeException(final IllegalArgumentException ex, final WebRequest request) {
+        logger.warn("Unsupported Media Type: " + ex.getMessage());
+
+        final ApiError apiError = message(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.UNSUPPORTED_MEDIA_TYPE, request);
+    }
+
     // 500
 
-    @ExceptionHandler({ NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class })
+    @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class})
     protected ResponseEntity<Object> handle500s(final RuntimeException ex, final WebRequest request) {
         logger.error("500 Status Code", ex);
 

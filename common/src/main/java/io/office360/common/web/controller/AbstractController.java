@@ -1,8 +1,12 @@
 package io.office360.common.web.controller;
 
-import io.office360.common.web.RestPreconditions;
 import io.office360.common.persistence.model.IEntity;
+import io.office360.common.web.RestPreconditions;
+import io.office360.common.web.events.AfterResourceCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractController<T extends IEntity> extends AbstractReadOnlyController<T> {
 
@@ -13,10 +17,13 @@ public abstract class AbstractController<T extends IEntity> extends AbstractRead
 
     // save/create/persist
 
-    protected final void createInternal(final T resource) {
+    protected final void createInternal(final T resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestState(resource.getId() == null);
-        getService().create(resource);
+        final T existingResource = getService().create(resource);
+
+        // - note: mind the autoboxing and potential NPE when the resource has null id at this point (likely when working with DTOs)
+        eventPublisher.publishEvent(new AfterResourceCreatedEvent<T>(clazz, uriBuilder, response, existingResource.getId().toString()));
     }
 
     // update

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,15 +36,15 @@ public class UserController extends AbstractController<Account> implements ISort
     @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY}, method = RequestMethod.GET)
     @ResponseBody
     public List<Account> findAllPaginatedAndSorted(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
-                                                   @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
-        return findPaginatedAndSortedInternal(page, size, sortBy, sortOrder);
+                                                   @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        return findPaginatedAndSortedInternal(page, size, sortBy, sortOrder, uriBuilder, response);
     }
 
     @Override
     @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE}, method = RequestMethod.GET)
     @ResponseBody
-    public List<Account> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size) {
-        return findPaginatedInternal(page, size);
+    public List<Account> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        return findPaginatedInternal(page, size, uriBuilder, response);
     }
 
     @Override
@@ -55,24 +57,24 @@ public class UserController extends AbstractController<Account> implements ISort
     @Override
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<Account> findAll(final HttpServletRequest request) {
-        return findAllInternal(request);
+    public List<Account> findAll(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        return findAllInternal(request, uriBuilder, response);
     }
 
     // find - one
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Account findOne(@PathVariable("id") final Long id) {
-        return findOneInternal(id);
+    public Account findOne(@PathVariable("id") final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        return findOneInternal(id, uriBuilder, response);
     }
 
     // create
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody @Valid final Account resource) {
-        createInternal(resource);
+    public void create(@RequestBody @Valid final Account resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        createInternal(resource, uriBuilder, response);
     }
 
     // update
