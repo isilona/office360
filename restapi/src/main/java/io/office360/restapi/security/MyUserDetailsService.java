@@ -59,8 +59,8 @@ public final class MyUserDetailsService implements UserDetailsService {
         final String[] roleStringsAsArray = rolesToString.toArray(new String[rolesToString.size()]);
         final List<GrantedAuthority> auths = AuthorityUtils.createAuthorityList(roleStringsAsArray);
 
-//        return new Office360User(user.getName(), user.getPassword(), auths, user.getId());
-        return new User(user.getName(), user.getPassword(), auths);
+        return new Office360User(user.getName(), user.getPassword(), auths, user.getId());
+//        return new User(user.getName(), user.getPassword(), auths);
 
     }
 
