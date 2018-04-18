@@ -1,0 +1,16 @@
+language: java
+sudo: false
+install: true
+
+addons:
+  sonarcloud:
+    organization: "isilona-github" # the key of the org you chose at step #3
+    token:
+      secure: "L/K8whoqlTpgVHeo+NZ5YoOrWhcvMfRVWrOKJaKIDajJg++4ZxC8jbGk+EZOKOQeBe3aOO8gJc+pQYWGPB8QYY02be97+c5JsvRI5KovlGlV9elW9sl4/qsvUcVKFUTl32n+ExK0silBN5XIo9UxGWb5D7Hkl40RokZ/wzXeNfsSWLw6O2mY07+9PXeleH5njiScAJ4gZbzLn5/nsmB+VZcgZRsprE74Uz4kU6HGrfM433qWdWO3EG0bavEaNUn9myJPA1cCsPOXMCFW3LfzCmsQRtvTKxL8V+neDc2Jsw1+pBRbHY4jSU1tGp1n06gnbjfLeUmFBrss9vj6iG+N7vgD46yBs5M8DOCUOxVVQv9uqnmse5kpdI6E8ePrN7xbwPzlPqyPowcqsuVicgFu9s9yLOdtpVKhpHBm+WvxL81IrdJ0WDA31GiubCk5JF7QeVpJIvzB5ytvII2l7ry20/hVFggrot3KGXlZ4TGScEHqltVPGpN/L2jVYGynxA6j09OeA7l3YX0b85FX4HT7ggmNzg2heUrYC27f3XJUz9yOxdxBsEzVZvRRpFZZ7H+gg/OjZHYEmrzVziyPyG8qfbt6/MbZQJOLoAsh2QAXmlQa+EnC0PubrVtL3sX1g6MlsFon/jesjiXzGgrr797nU4DljCznoPjDE8WaTVuGwpI="
+
+jdk:
+  - oraclejdk8
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
