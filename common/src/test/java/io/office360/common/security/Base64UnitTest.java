@@ -32,7 +32,7 @@ public class Base64UnitTest {
     public final void whenAuthorizationHeaderIsDecoded_thenResponseIsCorrect() {
         final Pair<String, String> authorizationKey = SpringSecurityUtil.decodeAuthorizationKey(BASIC_AUTHORIZATION);
 
-        assertThat(authorizationKey.getLeft(), equalTo("testKeyc"));
+        assertThat(authorizationKey.getLeft(), equalTo("testKey"));
         assertThat(authorizationKey.getRight(), equalTo("testVal"));
     }
 
