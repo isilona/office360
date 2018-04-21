@@ -63,6 +63,9 @@
                             <exclude>**/*IntegrationTest.java</exclude>
                             <exclude>**/*LiveTest.java</exclude>
                         </excludes>
+                        <includes>
+                            <include>**/*Suite.java</include>
+                        </includes>
                         <systemPropertyVariables>
                             <!-- <provPersistenceTarget>h2</provPersistenceTarget> -->
                         </systemPropertyVariables>
@@ -79,6 +82,7 @@
                         <target>1.8</target>
                         <compilerArgument>-proc:none</compilerArgument>
                     </configuration>
+
                 </plugin>
 
                 <plugin>
