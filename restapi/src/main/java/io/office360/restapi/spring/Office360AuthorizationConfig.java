@@ -26,6 +26,7 @@ public class Office360AuthorizationConfig extends AuthorizationServerConfigurerA
 
     @Value("${security.oauth2.resource.id}")
     private String resourceId;
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -62,7 +63,7 @@ public class Office360AuthorizationConfig extends AuthorizationServerConfigurerA
                 .resourceIds(resourceId)
                 .accessTokenValiditySeconds(10)
                 .refreshTokenValiditySeconds(30000)
-                .secret("secret")
+                .secret("{noop}secret")
                 .and()
                 .withClient("register-app")
                 .authorizedGrantTypes("client_credentials")
@@ -71,7 +72,7 @@ public class Office360AuthorizationConfig extends AuthorizationServerConfigurerA
                 .accessTokenValiditySeconds(10)
                 .refreshTokenValiditySeconds(10)
                 .resourceIds(resourceId)
-                .secret("secret");
+                .secret("{noop}secret");
     }
 
 

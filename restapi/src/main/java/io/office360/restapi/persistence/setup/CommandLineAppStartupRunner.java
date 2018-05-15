@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -36,6 +37,9 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     @Autowired
     private IPatientService patientService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -120,8 +124,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         final Role roleDoctor = roleService.findByName(Office360Constants.Roles.ROLE_DOCTOR);
         final Role roleNurse = roleService.findByName(Office360Constants.Roles.ROLE_NURSE);
 
-        createUserIfNotExisting(Office360Constants.ADMIN_EMAIL, Office360Constants.ADMIN_PASS, Sets.<Role>newHashSet(roleAdmin, roleDoctor));
-        createUserIfNotExisting(Office360Constants.USER_EMAIL, Office360Constants.USER_PASS, Sets.<Role>newHashSet(roleUser, roleNurse));
+        createUserIfNotExisting(Office360Constants.ADMIN_EMAIL, passwordEncoder.encode(Office360Constants.ADMIN_PASS), Sets.<Role>newHashSet(roleAdmin, roleDoctor));
+        createUserIfNotExisting(Office360Constants.USER_EMAIL, passwordEncoder.encode(Office360Constants.USER_PASS), Sets.<Role>newHashSet(roleUser, roleNurse));
     }
 
     final void createUserIfNotExisting(final String loginName, final String pass, final Set<Role> roles) {

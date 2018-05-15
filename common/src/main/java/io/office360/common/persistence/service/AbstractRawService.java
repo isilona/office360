@@ -4,6 +4,7 @@ package io.office360.common.persistence.service;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import io.office360.common.persistence.ServicePreconditions;
+import io.office360.common.persistence.exception.MyEntityNotFoundException;
 import io.office360.common.persistence.model.IEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 public abstract class AbstractRawService<T extends IEntity> implements IRawService<T> {
@@ -37,7 +39,13 @@ public abstract class AbstractRawService<T extends IEntity> implements IRawServi
     @Override
     @Transactional(readOnly = true)
     public T findOne(final long id) {
-        return getDao().findOne(id);
+        final Optional<T> entity = getDao().findById(id);
+
+        if (entity.isPresent()) {
+            return entity.get();
+        } else {
+            return null;
+        }
     }
 
     // find - all
@@ -118,10 +126,13 @@ public abstract class AbstractRawService<T extends IEntity> implements IRawServi
 
     @Override
     public void delete(final long id) {
-        final T entity = getDao().findOne(id);
+        final Optional<T> entity = getDao().findById(id);
         ServicePreconditions.checkEntityExists(entity);
-
-        getDao().delete(entity);
+        if (entity.isPresent()) {
+            getDao().delete(entity.get());
+        } else {
+            throw new MyEntityNotFoundException();
+        }
     }
 
     // count

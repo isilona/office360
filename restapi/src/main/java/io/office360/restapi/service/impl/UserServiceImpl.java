@@ -33,6 +33,14 @@ public class UserServiceImpl extends AbstractService<Account> implements IUserSe
 
     // other
 
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Account cd () {
+////        final String userName = SpringSecurityUtil.getNameOfCurrentUser();
+////        return getDao().findByName(userName);
+//        return getDao().findByName(null);
+//    }
+//
     // Spring
 
     @Override

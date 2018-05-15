@@ -8,7 +8,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Configuration
 @ComponentScan({"io.office360.restapi.web", "io.office360.common.web"})
 @EnableWebMvc
-public class Office360WebConfig extends WebMvcConfigurerAdapter {
+public class Office360WebConfig implements WebMvcConfigurer {
 
     public Office360WebConfig() {
         super();
