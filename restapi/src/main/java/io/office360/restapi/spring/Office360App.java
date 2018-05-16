@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Import;
         Office360ServiceConfig.class,
         Office360WebConfig.class,
         Office360AuthorizationConfig.class,
-        Office360ResourceConfig.class
+        Office360ResourceConfig.class,
+        Office360WebSecurityConfig.class
 }) // @formatter:on
 public class Office360App extends SpringBootServletInitializer {
 
