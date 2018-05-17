@@ -126,6 +126,7 @@
 
     <modules>
         <module>common</module>
+        <module>auth</module>
         <module>restapi</module>
     </modules>
 
