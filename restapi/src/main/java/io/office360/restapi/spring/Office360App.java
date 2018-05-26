@@ -6,15 +6,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import({ // @formatter:off
+@Import({
         Office360ContextConfig.class,
         Office360PersistenceJpaConfig.class,
         Office360ServiceConfig.class,
         Office360WebConfig.class,
-        Office360AuthorizationConfig.class,
-        Office360ResourceConfig.class,
-        Office360WebSecurityConfig.class
-}) // @formatter:on
+        Office360ResourceConfig.class
+})
 public class Office360App extends SpringBootServletInitializer {
 
     public static void main(final String... args) {
