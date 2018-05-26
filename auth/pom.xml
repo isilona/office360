@@ -73,6 +73,14 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.office360</groupId>
+            <artifactId>common</artifactId>
+            <version>${office360-common.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
