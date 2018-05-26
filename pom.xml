@@ -9,7 +9,7 @@
 
     <groupId>io.office360</groupId>
     <artifactId>office360</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>${office360.version}</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -102,10 +102,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
 
+        <office360.version>0.1.0-SNAPSHOT</office360.version>
+        <office360-common.version>0.1.0-SNAPSHOT</office360-common.version>
+        <office360-auth.version>0.0.1-SNAPSHOT</office360-auth.version>
+        <office360-restapi.version>0.0.1-SNAPSHOT</office360-restapi.version>
+
         <!-- persistence -->
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hsqldb.version>2.3.4</hsqldb.version>
 
+        <!--security -->
+        <spring-security-oauth2.version>2.3.3.RELEASE</spring-security-oauth2.version>
+        <spring-security-jwt.version>1.0.9.RELEASE</spring-security-jwt.version>
 
         <!-- commons and utils -->
         <guava.version>21.0</guava.version>
@@ -120,7 +128,10 @@
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
         <maven-resources-plugin.version>3.0.1</maven-resources-plugin.version>
+        <maven-jar-plugin.version>2.2</maven-jar-plugin.version>
+
         <cargo-maven2-plugin.version>1.5.0</cargo-maven2-plugin.version>
+
 
     </properties>
 
