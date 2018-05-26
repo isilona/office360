@@ -1,12 +1,12 @@
-package io.office360.restapi.web.controller;
+package io.office360.auth.web.controller;
 
+import io.office360.auth.entity.Account;
+import io.office360.auth.service.IAccountService;
+import io.office360.auth.util.Office360AuthMappings;
 import io.office360.common.security.SpringSecurityUtil;
 import io.office360.common.util.QueryConstants;
 import io.office360.common.web.controller.AbstractController;
 import io.office360.common.web.controller.ISortingController;
-import io.office360.restapi.persistence.model.Account;
-import io.office360.restapi.service.IUserService;
-import io.office360.restapi.util.Office360Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -19,16 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
-import static io.office360.restapi.util.Office360Constants.Privileges;
+import static io.office360.auth.util.Office360AuthConstants.Privileges;
 
 @Controller
-@RequestMapping(value = Office360Mappings.USERS)
-public class UserController extends AbstractController<Account> implements ISortingController<Account> {
+@RequestMapping(value = Office360AuthMappings.USERS)
+public class AccountController extends AbstractController<Account> implements ISortingController<Account> {
 
     @Autowired
-    private IUserService service;
+    private IAccountService service;
 
-    public UserController() {
+    public AccountController() {
         super(Account.class);
     }
 
@@ -123,7 +123,7 @@ public class UserController extends AbstractController<Account> implements ISort
     // Spring
 
     @Override
-    protected final IUserService getService() {
+    protected final IAccountService getService() {
         return service;
     }
 

@@ -1,13 +1,13 @@
-package io.office360.restapi.web.controller;
+package io.office360.auth.web.controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
+import io.office360.auth.entity.Account;
+import io.office360.auth.entity.Privilege;
+import io.office360.auth.entity.Role;
+import io.office360.auth.util.Office360AuthMappings;
 import io.office360.common.security.SpringSecurityUtil;
-import io.office360.restapi.persistence.model.Account;
-import io.office360.restapi.persistence.model.Privilege;
-import io.office360.restapi.persistence.model.Role;
-import io.office360.restapi.util.Office360Mappings;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,7 +32,7 @@ public class AuthenticationController {
 
     // API
 
-    @RequestMapping(method = RequestMethod.GET, value = Office360Mappings.AUTHENTICATION)
+    @RequestMapping(method = RequestMethod.GET, value = Office360AuthMappings.AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Account createAuthentication() {

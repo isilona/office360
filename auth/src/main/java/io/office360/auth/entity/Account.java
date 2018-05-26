@@ -48,6 +48,14 @@ public class Account extends NamedBaseEntity implements UserDetails {
         this.enabled = true;
     }
 
+    public Account(final String nameToSet, final String passwordToSet, final Set<Role> rolesToSet) {
+        super();
+
+        name = nameToSet;
+        password = passwordToSet;
+        roles = rolesToSet;
+    }
+
     public Account(final String usernameToSet, final String nameToSet, final String passwordToSet, final Set<Role> rolesToSet) {
         this();
 

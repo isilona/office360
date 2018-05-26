@@ -1,6 +1,6 @@
-package io.office360.restapi.web.controller;
+package io.office360.auth.web.controller;
 
-import io.office360.restapi.util.Office360Mappings;
+import io.office360.auth.util.Office360AuthMappings;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +20,17 @@ public class RedirectController {
 
     // API
 
-    @RequestMapping(value = Office360Mappings.Singular.PRIVILEGE)
+    @RequestMapping(value = Office360AuthMappings.Singular.PRIVILEGE)
     public ResponseEntity<Void> privilegeToPrivileges(final HttpServletRequest request) {
         return singularToPlural(request);
     }
 
-    @RequestMapping(value = Office360Mappings.Singular.ROLE)
+    @RequestMapping(value = Office360AuthMappings.Singular.ROLE)
     public ResponseEntity<Void> roleToRoles(final HttpServletRequest request) {
         return singularToPlural(request);
     }
 
-    @RequestMapping(value = Office360Mappings.Singular.USER)
+    @RequestMapping(value = Office360AuthMappings.Singular.USER)
     public ResponseEntity<Void> userToUsers(final HttpServletRequest request) {
         return singularToPlural(request);
     }

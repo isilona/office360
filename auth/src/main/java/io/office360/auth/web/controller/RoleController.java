@@ -1,11 +1,11 @@
-package io.office360.restapi.web.controller;
+package io.office360.auth.web.controller;
 
+import io.office360.auth.entity.Role;
+import io.office360.auth.service.IRoleService;
+import io.office360.auth.util.Office360AuthMappings;
 import io.office360.common.util.QueryConstants;
 import io.office360.common.web.controller.AbstractController;
 import io.office360.common.web.controller.ISortingController;
-import io.office360.restapi.persistence.model.Role;
-import io.office360.restapi.service.IRoleService;
-import io.office360.restapi.util.Office360Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
-import static io.office360.restapi.util.Office360Constants.Privileges;
+import static io.office360.auth.util.Office360AuthConstants.Privileges;
 
 @Controller
-@RequestMapping(value = Office360Mappings.ROLES)
+@RequestMapping(value = Office360AuthMappings.ROLES)
 public class RoleController extends AbstractController<Role> implements ISortingController<Role> {
 
     @Autowired
@@ -112,3 +112,4 @@ public class RoleController extends AbstractController<Role> implements ISorting
     }
 
 }
+
