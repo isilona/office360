@@ -2,8 +2,8 @@ package io.office360.auth.service.impl;
 
 import com.google.common.base.Preconditions;
 import io.office360.auth.entity.Account;
-import io.office360.auth.repository.IUserJpaDao;
-import io.office360.auth.service.IUserService;
+import io.office360.auth.repository.IAccountJpaDao;
+import io.office360.auth.service.IAccountService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserServiceImpl extends AbstractService<Account> implements IUserService, UserDetailsService {
+public class AccountServiceImpl extends AbstractService<Account> implements IAccountService, UserDetailsService {
 
     @Autowired
-    private IUserJpaDao dao;
+    private IAccountJpaDao dao;
 
-    public UserServiceImpl() {
+    public AccountServiceImpl() {
         super();
     }
 
@@ -48,7 +48,7 @@ public class UserServiceImpl extends AbstractService<Account> implements IUserSe
     // Spring
 
     @Override
-    protected final IUserJpaDao getDao() {
+    protected final IAccountJpaDao getDao() {
         return dao;
     }
 

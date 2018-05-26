@@ -68,7 +68,6 @@
             <version>${spring-security-jwt.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

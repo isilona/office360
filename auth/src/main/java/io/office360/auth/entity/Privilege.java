@@ -1,22 +1,16 @@
 package io.office360.auth.entity;
 
-import io.office360.common.interfaces.INameableDto;
-import io.office360.common.persistence.model.INameableEntity;
+import com.google.common.base.MoreObjects;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import java.util.Objects;
 
 @Entity
-public class Privilege implements INameableEntity, INameableDto {
+public class Privilege extends NamedBaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "PRIV_ID")
-    private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String name;
-
-    @Column(unique = false, nullable = true)
+    @Column
     private String description;
 
     public Privilege() {
@@ -30,25 +24,6 @@ public class Privilege implements INameableEntity, INameableDto {
 
     // API
 
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Long idToSet) {
-        id = idToSet;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String nameToSet) {
-        name = nameToSet;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -60,33 +35,24 @@ public class Privilege implements INameableEntity, INameableDto {
     //
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Privilege privilege = (Privilege) o;
+        return Objects.equals(id, privilege.id) &&
+                Objects.equals(name, privilege.name);
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final Privilege other = (Privilege) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 
     @Override
     public String toString() {
-        return getName();
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .toString();
     }
-
 }

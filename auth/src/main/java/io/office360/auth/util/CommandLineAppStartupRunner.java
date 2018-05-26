@@ -1,4 +1,4 @@
-package io.office360.auth;
+package io.office360.auth.util;
 
 
 import com.google.common.base.Preconditions;
@@ -6,9 +6,9 @@ import com.google.common.collect.Sets;
 import io.office360.auth.entity.Account;
 import io.office360.auth.entity.Privilege;
 import io.office360.auth.entity.Role;
+import io.office360.auth.service.IAccountService;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.auth.service.IRoleService;
-import io.office360.auth.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +19,15 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Set;
 
-import static io.office360.auth.Office360Constants.Privileges;
-import static io.office360.auth.Office360Constants.Roles;
+import static io.office360.auth.util.Office360AuthConstants.Privileges;
+import static io.office360.auth.util.Office360AuthConstants.Roles;
 
 @Component
 public class CommandLineAppStartupRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineAppStartupRunner.class);
 
     @Autowired
-    private IUserService userService;
+    private IAccountService accountService;
 
     @Autowired
     private IRoleService roleService;
@@ -39,8 +39,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void run(String... args) throws Exception {
-        logger.info("Application started with command-line arguments: {} . \n To kill this application, press Ctrl + C.", Arrays.toString(args));
+    public void run(String... args) {
+
+        if (logger.isInfoEnabled()) {
+            logger.info("Application started with command-line arguments: {} .", Arrays.toString(args));
+            logger.info("To kill this application, press Ctrl + C.");
+        }
 
 
         logger.info("Executing Setup");
@@ -53,8 +57,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     }
 
     private void createPrivileges() {
-        createPrivilegeIfNotExisting(Privileges.CAN_PATIENT_RECORD_READ);
-        createPrivilegeIfNotExisting(Privileges.CAN_PATIENT_RECORD_WRITE);
 
         createPrivilegeIfNotExisting(Privileges.CAN_PRIVILEGE_READ);
         createPrivilegeIfNotExisting(Privileges.CAN_PRIVILEGE_WRITE);
@@ -65,8 +67,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         createPrivilegeIfNotExisting(Privileges.CAN_USER_READ);
         createPrivilegeIfNotExisting(Privileges.CAN_USER_WRITE);
 
-        createPrivilegeIfNotExisting(Privileges.CAN_USER_READ);
-        createPrivilegeIfNotExisting(Privileges.CAN_USER_WRITE);
     }
 
     final void createPrivilegeIfNotExisting(final String name) {
@@ -80,8 +80,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     // Role
 
     private void createRoles() {
-        final Privilege canPatientRecordRead = privilegeService.findByName(Privileges.CAN_PATIENT_RECORD_READ);
-        final Privilege canPatientRecordWrite = privilegeService.findByName(Privileges.CAN_PATIENT_RECORD_WRITE);
         final Privilege canPrivilegeRead = privilegeService.findByName(Privileges.CAN_PRIVILEGE_READ);
         final Privilege canPrivilegeWrite = privilegeService.findByName(Privileges.CAN_PRIVILEGE_WRITE);
         final Privilege canRoleRead = privilegeService.findByName(Privileges.CAN_ROLE_READ);
@@ -98,8 +96,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         createRoleIfNotExisting(Roles.ROLE_USER, Sets.<Privilege>newHashSet(canUserRead, canRoleRead, canPrivilegeRead));
         createRoleIfNotExisting(Roles.ROLE_ADMIN, Sets.<Privilege>newHashSet(canUserRead, canUserWrite, canRoleRead, canRoleWrite, canPrivilegeRead, canPrivilegeWrite));
-        createRoleIfNotExisting(Roles.ROLE_NURSE, Sets.<Privilege>newHashSet(canPatientRecordRead));
-        createRoleIfNotExisting(Roles.ROLE_DOCTOR, Sets.<Privilege>newHashSet(canPatientRecordRead, canPatientRecordWrite));
 
     }
 
@@ -117,19 +113,24 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     final void createUsers() {
         final Role roleAdmin = roleService.findByName(Roles.ROLE_ADMIN);
         final Role roleUser = roleService.findByName(Roles.ROLE_USER);
-        final Role roleDoctor = roleService.findByName(Roles.ROLE_DOCTOR);
-        final Role roleNurse = roleService.findByName(Roles.ROLE_NURSE);
 
-        createUserIfNotExisting(Office360Constants.ADMIN_EMAIL, passwordEncoder.encode(Office360Constants.ADMIN_PASS), Sets.<Role>newHashSet(roleAdmin, roleDoctor));
-        createUserIfNotExisting(Office360Constants.USER_EMAIL, passwordEncoder.encode(Office360Constants.USER_PASS), Sets.<Role>newHashSet(roleUser, roleNurse));
+        createUserIfNotExisting(
+                Office360AuthConstants.ADMIN_USERNAME,
+                Office360AuthConstants.ADMIN_EMAIL,
+                passwordEncoder.encode(Office360AuthConstants.ADMIN_PASS),
+                Sets.<Role>newHashSet(roleAdmin));
+        createUserIfNotExisting(
+                Office360AuthConstants.USER_USERNAME,
+                Office360AuthConstants.USER_EMAIL,
+                passwordEncoder.encode(Office360AuthConstants.USER_PASS),
+                Sets.<Role>newHashSet(roleUser));
     }
 
-    final void createUserIfNotExisting(final String loginName, final String pass, final Set<Role> roles) {
-        final Account entityByName = userService.findByName(loginName);
+    final void createUserIfNotExisting(final String username, final String loginName, final String pass, final Set<Role> roles) {
+        final Account entityByName = accountService.findByName(loginName);
         if (entityByName == null) {
-            final Account entity = new Account(loginName, pass, roles);
-            userService.create(entity);
+            final Account entity = new Account(username, loginName, pass, roles);
+            accountService.create(entity);
         }
     }
-
 }

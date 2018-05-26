@@ -1,6 +1,5 @@
 package io.office360.auth.config;
 
-import io.office360.auth.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -26,10 +24,12 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    @Qualifier("dataSource")
+    private DataSource dataSource;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -40,49 +40,16 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
                 .accessTokenConverter(accessTokenConverter());
     }
 
-
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer security) throws Exception {
         security.checkTokenAccess("permitAll()");
         super.configure(security);
     }
 
-    @Autowired
-    @Qualifier("dataSource")
-    private DataSource dataSource;
-
-
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
     }
-
-//    @Value("${security.oauth2.resource.id}")
-//    private String resourceId;
-//
-//    @Override
-//    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        clients
-//                .inMemory()
-//
-//                .withClient("trusted-app")
-//                .authorizedGrantTypes("client_credentials", "password", "refresh_token")
-////                .authorities(Role.ROLE_TRUSTED_CLIENT.toString())
-//                .scopes("read", "write")
-//                .resourceIds(resourceId)
-//                .accessTokenValiditySeconds(10)
-//                .refreshTokenValiditySeconds(30000)
-//                .secret("{noop}secret")
-//                .and()
-//                .withClient("register-app")
-//                .authorizedGrantTypes("client_credentials")
-////                .authorities(Role.ROLE_REGISTER.toString())
-//                .scopes("registerUser")
-//                .accessTokenValiditySeconds(10)
-//                .refreshTokenValiditySeconds(10)
-//                .resourceIds(resourceId)
-//                .secret("{noop}secret");
-//    }
 
     @Bean
     @Primary
@@ -111,8 +78,5 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
         return converter;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserServiceImpl();
-    }
 }
+
