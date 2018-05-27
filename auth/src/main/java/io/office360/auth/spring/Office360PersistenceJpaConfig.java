@@ -19,9 +19,9 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"io.office360.auth.persistence.repository"})
+@ComponentScan({"io.office360.auth.persistence.dao"})
 @PropertySource({"classpath:persistence-${persistenceTarget:h2}.properties"})
-@EnableJpaRepositories(basePackages = "io.office360.auth.persistence.repository")
+@EnableJpaRepositories(basePackages = "io.office360.auth.persistence.dao")
 public class Office360PersistenceJpaConfig {
 
     @Autowired

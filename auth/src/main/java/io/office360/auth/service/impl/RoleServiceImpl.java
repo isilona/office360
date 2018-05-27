@@ -1,7 +1,7 @@
 package io.office360.auth.service.impl;
 
 import io.office360.auth.persistence.entity.Role;
-import io.office360.auth.persistence.repository.IRoleJpaDao;
+import io.office360.auth.persistence.dao.IRoleJpaDao;
 import io.office360.auth.service.IRoleService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;

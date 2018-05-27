@@ -1,4 +1,4 @@
-package io.office360.auth.persistence.repository;
+package io.office360.auth.persistence.dao;
 
 import io.office360.auth.persistence.entity.Role;
 import io.office360.common.interfaces.IByNameApi;
