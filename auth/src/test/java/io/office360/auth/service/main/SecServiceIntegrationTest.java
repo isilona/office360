@@ -1,8 +1,8 @@
 package io.office360.auth.service.main;
 
-import io.office360.auth.spring.Office360ContextConfig;
-import io.office360.auth.spring.Office360PersistenceJpaConfig;
-import io.office360.auth.spring.Office360ServiceConfig;
+import io.office360.auth.spring.Office360AuthContextConfig;
+import io.office360.auth.spring.Office360AuthPersistenceJpaConfig;
+import io.office360.auth.spring.Office360AuthServiceConfig;
 import io.office360.common.persistence.model.INameableEntity;
 import io.office360.common.service.AbstractServiceIntegrationTest;
 import org.junit.runner.RunWith;
@@ -14,9 +14,9 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations = "classpath:application.properties")
 @ContextConfiguration(classes = {
-        Office360PersistenceJpaConfig.class,
-        Office360ServiceConfig.class,
-        Office360ContextConfig.class
+        Office360AuthPersistenceJpaConfig.class,
+        Office360AuthServiceConfig.class,
+        Office360AuthContextConfig.class
 }, loader = AnnotationConfigContextLoader.class)
 public abstract class SecServiceIntegrationTest<T extends INameableEntity> extends AbstractServiceIntegrationTest<T> {
 

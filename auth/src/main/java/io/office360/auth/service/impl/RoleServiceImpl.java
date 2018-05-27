@@ -1,7 +1,7 @@
 package io.office360.auth.service.impl;
 
-import io.office360.auth.persistence.entity.Role;
 import io.office360.auth.persistence.dao.IRoleJpaDao;
+import io.office360.auth.persistence.entity.Role;
 import io.office360.auth.service.IRoleService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +33,6 @@ public class RoleServiceImpl extends AbstractService<Role> implements IRoleServi
 
     @Override
     public Role create(final Role entity) {
-        /*
-         * final long id = IdUtil.randomPositiveLong(); entity.setId( id );
-         */
-
-        /*
-         * final List< Privilege > associationsTemp = Lists.newArrayList( entity.getPrivileges() ); entity.getPrivileges().clear(); for( final Privilege privilege : associationsTemp ){ entity.getPrivileges().add(
-         * associationDao.findByName( privilege.getName() ) ); }
-         */
-
         return super.create(entity);
     }
 

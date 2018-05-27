@@ -1,6 +1,5 @@
 package io.office360.auth.persistence.entity;
 
-
 import io.office360.common.persistence.model.INameableEntity;
 
 import javax.persistence.*;

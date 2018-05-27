@@ -22,12 +22,12 @@ import java.util.Properties;
 @ComponentScan({"io.office360.auth.persistence.dao"})
 @PropertySource({"classpath:persistence-${persistenceTarget:h2}.properties"})
 @EnableJpaRepositories(basePackages = "io.office360.auth.persistence.dao")
-public class Office360PersistenceJpaConfig {
+public class Office360AuthPersistenceJpaConfig {
 
     @Autowired
     private Environment env;
 
-    public Office360PersistenceJpaConfig() {
+    public Office360AuthPersistenceJpaConfig() {
         super();
     }
 

@@ -7,9 +7,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-public class Office360ContextConfig {
+public class Office360AuthContextConfig {
 
-    public Office360ContextConfig() {
+    public Office360AuthContextConfig() {
         super();
     }
 

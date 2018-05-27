@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan({"io.office360.auth.service"})
-public class Office360ServiceConfig {
+public class Office360AuthServiceConfig {
 
-    public Office360ServiceConfig() {
+    public Office360AuthServiceConfig() {
         super();
     }
 

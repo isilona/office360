@@ -1,17 +1,17 @@
 package io.office360.auth;
 
-import io.office360.auth.spring.Office360ContextConfig;
-import io.office360.auth.spring.Office360PersistenceJpaConfig;
-import io.office360.auth.spring.Office360ServiceConfig;
+import io.office360.auth.spring.Office360AuthContextConfig;
+import io.office360.auth.spring.Office360AuthPersistenceJpaConfig;
+import io.office360.auth.spring.Office360AuthServiceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Import({
-        Office360ContextConfig.class,
-        Office360PersistenceJpaConfig.class,
-        Office360ServiceConfig.class
+        Office360AuthContextConfig.class,
+        Office360AuthPersistenceJpaConfig.class,
+        Office360AuthServiceConfig.class
 })
 public class Office360AuthServerApplication {
 
