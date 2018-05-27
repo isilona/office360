@@ -14,7 +14,6 @@ import java.util.List;
 public class StartupLoggingComponent implements InitializingBean {
     private static final String ENV_TARGET_KEY = "envTarget";
     private static final String PERSISTENCE_TARGET_KEY = "persistenceTarget";
-    private static final String ACTIVE_SPRING_PROFILE_KEY = "spring.profiles.active";
     private static final String PERSISTENCE_HOST_KEY = "jdbc.url";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
@@ -49,7 +48,7 @@ public class StartupLoggingComponent implements InitializingBean {
     }
 
     private void logPersistenceTarget(final Environment environment) {
-        final String envTarget = getValueOfProperty(environment, PERSISTENCE_TARGET_KEY, "h2", Lists.newArrayList("h2", "mysql", "cargo"));
+        final String envTarget = getValueOfProperty(environment, PERSISTENCE_TARGET_KEY, "h2", Lists.newArrayList("h2", "pg"));
         logger.info("{} = {}", PERSISTENCE_TARGET_KEY, envTarget);
     }
 
@@ -67,10 +66,8 @@ public class StartupLoggingComponent implements InitializingBean {
             logger.info("The {} doesn't have an explicit value; default value is = {}", propertyKey, propertyDefaultValue);
         }
 
-        if (acceptablePropertyValues != null) {
-            if (!acceptablePropertyValues.contains(propValue)) {
-                logger.warn("The property = {} has an invalid value = {}", propertyKey, propValue);
-            }
+        if (acceptablePropertyValues != null && !acceptablePropertyValues.contains(propValue)) {
+            logger.warn("The property = {} has an invalid value = {}", propertyKey, propValue);
         }
 
         if (propValue == null) {
