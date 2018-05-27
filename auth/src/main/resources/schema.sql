@@ -18,7 +18,7 @@ INSERT INTO oauth_client_details
  web_server_redirect_uri, authorities, access_token_validity,
  refresh_token_validity, additional_information, autoapprove)
 VALUES
-  ('trusted-app', '{noop}secret', 'read,write',
+  ('trusted-app', '{bcrypt}$2a$04$quhWX0QKvK1uLqYzrJlVHOlpSh/AtmzztAs7mj1.DFt4nCCGRdJX6', 'read,write',
    'password,client_credentials,refresh_token', NULL, NULL, 86400, 2592000, NULL, TRUE);
 
 DROP TABLE IF EXISTS oauth_client_token;

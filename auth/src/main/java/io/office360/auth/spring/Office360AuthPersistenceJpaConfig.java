@@ -1,11 +1,10 @@
 package io.office360.auth.spring;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -24,8 +23,27 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "io.office360.auth.persistence.dao")
 public class Office360AuthPersistenceJpaConfig {
 
-    @Autowired
-    private Environment env;
+    @Value("${jdbc.driver-class-name}")
+    private String jdbcDriverClassName;
+
+    @Value("${jdbc.url}")
+    private String jdbcUrl;
+
+    @Value("${jdbc.username}")
+    private String jdbcUsername;
+
+    @Value("${jdbc.password}")
+    private String jdbcPassword;
+
+
+    @Value("${hibernate.dialect}")
+    private String hibernateDialect;
+
+    @Value("${hibernate.show-sql}")
+    private String hibernateShowSql;
+
+    @Value("${hibernate.ddl-auto}")
+    private String hibernateDdlAuto;
 
     public Office360AuthPersistenceJpaConfig() {
         super();
@@ -47,10 +65,10 @@ public class Office360AuthPersistenceJpaConfig {
     @Bean
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(env.getProperty("jdbc.url"));
-        dataSource.setUsername(env.getProperty("jdbc.username"));
-        dataSource.setPassword(env.getProperty("jdbc.password"));
+        dataSource.setDriverClassName(jdbcDriverClassName);
+        dataSource.setUrl(jdbcUrl);
+        dataSource.setUsername(jdbcUsername);
+        dataSource.setPassword(jdbcPassword);
         return dataSource;
     }
 
@@ -70,11 +88,8 @@ public class Office360AuthPersistenceJpaConfig {
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto", "create-drop"));
-        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-
-        // setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto);
-        // setProperty("hibernate.ejb.naming_strategy", org.hibernate.cfg.ImprovedNamingStrategy.class.getName());
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", hibernateDdlAuto);
+        hibernateProperties.setProperty("hibernate.dialect", hibernateDialect);
         return hibernateProperties;
     }
 

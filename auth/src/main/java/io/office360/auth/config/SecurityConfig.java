@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,8 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         String idForEncode = "bcrypt";
         Map encoders = new HashMap<>();
         encoders.put(idForEncode, new BCryptPasswordEncoder());
-        //TODO : Fix this
-        encoders.put("noop", NoOpPasswordEncoder.getInstance());
+        encoders.put(null, new BCryptPasswordEncoder());
 
 
         return new DelegatingPasswordEncoder(idForEncode, encoders);

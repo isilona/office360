@@ -32,7 +32,7 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     private DataSource dataSource;
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .authenticationManager(this.authenticationManager)
                 .tokenServices(tokenServices())
@@ -41,9 +41,10 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(final AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.checkTokenAccess("permitAll()");
-        super.configure(security);
+    public void configure(final AuthorizationServerSecurityConfigurer security) {
+        security
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("permitAll()");
     }
 
     @Override
