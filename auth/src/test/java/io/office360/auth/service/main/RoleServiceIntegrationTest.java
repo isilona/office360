@@ -1,8 +1,8 @@
 package io.office360.auth.service.main;
 
 import com.google.common.collect.Sets;
-import io.office360.auth.entity.Privilege;
-import io.office360.auth.entity.Role;
+import io.office360.auth.persistence.entity.Privilege;
+import io.office360.auth.persistence.entity.Role;
 import io.office360.auth.service.IAccountService;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.auth.service.IRoleService;

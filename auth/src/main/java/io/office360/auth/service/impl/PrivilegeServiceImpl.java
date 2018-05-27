@@ -1,7 +1,7 @@
 package io.office360.auth.service.impl;
 
-import io.office360.auth.entity.Privilege;
-import io.office360.auth.repository.IPrivilegeJpaDao;
+import io.office360.auth.persistence.entity.Privilege;
+import io.office360.auth.persistence.repository.IPrivilegeJpaDao;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;

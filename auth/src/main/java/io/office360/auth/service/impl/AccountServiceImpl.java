@@ -1,8 +1,8 @@
 package io.office360.auth.service.impl;
 
 import com.google.common.base.Preconditions;
-import io.office360.auth.entity.Account;
-import io.office360.auth.repository.IAccountJpaDao;
+import io.office360.auth.persistence.entity.Account;
+import io.office360.auth.persistence.repository.IAccountJpaDao;
 import io.office360.auth.service.IAccountService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;

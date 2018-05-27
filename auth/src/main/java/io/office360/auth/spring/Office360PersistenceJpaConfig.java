@@ -19,9 +19,9 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"io.office360.auth.repository"})
+@ComponentScan({"io.office360.auth.persistence.repository"})
 @PropertySource({"classpath:persistence-${persistenceTarget:h2}.properties"})
-@EnableJpaRepositories(basePackages = "io.office360.auth.repository")
+@EnableJpaRepositories(basePackages = "io.office360.auth.persistence.repository")
 public class Office360PersistenceJpaConfig {
 
     @Autowired
@@ -37,7 +37,7 @@ public class Office360PersistenceJpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"io.office360.auth.entity"});
+        em.setPackagesToScan(new String[]{"io.office360.auth.persistence.entity"});
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());

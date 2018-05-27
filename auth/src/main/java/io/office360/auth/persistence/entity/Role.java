@@ -1,4 +1,4 @@
-package io.office360.auth.entity;
+package io.office360.auth.persistence.entity;
 
 import com.google.common.base.MoreObjects;
 

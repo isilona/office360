@@ -1,6 +1,6 @@
 package io.office360.auth.web.controller;
 
-import io.office360.auth.entity.Account;
+import io.office360.auth.persistence.entity.Account;
 import io.office360.auth.service.IAccountService;
 import io.office360.auth.util.Office360AuthMappings;
 import io.office360.common.security.SpringSecurityUtil;
