@@ -8,16 +8,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 @Configuration
 @EnableResourceServer
-public class ResourceConfig extends ResourceServerConfigurerAdapter {
+public class Office360AuthResourceConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
-                // .antMatchers("/oauth/token").permitAll().
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .and().cors()
-//                .and().csrf().disable();
     }
 }
