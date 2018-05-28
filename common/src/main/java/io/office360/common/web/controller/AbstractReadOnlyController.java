@@ -4,14 +4,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import io.office360.common.persistence.model.IEntity;
 import io.office360.common.persistence.service.IRawService;
-import io.office360.common.util.QueryConstants;
 import io.office360.common.web.RestPreconditions;
-import io.office360.common.web.WebConstants;
 import io.office360.common.web.events.MultipleResourcesRetrievedEvent;
 import io.office360.common.web.events.PaginatedResultsRetrievedEvent;
 import io.office360.common.web.events.SingleResourceRetrievedEvent;
 import io.office360.common.web.exception.MyResourceNotFoundException;
-import org.apache.http.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,15 +63,8 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
         return getService().findAll();
     }
 
-    protected final void findAllRedirectToPagination(final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
-        final String resourceName = clazz.getSimpleName().toString().toLowerCase();
-        final String locationValue = uriBuilder.path(WebConstants.PATH_SEP + resourceName).build().encode().toUriString() + QueryConstants.QUESTIONMARK + "page=0&size=10";
-
-        response.setHeader(HttpHeaders.LOCATION, locationValue);
-    }
-
     protected final List<T> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
-        final Page<T> resultPage = getService().findAllPaginatedAndSortedRaw(page, size, sortBy, sortOrder);
+        final Page<T> resultPage = getService().findAllPaginatedAndSorted(page, size, sortBy, sortOrder);
         if (page > resultPage.getTotalPages()) {
             throw new MyResourceNotFoundException();
         }
@@ -84,7 +74,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
     }
 
     protected final List<T> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
-        final Page<T> resultPage = getService().findAllPaginatedRaw(page, size);
+        final Page<T> resultPage = getService().findAllPaginated(page, size);
         if (page > resultPage.getTotalPages()) {
             throw new MyResourceNotFoundException();
         }
@@ -94,8 +84,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
     }
 
     protected final List<T> findAllSortedInternal(final String sortBy, final String sortOrder) {
-        final List<T> resultPage = getService().findAllSorted(sortBy, sortOrder);
-        return resultPage;
+        return getService().findAllSorted(sortBy, sortOrder);
     }
 
     // count

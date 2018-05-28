@@ -2,12 +2,11 @@ package io.office360.common.persistence;
 
 
 import io.office360.common.persistence.exception.MyEntityNotFoundException;
-import io.office360.common.web.exception.MyBadRequestException;
 
 public final class ServicePreconditions {
 
     private ServicePreconditions() {
-        throw new AssertionError();
+        throw new IllegalStateException();
     }
 
     // API
@@ -24,18 +23,6 @@ public final class ServicePreconditions {
             throw new MyEntityNotFoundException();
         }
         return entity;
-    }
-
-    public static void checkEntityExists(final boolean entityExists) {
-        if (!entityExists) {
-            throw new MyEntityNotFoundException();
-        }
-    }
-
-    public static void checkOKArgument(final boolean okArgument) {
-        if (!okArgument) {
-            throw new MyBadRequestException();
-        }
     }
 
 }

@@ -9,6 +9,7 @@ import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -120,10 +121,10 @@ public abstract class AbstractRawServiceIntegrationTest<T extends IEntity> {
         persistNewEntity();
 
         // When
-        final List<T> allPaginated = getApi().findAllPaginated(0, 1);
+        final Page<T> allPaginated = getApi().findAllPaginated(0, 1);
 
         // Then
-        assertFalse(allPaginated.isEmpty());
+        assertFalse(allPaginated.getTotalPages() == 0);
     }
 
     // find - all - sorting

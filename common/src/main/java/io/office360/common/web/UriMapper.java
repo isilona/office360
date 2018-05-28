@@ -17,7 +17,7 @@ public class UriMapper implements IUriMapper {
      */
     @Override
     public <T extends IEntity> String getUriBase(final Class<T> clazz) {
-        return clazz.getSimpleName().toString().toLowerCase() + "s";
+        return clazz.getSimpleName().toLowerCase() + "s";
     }
 
 }

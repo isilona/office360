@@ -31,12 +31,13 @@ import java.util.List;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String BAD_REQEST = "Bad Request: ";
     // 400
 
     @Override
     protected final ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        logger.info("Bad Request: " + ex.getMessage());
-        logger.debug("Bad Request: ", ex);
+        logger.info(BAD_REQEST + ex.getMessage());
+        logger.debug(BAD_REQEST, ex);
 
         final ApiError apiError = message(HttpStatus.BAD_REQUEST, ex);
         return handleExceptionInternal(ex, apiError, headers, HttpStatus.BAD_REQUEST, request);
@@ -44,8 +45,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        logger.info("Bad Request: " + ex.getMessage());
-        logger.debug("Bad Request: ", ex);
+        logger.info(BAD_REQEST + ex.getMessage());
+        logger.debug(BAD_REQEST, ex);
 
         final BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
@@ -56,8 +57,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(value = {ConstraintViolationException.class, DataIntegrityViolationException.class})
     protected final ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
-        logger.info("Bad Request: " + ex.getLocalizedMessage());
-        logger.debug("Bad Request: ", ex);
+        logger.info(BAD_REQEST + ex.getLocalizedMessage());
+        logger.debug(BAD_REQEST, ex);
 
         if (ExceptionUtils.getRootCauseMessage(ex).contains("duplicate")) {
             final ApiError apiError = message(HttpStatus.CONFLICT, ex);

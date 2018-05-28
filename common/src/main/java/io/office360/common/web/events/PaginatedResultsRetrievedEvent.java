@@ -14,8 +14,8 @@ import java.io.Serializable;
  * @param <T> Type of the result that is being handled (commonly Entities).
  */
 public final class PaginatedResultsRetrievedEvent<T extends Serializable> extends ApplicationEvent {
-    private final UriComponentsBuilder uriBuilder;
-    private final HttpServletResponse response;
+    private final transient UriComponentsBuilder uriBuilder;
+    private final transient HttpServletResponse response;
     private final int page;
     private final int totalPages;
     private final int pageSize;

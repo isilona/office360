@@ -6,6 +6,7 @@ import io.office360.common.util.SearchField;
 import io.office360.common.util.order.OrderByName;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public abstract class AbstractServiceIntegrationTest<T extends INameableEntity> 
     // find - one - by name
 
     @Test
-            /**/ public final void givenResourceExists_whenResourceIsRetrievedByName_thenNoExceptions() {
+    /**/ public final void givenResourceExists_whenResourceIsRetrievedByName_thenNoExceptions() {
         // Given
         final T existingResource = getApi().create(createNewEntity());
 
@@ -29,7 +30,7 @@ public abstract class AbstractServiceIntegrationTest<T extends INameableEntity> 
     }
 
     @Test
-            /**/ public final void givenResourceExists_whenResourceIsRetrievedByName_thenResourceIsFound() {
+    /**/ public final void givenResourceExists_whenResourceIsRetrievedByName_thenResourceIsFound() {
         // Given
         final T existingResource = getApi().create(createNewEntity());
 
@@ -41,7 +42,7 @@ public abstract class AbstractServiceIntegrationTest<T extends INameableEntity> 
     }
 
     @Test
-            /**/ public final void givenResourceExists_whenResourceIsRetrievedByName_thenFoundResourceIsCorrect() {
+    /**/ public final void givenResourceExists_whenResourceIsRetrievedByName_thenFoundResourceIsCorrect() {
         // Given
         final T existingResource = getApi().create(createNewEntity());
         // When
@@ -53,7 +54,7 @@ public abstract class AbstractServiceIntegrationTest<T extends INameableEntity> 
 
     @Test
     @Ignore
-            /**/ public final void givenExistingResourceHasSpaceInName_whenResourceIsRetrievedByName_thenFoundResourceIsCorrect() {
+    /**/ public final void givenExistingResourceHasSpaceInName_whenResourceIsRetrievedByName_thenFoundResourceIsCorrect() {
         final T newEntity = createNewEntity();
         // / newEntity.setName(randomAlphabetic(4) + " " + randomAlphabetic(4));
 
@@ -71,7 +72,7 @@ public abstract class AbstractServiceIntegrationTest<T extends INameableEntity> 
 
     @Test
     @Ignore("order has a temporary problem")
-            /**/ public final void whenResourcesAreRetrievedSorted_thenResourcesAreIndeedOrdered() {
+    /**/ public final void whenResourcesAreRetrievedSorted_thenResourcesAreIndeedOrdered() {
         persistNewEntity();
         persistNewEntity();
 
@@ -85,18 +86,18 @@ public abstract class AbstractServiceIntegrationTest<T extends INameableEntity> 
     // find - all - pagination and sorting
 
     @Test
-            /**/ public final void whenResourcesAreRetrievedPaginatedAndSorted_thenNoExceptions() {
+    /**/ public final void whenResourcesAreRetrievedPaginatedAndSorted_thenNoExceptions() {
         getApi().findAllPaginatedAndSorted(0, 41, SearchField.name.name(), Sort.Direction.DESC.name());
     }
 
     @Test
     @Ignore("order has a temporary problem")
-            /**/ public final void whenResourcesAreRetrievedPaginatedAndSorted_thenResourcesAreIndeedOrdered() {
+    /**/ public final void whenResourcesAreRetrievedPaginatedAndSorted_thenResourcesAreIndeedOrdered() {
         persistNewEntity();
         persistNewEntity();
 
         // When
-        final List<T> resourcesPaginatedAndSorted = getApi().findAllPaginatedAndSorted(0, 4, SearchField.name.name(), Sort.Direction.ASC.name());
+        final Page<T> resourcesPaginatedAndSorted = getApi().findAllPaginatedAndSorted(0, 4, SearchField.name.name(), Sort.Direction.ASC.name());
 
         // Then
         assertTrue(new OrderByName<T>().isOrdered(resourcesPaginatedAndSorted));

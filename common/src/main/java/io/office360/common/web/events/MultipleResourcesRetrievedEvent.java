@@ -14,8 +14,8 @@ import java.io.Serializable;
  * @param <T> Type of the result that is being handled (commonly Entities).
  */
 public final class MultipleResourcesRetrievedEvent<T extends Serializable> extends ApplicationEvent {
-    private final UriComponentsBuilder uriBuilder;
-    private final HttpServletResponse response;
+    private final transient UriComponentsBuilder uriBuilder;
+    private final transient HttpServletResponse response;
 
     public MultipleResourcesRetrievedEvent(final Class<T> clazz, final UriComponentsBuilder uriBuilderToSet, final HttpServletResponse responseToSet) {
         super(clazz);

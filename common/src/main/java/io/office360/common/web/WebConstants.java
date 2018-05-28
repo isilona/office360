@@ -3,8 +3,12 @@ package io.office360.common.web;
 /**
  * Interface that provides some useful constants for the web usage (URLs)
  */
-public interface WebConstants {
+public final class WebConstants {
 
-    String PATH_SEP = "/";
+    public static final String PATH_SEP = "/";
+
+    private WebConstants() {
+        throw new IllegalStateException();
+    }
 
 }

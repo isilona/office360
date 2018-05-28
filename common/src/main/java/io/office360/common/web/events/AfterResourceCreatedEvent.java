@@ -16,8 +16,8 @@ import java.io.Serializable;
  */
 public final class AfterResourceCreatedEvent<T extends Serializable> extends ApplicationEvent {
     private final String idOfNewResource;
-    private final HttpServletResponse response;
-    private final UriComponentsBuilder uriBuilder;
+    private final transient HttpServletResponse response;
+    private final transient UriComponentsBuilder uriBuilder;
 
     public AfterResourceCreatedEvent(final Class<T> clazz, final UriComponentsBuilder uriBuilderToSet, final HttpServletResponse responseToSet, final String idOfNewResourceToSet) {
         super(clazz);

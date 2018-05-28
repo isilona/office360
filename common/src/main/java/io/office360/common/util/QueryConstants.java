@@ -26,7 +26,7 @@ public final class QueryConstants {
     public static final String UUID = "uuid";
 
     private QueryConstants() {
-        throw new AssertionError();
+        throw new IllegalStateException();
     }
 
     //
