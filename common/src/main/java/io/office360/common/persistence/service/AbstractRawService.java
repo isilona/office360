@@ -103,9 +103,7 @@ public abstract class AbstractRawService<T extends IEntity> implements IRawServi
     public T create(final T entity) {
         Preconditions.checkNotNull(entity);
 
-        final T persistedEntity = getDao().save(entity);
-
-        return persistedEntity;
+        return getDao().save(entity);
     }
 
     // update/merge

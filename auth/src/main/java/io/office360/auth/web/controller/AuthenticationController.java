@@ -47,8 +47,10 @@ public class AuthenticationController {
         final Collection<Privilege> privileges = Collections2.transform(authenticationInSpring.getAuthorities(), springAuthorityToPrivilegeFunction);
         final Role defaultRole = new Role("defaultRole", Sets.<Privilege>newHashSet(privileges));
 
-        final Account authenticationResource = new Account(authenticationInSpring.getName(), (String) authenticationInSpring.getCredentials(), Sets.<Role>newHashSet(defaultRole));
-        return authenticationResource;
+        return new Account(authenticationInSpring.getName(),
+                (String) authenticationInSpring.getCredentials(),
+                Sets.<Role>newHashSet(defaultRole)
+        );
     }
 
 }
