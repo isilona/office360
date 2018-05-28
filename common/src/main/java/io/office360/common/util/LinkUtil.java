@@ -36,7 +36,7 @@ public final class LinkUtil {
             linkHeaderValue.append(uri);
             linkHeaderValue.append(", ");
         }
-        return linkHeaderValue.substring(0, linkHeaderValue.length() - 2).toString();
+        return linkHeaderValue.substring(0, linkHeaderValue.length() - 2);
     }
 
 }

@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan({"io.office360.auth.service"})
 public class Office360AuthServiceConfig {
 
+    public Office360AuthServiceConfig() {
+        super();
+    }
+
     // beans
 
 }
