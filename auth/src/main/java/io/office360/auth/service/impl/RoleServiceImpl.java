@@ -29,13 +29,6 @@ public class RoleServiceImpl extends AbstractService<Role> implements IRoleServi
         return getDao().findByName(name);
     }
 
-    // create
-
-    @Override
-    public Role create(final Role entity) {
-        return super.create(entity);
-    }
-
     // Spring
 
     @Override
