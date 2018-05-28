@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-public abstract class AbstractRawService<T extends IEntity> implements IRawService<T> {
+public abstract class AbstractOperationsService<T extends IEntity> implements IOperationsService<T> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected ApplicationEventPublisher eventPublisher;
 
-    public AbstractRawService() {
+    public AbstractOperationsService() {
         super();
     }
 

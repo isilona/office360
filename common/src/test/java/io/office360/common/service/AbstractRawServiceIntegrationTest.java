@@ -1,7 +1,7 @@
 package io.office360.common.service;
 
 import io.office360.common.persistence.model.IEntity;
-import io.office360.common.persistence.service.IRawService;
+import io.office360.common.persistence.service.IOperationsService;
 import io.office360.common.util.IDUtil;
 import io.office360.common.util.SearchField;
 import io.office360.common.util.order.OrderById;
@@ -280,7 +280,7 @@ public abstract class AbstractRawServiceIntegrationTest<T extends IEntity> {
 
     protected abstract T createNewEntity();
 
-    protected abstract IRawService<T> getApi();
+    protected abstract IOperationsService<T> getApi();
 
     protected T persistNewEntity() {
         return getApi().create(createNewEntity());

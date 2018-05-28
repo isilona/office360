@@ -1,5 +1,6 @@
 package io.office360.common.security;
 
+import com.google.common.base.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -19,6 +20,21 @@ public final class SpringSecurityPrincipal extends User {
 
     public final String getUuid() {
         return uuid;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        SpringSecurityPrincipal that = (SpringSecurityPrincipal) o;
+        return Objects.equal(uuid, that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(super.hashCode(), uuid);
     }
 
 }

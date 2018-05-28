@@ -3,7 +3,7 @@ package io.office360.common.web.controller;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import io.office360.common.persistence.model.IEntity;
-import io.office360.common.persistence.service.IRawService;
+import io.office360.common.persistence.service.IOperationsService;
 import io.office360.common.web.RestPreconditions;
 import io.office360.common.web.events.MultipleResourcesRetrievedEvent;
 import io.office360.common.web.events.PaginatedResultsRetrievedEvent;
@@ -112,6 +112,6 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
 
     // template method
 
-    protected abstract IRawService<T> getService();
+    protected abstract IOperationsService<T> getService();
 
 }
