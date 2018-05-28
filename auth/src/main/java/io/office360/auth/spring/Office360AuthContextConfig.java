@@ -9,6 +9,10 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Office360AuthContextConfig {
 
+    private Office360AuthContextConfig() {
+        throw new AssertionError();
+    }
+
     // beans
 
     @Bean
