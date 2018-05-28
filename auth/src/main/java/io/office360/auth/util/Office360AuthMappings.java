@@ -19,6 +19,10 @@ public final class Office360AuthMappings {
         public static final String PRIVILEGE = "privilege";
         public static final String ROLE = "role";
 
+        private Singular() {
+            throw new AssertionError();
+        }
+
     }
 
 
