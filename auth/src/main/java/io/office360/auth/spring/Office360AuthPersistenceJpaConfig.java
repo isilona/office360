@@ -39,7 +39,7 @@ public class Office360AuthPersistenceJpaConfig {
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
 
-    @Value("${hibernate.show-sql}")
+    @Value("${hibernate.show_sql}")
     private String hibernateShowSql;
 
     @Value("${hibernate.hbm2ddl.auto}")
