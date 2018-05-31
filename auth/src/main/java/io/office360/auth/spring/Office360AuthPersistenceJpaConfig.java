@@ -42,7 +42,7 @@ public class Office360AuthPersistenceJpaConfig {
     @Value("${hibernate.show-sql}")
     private String hibernateShowSql;
 
-    @Value("${hibernate.ddl-auto}")
+    @Value("${hibernate.hbm2ddl.auto}")
     private String hibernateDdlAuto;
 
     public Office360AuthPersistenceJpaConfig() {
@@ -90,6 +90,7 @@ public class Office360AuthPersistenceJpaConfig {
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", hibernateDdlAuto);
         hibernateProperties.setProperty("hibernate.dialect", hibernateDialect);
+        hibernateProperties.setProperty("hibernate.show_sql", hibernateShowSql);
         return hibernateProperties;
     }
 

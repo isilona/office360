@@ -12,6 +12,10 @@ public final class Office360Mappings {
 
         public static final String PATIENT = "patient";
 
+        private Singular() {
+            throw new AssertionError();
+        }
+
     }
 
 

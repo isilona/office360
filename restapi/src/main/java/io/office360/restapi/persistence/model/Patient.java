@@ -1,5 +1,7 @@
 package io.office360.restapi.persistence.model;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import io.office360.common.interfaces.INameableDto;
 import io.office360.common.persistence.model.INameableEntity;
 
@@ -74,74 +76,32 @@ public class Patient implements INameableEntity, INameableDto {
     //
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((diagnosis == null) ? 0 : diagnosis.hashCode());
-        result = (prime * result) + ((entryDate == null) ? 0 : entryDate.hashCode());
-        result = (prime * result) + ((exitDate == null) ? 0 : exitDate.hashCode());
-        result = (prime * result) + ((id == null) ? 0 : id.hashCode());
-        result = (prime * result) + ((name == null) ? 0 : name.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return Objects.equal(id, patient.id) &&
+                Objects.equal(name, patient.name) &&
+                Objects.equal(diagnosis, patient.diagnosis) &&
+                Objects.equal(entryDate, patient.entryDate) &&
+                Objects.equal(exitDate, patient.exitDate);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Patient other = (Patient) obj;
-        if (diagnosis == null) {
-            if (other.diagnosis != null) {
-                return false;
-            }
-        } else if (!diagnosis.equals(other.diagnosis)) {
-            return false;
-        }
-        if (entryDate == null) {
-            if (other.entryDate != null) {
-                return false;
-            }
-        } else if (!entryDate.equals(other.entryDate)) {
-            return false;
-        }
-        if (exitDate == null) {
-            if (other.exitDate != null) {
-                return false;
-            }
-        } else if (!exitDate.equals(other.exitDate)) {
-            return false;
-        }
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hashCode(id, name, diagnosis, entryDate, exitDate);
     }
 
     //
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Patient [id=").append(id).append(", name=").append(name).append(", diagnosis=").append(diagnosis).append(", entryDate=").append(entryDate).append(", exitDate=").append(exitDate).append("]");
-        return builder.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("diagnosis", diagnosis)
+                .add("entryDate", entryDate)
+                .add("exitDate", exitDate)
+                .toString();
     }
-
 }

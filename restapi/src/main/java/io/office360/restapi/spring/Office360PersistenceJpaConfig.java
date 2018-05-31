@@ -37,7 +37,7 @@ public class Office360PersistenceJpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"io.office360.restapi"});
+        em.setPackagesToScan("io.office360.restapi");
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
@@ -70,11 +70,15 @@ public class Office360PersistenceJpaConfig {
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto", "create-drop"));
-        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
 
-        // setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto);
-        // setProperty("hibernate.ejb.naming_strategy", org.hibernate.cfg.ImprovedNamingStrategy.class.getName());
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto",
+                env.getProperty("hibernate.hbm2ddl.auto", "create-drop"));
+
+        hibernateProperties.setProperty("hibernate.dialect",
+                env.getProperty("hibernate.dialect"));
+
+        hibernateProperties.setProperty("hibernate.show_sql",
+                env.getProperty("hibernate.show_sql"));
         return hibernateProperties;
     }
 

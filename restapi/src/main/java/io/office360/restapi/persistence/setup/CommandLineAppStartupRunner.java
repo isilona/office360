@@ -20,8 +20,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        logger.info("Application started with command-line arguments: {} . \n To kill this application, press Ctrl + C.", Arrays.toString(args));
 
+
+        if (logger.isInfoEnabled()) {
+            logger.info("Application started with command-line arguments: {} .", Arrays.toString(args));
+            logger.info("To kill this application, press Ctrl + C.");
+        }
 
         logger.info("Executing Setup");
 

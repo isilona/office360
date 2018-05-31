@@ -9,6 +9,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Office360ContextConfig {
 
+    @SuppressWarnings("squid:S1118")
     public Office360ContextConfig() {
         super();
     }
