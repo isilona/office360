@@ -14,4 +14,4 @@ jdk:
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
 #  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-   - mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.0.905:sonar install sonar:sonar
+   - mvn -Dsonar.java.binaries=targer clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.0.905:sonar install sonar:sonar
