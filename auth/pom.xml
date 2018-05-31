@@ -5,7 +5,7 @@
 
     <groupId>io.office360</groupId>
     <artifactId>auth</artifactId>
-    <version>${office360-auth.version}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>auth</name>

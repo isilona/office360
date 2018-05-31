@@ -4,7 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <groupId>com.isilona</groupId>
     <artifactId>common</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>common</name>
 
     <parent>
@@ -73,8 +75,8 @@
         <!-- security -->
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework.security</groupId>-->
-            <!--<artifactId>spring-security-core</artifactId>-->
+        <!--<groupId>org.springframework.security</groupId>-->
+        <!--<artifactId>spring-security-core</artifactId>-->
         <!--</dependency>-->
 
         <dependency>
@@ -91,8 +93,8 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-validator</artifactId>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-validator</artifactId>-->
         <!--</dependency>-->
 
         <!-- marshalling -->
