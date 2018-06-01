@@ -90,6 +90,12 @@
                     <version>${maven-resources-plugin.version}</version>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.4.0.905</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -130,6 +136,7 @@
 
         <cargo-maven2-plugin.version>1.5.0</cargo-maven2-plugin.version>
 
+        <sonar.java.binaries>target</sonar.java.binaries>
 
     </properties>
 
