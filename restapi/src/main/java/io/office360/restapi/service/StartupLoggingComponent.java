@@ -60,7 +60,10 @@ public class StartupLoggingComponent implements InitializingBean {
     //
 
     private final String getValueOfProperty(final Environment environment, final String propertyKey, final String propertyDefaultValue, final List<String> acceptablePropertyValues) {
+
+        @SuppressWarnings("squid:S2583")
         String propValue = environment.getProperty(propertyKey);
+
         if (propValue == null) {
             propValue = propertyDefaultValue;
             logger.info("The {} doesn't have an explicit value; default value is = {}", propertyKey, propertyDefaultValue);
@@ -69,6 +72,7 @@ public class StartupLoggingComponent implements InitializingBean {
         if (acceptablePropertyValues != null && !acceptablePropertyValues.contains(propValue)) {
             logger.warn("The property = {} has an invalid value = {}", propertyKey, propValue);
         }
+
 
         if (propValue == null) {
             logger.warn("The property = {} is null", propertyKey);
