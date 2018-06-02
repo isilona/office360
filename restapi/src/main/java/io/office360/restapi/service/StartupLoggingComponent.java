@@ -31,7 +31,6 @@ public class StartupLoggingComponent implements InitializingBean {
         try {
             logEnvTarget(env);
             logPersistenceTarget(env);
-
             logPersistenceData(env);
         } catch (final Exception ex) {
             logger.warn("There was a problem logging data on startup", ex);
@@ -57,8 +56,6 @@ public class StartupLoggingComponent implements InitializingBean {
         logger.info("{} = {}", PERSISTENCE_HOST_KEY, persistenceHost);
     }
 
-    // TODO : FIX this
-//    @SuppressWarnings("squid:S2583")
     private final String getValueOfProperty(final Environment environment, final String propertyKey, final String propertyDefaultValue, final List<String> acceptablePropertyValues) {
         String propValue = environment.getProperty(propertyKey, propertyDefaultValue);
 
