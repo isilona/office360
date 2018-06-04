@@ -1,7 +1,6 @@
 package io.office360.common.web.events;
 
 import com.google.common.base.Preconditions;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,45 +13,23 @@ import java.io.Serializable;
  *
  * @param <T> Type of the result that is being handled (commonly Entities).
  */
-public final class AfterResourceCreatedEvent<T extends Serializable> extends ApplicationEvent {
+public final class AfterResourceCreatedEvent<T extends Serializable> extends ResourceEvent {
     private final String idOfNewResource;
-    private final transient HttpServletResponse response;
-    private final transient UriComponentsBuilder uriBuilder;
 
     public AfterResourceCreatedEvent(final Class<T> clazz, final UriComponentsBuilder uriBuilderToSet, final HttpServletResponse responseToSet, final String idOfNewResourceToSet) {
-        super(clazz);
+        super(clazz, uriBuilderToSet, responseToSet);
 
         Preconditions.checkNotNull(uriBuilderToSet);
         Preconditions.checkNotNull(responseToSet);
         Preconditions.checkNotNull(idOfNewResourceToSet);
 
-        uriBuilder = uriBuilderToSet;
-        response = responseToSet;
         idOfNewResource = idOfNewResourceToSet;
     }
 
     //
 
-    public final UriComponentsBuilder getUriBuilder() {
-        return uriBuilder;
-    }
-
-    public final HttpServletResponse getResponse() {
-        return response;
-    }
-
     public final String getIdOfNewResource() {
         return idOfNewResource;
-    }
-
-    /**
-     * The object on which the Event initially occurred.
-     *
-     * @return The object on which the Event initially occurred.
-     */
-    @SuppressWarnings("unchecked")
-    public final Class<T> getClazz() {
-        return (Class<T>) getSource();
     }
 
 }

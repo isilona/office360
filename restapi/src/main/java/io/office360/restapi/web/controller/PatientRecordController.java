@@ -70,8 +70,8 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
 //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
-    public Patient findOne(@PathVariable("id") final Long id) {
-        return findOneInternal(id);
+    public Patient findOne(@PathVariable("id") final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        return findOneInternal(id, uriBuilder, response);
     }
 
     // find - one by name
