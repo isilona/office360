@@ -1,12 +1,15 @@
 package io.office360.restapi.web.controller;
 
+import com.querydsl.core.types.Predicate;
 import io.office360.common.util.QueryConstants;
 import io.office360.common.web.controller.AbstractController;
 import io.office360.common.web.controller.ISortingController;
+import io.office360.restapi.persistence.dao.IPatientJpaDao;
 import io.office360.restapi.persistence.model.Patient;
 import io.office360.restapi.service.IPatientService;
 import io.office360.restapi.util.Office360Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +27,21 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @Autowired
     private IPatientService service;
 
+    @Autowired
+    private IPatientJpaDao patientRepository;
+
     public PatientRecordController() {
         super(Patient.class);
     }
 
     // API
+
+    @RequestMapping(method = RequestMethod.GET, value = "/q")
+    @ResponseBody
+    public Iterable<Patient> findAllByWebQuerydsl(
+            @QuerydslPredicate(root = Patient.class) Predicate predicate) {
+        return patientRepository.findAll(predicate);
+    }
 
     // find - all/paginated
 
