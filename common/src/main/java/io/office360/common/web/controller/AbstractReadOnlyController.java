@@ -8,7 +8,7 @@ import io.office360.common.web.RestPreconditions;
 import io.office360.common.web.events.MultipleResourcesRetrievedEvent;
 import io.office360.common.web.events.PaginatedResultsRetrievedEvent;
 import io.office360.common.web.events.SingleResourceRetrievedEvent;
-import io.office360.common.web.exception.MyResourceNotFoundException;
+import io.office360.common.web.exception.Office360ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
 
     protected final List<T> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         if (request.getParameterNames().hasMoreElements()) {
-            throw new MyResourceNotFoundException();
+            throw new Office360ResourceNotFoundException();
         }
 
         eventPublisher.publishEvent(new MultipleResourcesRetrievedEvent<T>(clazz, uriBuilder, response));
@@ -66,7 +66,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
     protected final List<T> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<T> resultPage = getService().findAllPaginatedAndSorted(page, size, sortBy, sortOrder);
         if (page > resultPage.getTotalPages()) {
-            throw new MyResourceNotFoundException();
+            throw new Office360ResourceNotFoundException();
         }
         eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<T>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
 
@@ -76,7 +76,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
     protected final List<T> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<T> resultPage = getService().findAllPaginated(page, size);
         if (page > resultPage.getTotalPages()) {
-            throw new MyResourceNotFoundException();
+            throw new Office360ResourceNotFoundException();
         }
         eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<T>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
 

@@ -4,7 +4,7 @@ package io.office360.common.persistence.service;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import io.office360.common.persistence.ServicePreconditions;
-import io.office360.common.persistence.exception.MyEntityNotFoundException;
+import io.office360.common.persistence.exception.Office360EntityNotFoundException;
 import io.office360.common.persistence.model.IEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,7 +106,7 @@ public abstract class AbstractOperationsService<T extends IEntity> implements IO
         if (entity.isPresent()) {
             getDao().delete(entity.get());
         } else {
-            throw new MyEntityNotFoundException();
+            throw new Office360EntityNotFoundException();
         }
     }
 

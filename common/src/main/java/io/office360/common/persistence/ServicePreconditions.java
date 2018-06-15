@@ -1,7 +1,7 @@
 package io.office360.common.persistence;
 
 
-import io.office360.common.persistence.exception.MyEntityNotFoundException;
+import io.office360.common.persistence.exception.Office360EntityNotFoundException;
 
 public final class ServicePreconditions {
 
@@ -16,11 +16,11 @@ public final class ServicePreconditions {
      *
      * @param entity an object reference
      * @return the non-null reference that was validated
-     * @throws MyEntityNotFoundException if {@code entity} is null
+     * @throws Office360EntityNotFoundException if {@code entity} is null
      */
     public static <T> T checkEntityExists(final T entity) {
         if (entity == null) {
-            throw new MyEntityNotFoundException();
+            throw new Office360EntityNotFoundException();
         }
         return entity;
     }

@@ -1,6 +1,6 @@
 package io.office360.common.web.util;
 
-import io.office360.common.web.exception.MyConflictException;
+import io.office360.common.web.exception.Office360ConflictException;
 import io.office360.common.web.exception.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -21,7 +21,7 @@ public final class RestUtil {
      */
     public static void propagateStatusCodeOnCreate(final ResponseEntity<?> createResponse, final String message) {
         if (createResponse.getStatusCode().value() == 409) {
-            throw new MyConflictException(message);
+            throw new Office360ConflictException(message);
         }
         if (createResponse.getStatusCode().value() != 201) {
             throw new IllegalStateException(message);

@@ -1,9 +1,9 @@
 package io.office360.common.web;
 
-import io.office360.common.persistence.exception.MyEntityNotFoundException;
+import io.office360.common.persistence.exception.Office360EntityNotFoundException;
 import io.office360.common.web.exception.ApiError;
-import io.office360.common.web.exception.MyConflictException;
-import io.office360.common.web.exception.MyResourceNotFoundException;
+import io.office360.common.web.exception.Office360ConflictException;
+import io.office360.common.web.exception.Office360ResourceNotFoundException;
 import io.office360.common.web.exception.ValidationErrorDTO;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.dao.DataAccessException;
@@ -87,8 +87,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 404
 
-    @ExceptionHandler({EntityNotFoundException.class, MyEntityNotFoundException.class, MyResourceNotFoundException.class})
-    protected ResponseEntity<Object> handleNotFound(final MyEntityNotFoundException ex, final WebRequest request) {
+    @ExceptionHandler({EntityNotFoundException.class, Office360EntityNotFoundException.class, Office360ResourceNotFoundException.class})
+    protected ResponseEntity<Object> handleNotFound(final Office360EntityNotFoundException ex, final WebRequest request) {
         logger.warn("Not Found: " + ex.getMessage());
 
         final ApiError apiError = message(HttpStatus.NOT_FOUND, ex);
@@ -97,7 +97,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 409
 
-    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class, MyConflictException.class})
+    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class, Office360ConflictException.class})
     protected ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request) {
         logger.warn("Conflict: " + ex.getMessage());
 
