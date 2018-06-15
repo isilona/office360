@@ -6,7 +6,6 @@ import io.office360.auth.persistence.entity.Account;
 import io.office360.auth.service.IAccountService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,11 +38,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
 
     @Override
     protected final IAccountJpaDao getDao() {
-        return dao;
-    }
-
-    @Override
-    protected JpaSpecificationExecutor<Account> getSpecificationExecutor() {
         return dao;
     }
 

@@ -1,11 +1,10 @@
 package io.office360.auth.service.impl;
 
-import io.office360.auth.persistence.entity.Privilege;
 import io.office360.auth.persistence.dao.IPrivilegeJpaDao;
+import io.office360.auth.persistence.entity.Privilege;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +32,6 @@ public class PrivilegeServiceImpl extends AbstractService<Privilege> implements 
 
     @Override
     protected final IPrivilegeJpaDao getDao() {
-        return dao;
-    }
-
-    @Override
-    protected JpaSpecificationExecutor<Privilege> getSpecificationExecutor() {
         return dao;
     }
 

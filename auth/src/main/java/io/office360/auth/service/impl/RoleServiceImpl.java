@@ -5,7 +5,6 @@ import io.office360.auth.persistence.entity.Role;
 import io.office360.auth.service.IRoleService;
 import io.office360.common.persistence.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +32,6 @@ public class RoleServiceImpl extends AbstractService<Role> implements IRoleServi
 
     @Override
     protected final IRoleJpaDao getDao() {
-        return dao;
-    }
-
-    @Override
-    protected JpaSpecificationExecutor<Role> getSpecificationExecutor() {
         return dao;
     }
 
