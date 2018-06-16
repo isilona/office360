@@ -1,4 +1,4 @@
-package io.office360.common.web;
+package io.office360.common.unit.web;
 
 import org.junit.Test;
 import org.springframework.web.util.UriComponents;

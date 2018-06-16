@@ -4,7 +4,7 @@ import io.office360.auth.spring.Office360AuthContextConfig;
 import io.office360.auth.spring.Office360AuthPersistenceJpaConfig;
 import io.office360.auth.spring.Office360AuthServiceConfig;
 import io.office360.common.persistence.model.INameableEntity;
-import io.office360.common.service.AbstractServiceIntegrationTest;
+import io.office360.common.integration.service.AbstractServiceIntegrationTest;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;

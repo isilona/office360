@@ -1,5 +1,6 @@
-package io.office360.common.util;
+package io.office360.common.unit.util;
 
+import io.office360.common.util.LinkUtil;
 import org.junit.Test;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;

@@ -1,5 +1,6 @@
-package io.office360.common.security;
+package io.office360.common.unit.security;
 
+import io.office360.common.security.SpringSecurityUtil;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 

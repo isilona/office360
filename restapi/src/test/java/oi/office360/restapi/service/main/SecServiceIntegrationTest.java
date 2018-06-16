@@ -1,7 +1,7 @@
 package oi.office360.restapi.service.main;
 
 import io.office360.common.persistence.model.INameableEntity;
-import io.office360.common.service.AbstractServiceIntegrationTest;
+import io.office360.common.integration.service.AbstractServiceIntegrationTest;
 import io.office360.restapi.spring.Office360ContextConfig;
 import io.office360.restapi.spring.Office360ServiceConfig;
 import org.junit.runner.RunWith;

@@ -1,8 +1,8 @@
-package io.office360.common.service;
+package io.office360.common.integration.service;
 
 import io.office360.common.persistence.model.IEntity;
 import io.office360.common.persistence.service.IOperationsService;
-import io.office360.common.util.IDUtil;
+import io.office360.common.unit.util.IDUtil;
 import io.office360.common.util.SearchField;
 import io.office360.common.util.order.OrderById;
 import org.hamcrest.Matchers;

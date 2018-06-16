@@ -1,4 +1,4 @@
-package io.office360.common.util;
+package io.office360.common.unit.util;
 
 import java.util.Random;
 

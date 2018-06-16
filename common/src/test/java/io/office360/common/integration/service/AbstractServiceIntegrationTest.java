@@ -1,4 +1,4 @@
-package io.office360.common.service;
+package io.office360.common.integration.service;
 
 import io.office360.common.persistence.model.INameableEntity;
 import io.office360.common.persistence.service.IService;
