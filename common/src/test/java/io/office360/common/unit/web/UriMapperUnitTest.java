@@ -1,22 +1,50 @@
 package io.office360.common.unit.web;
 
+import io.office360.common.interfaces.INameableDto;
+import io.office360.common.persistence.model.INameableEntity;
+import io.office360.common.web.IUriMapper;
+import io.office360.common.web.UriMapper;
 import org.junit.Test;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertTrue;
 
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {UriMapper.class})
 public class UriMapperUnitTest {
 
+    @Autowired
+    private IUriMapper uriMapper;
+
     @Test
-    public final void whenURIIsParsed_thenResultIsCorrect() {
-        final String uri = "http://localhost:8080/privilege?q=name%3DTestname";
+    public final void whenEntityClassIsPassed_thenItsURIBaseIsReturned() {
 
         // When
-        final UriComponents uriComponents = UriComponentsBuilder.fromUriString(uri).build();
+        final Class testedEntity = new TestedEntity().getClass();
 
         // Then
-        assertTrue(uriComponents.getQueryParams().size() == 1);
+        assertTrue(uriMapper.getUriBase(testedEntity).equals("testedentitys"));
+    }
+
+    class TestedEntity implements INameableEntity, INameableDto {
+
+        @Override
+        public Long getId() {
+            return null;
+        }
+
+        @Override
+        public void setId(Long id) {
+
+        }
+
+        @Override
+        public String getName() {
+            return null;
+        }
     }
 
 }
