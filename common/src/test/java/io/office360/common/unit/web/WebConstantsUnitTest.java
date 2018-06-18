@@ -1,9 +1,11 @@
 package io.office360.common.unit.web;
 
+import io.office360.common.web.WebConstants;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 public class WebConstantsUnitTest {
@@ -44,14 +46,13 @@ public class WebConstantsUnitTest {
 
     }
 
-    @Test(expected = java.lang.IllegalAccessException.class)
+    @Test(expected = InvocationTargetException.class)
     public void testValidatesThatClassWebConstants_IsNotInstantiable() throws
-            ClassNotFoundException, IllegalAccessException, InstantiationException {
+            IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
 
-        Class clazz = Class.forName("io.office360.common.web.WebConstants");
-
-        clazz.newInstance();
+        Constructor<WebConstants> constructor = WebConstants.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
-
 
 }
