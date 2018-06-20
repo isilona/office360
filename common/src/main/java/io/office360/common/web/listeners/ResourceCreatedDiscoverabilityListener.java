@@ -44,6 +44,7 @@ public abstract class ResourceCreatedDiscoverabilityListener extends AbstractOff
         return getBase() + resourceName + "/{id}";
     }
 
+    // TODO: #1 Check if this is needed
     protected abstract String getBase();
 
 }

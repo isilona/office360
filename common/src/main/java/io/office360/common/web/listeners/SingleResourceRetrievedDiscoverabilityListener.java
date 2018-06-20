@@ -14,7 +14,7 @@ import static io.office360.common.web.WebConstants.PATH_SEP;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 @Component
-class SingleResourceRetrievedDiscoverabilityListener extends AbstractOffice360Listener<SingleResourceRetrievedEvent> {
+final class SingleResourceRetrievedDiscoverabilityListener extends AbstractOffice360Listener<SingleResourceRetrievedEvent> {
 
     @Autowired
     private IUriMapper uriMapper;

@@ -14,7 +14,7 @@ import static io.office360.common.web.WebConstants.PATH_SEP;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Component
-class PaginatedResultsRetrievedDiscoverabilityListener extends AbstractOffice360Listener<PaginatedResultsRetrievedEvent> {
+final class PaginatedResultsRetrievedDiscoverabilityListener extends AbstractOffice360Listener<PaginatedResultsRetrievedEvent> {
 
     private static final String PAGE = "page";
 
