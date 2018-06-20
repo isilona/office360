@@ -7,7 +7,9 @@ import io.office360.common.web.RestPreconditions;
 import io.office360.common.web.WebConstants;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -16,8 +18,12 @@ import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.Assert.fail;
+
 public class UtilClassUnitTest {
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
     private List<Class> utilClassesList;
 
     @Before
@@ -56,19 +62,23 @@ public class UtilClassUnitTest {
             final Constructor<?> constructor = clazz.getDeclaredConstructor();
             if (constructor.isAccessible() ||
                     !Modifier.isPrivate(constructor.getModifiers())) {
-                Assert.fail("constructor is not private");
+                fail("constructor is not private");
             }
         }
     }
 
-    @Test(expected = InvocationTargetException.class)
+    @Test
     public void testValidatesThatUtilClass_IsNotInstantiable() throws
-            IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+            IllegalAccessException, InstantiationException, NoSuchMethodException {
 
         for (Class clazz : utilClassesList) {
             Constructor<?> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-            constructor.newInstance();
+
+            try {
+                constructor.newInstance();
+                fail("Instantiating Unit class didn't throw Exception");
+            } catch (InvocationTargetException expectedException) {}
         }
     }
 
@@ -79,7 +89,7 @@ public class UtilClassUnitTest {
             for (final Method method : clazz.getMethods()) {
                 if (!Modifier.isStatic(method.getModifiers())
                         && method.getDeclaringClass().equals(clazz)) {
-                    Assert.fail("there exists a non-static method:" + method);
+                    fail("there exists a non-static method:" + method);
                 }
             }
         }
