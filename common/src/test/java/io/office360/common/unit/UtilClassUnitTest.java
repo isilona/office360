@@ -1,6 +1,7 @@
 package io.office360.common.unit;
 
 import io.office360.common.util.LinkUtil;
+import io.office360.common.util.QueryConstants;
 import io.office360.common.util.RandomDataUtil;
 import io.office360.common.web.RestPreconditions;
 import io.office360.common.web.WebConstants;
@@ -26,11 +27,11 @@ public class UtilClassUnitTest {
         utilClassesList.add(WebConstants.class);
         utilClassesList.add(LinkUtil.class);
         utilClassesList.add(RandomDataUtil.class);
-
+        utilClassesList.add(QueryConstants.class);
     }
 
     @Test
-    public void testValidatesThatClassRestPreconditions_IsFinal() {
+    public void testValidatesThatUtilClass_IsFinal() {
 
         for (Class clazz : utilClassesList) {
             Assert.assertTrue("class must be final",
@@ -39,7 +40,7 @@ public class UtilClassUnitTest {
     }
 
     @Test
-    public void testValidatesThatClassRestPreconditions_HasOnlyOneConstructor() {
+    public void testValidatesThatUtilClass_HasOnlyOneConstructor() {
 
         for (Class clazz : utilClassesList) {
             Assert.assertEquals("There must be only one constructor", 1,
@@ -48,7 +49,7 @@ public class UtilClassUnitTest {
     }
 
     @Test
-    public void testValidatesThatClassRestPreconditions_HasPrivateConstructor() throws
+    public void testValidatesThatUtilClass_HasPrivateConstructor() throws
             NoSuchMethodException {
 
         for (Class clazz : utilClassesList) {
@@ -61,18 +62,18 @@ public class UtilClassUnitTest {
     }
 
     @Test(expected = InvocationTargetException.class)
-    public void testValidatesThatClassRestPreconditions_IsNotInstantiable() throws
+    public void testValidatesThatUtilClass_IsNotInstantiable() throws
             IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
 
         for (Class clazz : utilClassesList) {
-            Constructor<RestPreconditions> constructor = clazz.getDeclaredConstructor();
+            Constructor<?> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
             constructor.newInstance();
         }
     }
 
     @Test
-    public void testValidatesThatClassRestPreconditions_DoesNotHaveNonStaticMethods() {
+    public void testValidatesThatUtilClass_DoesNotHaveNonStaticMethods() {
 
         for (Class clazz : utilClassesList) {
             for (final Method method : clazz.getMethods()) {
