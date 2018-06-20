@@ -5,6 +5,7 @@ import io.office360.common.web.exception.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 
+// TODO: #2 Check usage
 public final class RestUtil {
 
     private RestUtil() {

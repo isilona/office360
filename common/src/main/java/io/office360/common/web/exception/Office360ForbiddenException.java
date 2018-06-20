@@ -3,6 +3,8 @@ package io.office360.common.web.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+// TODO: #3 Check usage
+
 /**
  * Thrown when user is forbidden to execute specified operation or access specified data.
  */

@@ -1,5 +1,6 @@
 package io.office360.common.web.exception;
 
+// TODO: #4 Check usage
 public final class Office360PreconditionFailedException extends RuntimeException {
 
     public Office360PreconditionFailedException() {
