@@ -1,5 +1,6 @@
 package io.office360.common.unit;
 
+import io.office360.common.persistence.ServicePreconditions;
 import io.office360.common.util.LinkUtil;
 import io.office360.common.util.QueryConstants;
 import io.office360.common.util.RandomDataUtil;
@@ -30,10 +31,12 @@ public class UtilClassUnitTest {
     public void initObjects() {
         utilClassesList = new LinkedList<>();
         utilClassesList.add(RestPreconditions.class);
+        utilClassesList.add(ServicePreconditions.class);
         utilClassesList.add(WebConstants.class);
         utilClassesList.add(LinkUtil.class);
         utilClassesList.add(RandomDataUtil.class);
         utilClassesList.add(QueryConstants.class);
+
     }
 
     @Test
