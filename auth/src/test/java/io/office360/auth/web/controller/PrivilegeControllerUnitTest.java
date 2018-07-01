@@ -17,7 +17,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static io.office360.auth.util.Office360AuthConstants.USER_EMAIL;
@@ -86,7 +89,10 @@ public class PrivilegeControllerUnitTest {
 
         List<Privilege> allArrivals = singletonList(arrival);
 
-        given(privilegeController.findAll(any(), any(), any())).willReturn(allArrivals);
+        given(privilegeController.
+                findAll(any(HttpServletRequest.class), any(UriComponentsBuilder.class), any(HttpServletResponse.class)))
+                .willReturn(allArrivals);
+
 
         mvc.perform(get("/privileges")
                 .header("Authorization", "Bearer " + accessToken)
