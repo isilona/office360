@@ -37,7 +37,7 @@ public class AccountController extends AbstractController<Account> implements IS
     // find - all/paginated
 
     @Override
-    @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
     public List<Account> findAllPaginatedAndSorted(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
@@ -46,7 +46,7 @@ public class AccountController extends AbstractController<Account> implements IS
     }
 
     @Override
-    @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE})
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
     public List<Account> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -54,7 +54,7 @@ public class AccountController extends AbstractController<Account> implements IS
     }
 
     @Override
-    @RequestMapping(params = {QueryConstants.SORT_BY}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
     public List<Account> findAllSorted(@RequestParam(value = QueryConstants.SORT_BY) final String sortBy, @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
@@ -62,7 +62,7 @@ public class AccountController extends AbstractController<Account> implements IS
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
     public List<Account> findAll(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -71,14 +71,14 @@ public class AccountController extends AbstractController<Account> implements IS
 
     // find - one
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
     public Account findOne(@PathVariable("id") final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         return findOneInternal(id, uriBuilder, response);
     }
 
-    @RequestMapping(value = "/current", method = RequestMethod.GET)
+    @GetMapping(value = "/current")
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
     public Account current() {

@@ -36,7 +36,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     // find - all/paginated
 
     @Override
-    @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
     public List<Privilege> findAllPaginatedAndSorted(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
@@ -45,7 +45,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     }
 
     @Override
-    @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE})
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
     public List<Privilege> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -53,7 +53,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     }
 
     @Override
-    @RequestMapping(params = {QueryConstants.SORT_BY}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
     public List<Privilege> findAllSorted(@RequestParam(value = QueryConstants.SORT_BY) final String sortBy, @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
@@ -61,7 +61,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
     public List<Privilege> findAll(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -70,7 +70,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
 
     // find - one
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
     public Privilege findOne(@PathVariable("id") final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {

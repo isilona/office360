@@ -36,7 +36,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
 
     // API
 
-    @RequestMapping(method = RequestMethod.GET, value = "/q")
+    @GetMapping(value = "/q")
     @ResponseBody
     public Iterable<Patient> findAllByWebQuerydsl(
             @QuerydslPredicate(root = Patient.class) Predicate predicate) {
@@ -46,7 +46,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     // find - all/paginated
 
     @Override
-    @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY})
     @ResponseBody
 //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
     public List<Patient> findAllPaginatedAndSorted(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
@@ -55,7 +55,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     }
 
     @Override
-    @RequestMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE})
     @ResponseBody
 //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
     public List<Patient> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -63,7 +63,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     }
 
     @Override
-    @RequestMapping(params = {QueryConstants.SORT_BY}, method = RequestMethod.GET)
+    @GetMapping(params = {QueryConstants.SORT_BY})
     @ResponseBody
 //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
     public List<Patient> findAllSorted(@RequestParam(value = QueryConstants.SORT_BY) final String sortBy, @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
@@ -71,7 +71,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @ResponseBody
 //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
     public List<Patient> findAll(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -80,7 +80,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
 
     // find - one
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     @ResponseBody
 //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
     public Patient findOne(@PathVariable("id") final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -89,7 +89,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
 
     // find - one by name
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @GetMapping(value = "/search")
     @ResponseBody
 //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
     public Patient findOneByName(@RequestParam("name") final String name) {
