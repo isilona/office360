@@ -98,7 +98,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
 
     // create
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid final Patient resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         createInternal(resource, uriBuilder, response);
@@ -106,7 +106,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
 
     // update
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
 //    @Secured(Privileges.CAN_PATIENT_RECORD_WRITE)
     public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Patient resource) {
@@ -115,7 +115,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
 
     // delete
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
 //    @Secured(Privileges.CAN_PATIENT_RECORD_WRITE)
     public void delete(@PathVariable("id") final Long id) {

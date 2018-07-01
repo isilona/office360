@@ -96,7 +96,7 @@ public class AccountController extends AbstractController<Account> implements IS
 
     // create
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid final Account resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         createInternal(resource, uriBuilder, response);
@@ -104,7 +104,7 @@ public class AccountController extends AbstractController<Account> implements IS
 
     // update
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(Privileges.CAN_USER_WRITE)
     public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Account resource) {
@@ -113,7 +113,7 @@ public class AccountController extends AbstractController<Account> implements IS
 
     // delete
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Secured(Privileges.CAN_USER_WRITE)
     public void delete(@PathVariable("id") final Long id) {

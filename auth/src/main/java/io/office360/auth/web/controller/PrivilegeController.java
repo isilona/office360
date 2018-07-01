@@ -79,7 +79,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
 
     // create
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Secured(Privileges.CAN_PRIVILEGE_WRITE)
     public void create(@RequestBody @Valid final Privilege resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
@@ -88,7 +88,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
 
     // update
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(Privileges.CAN_PRIVILEGE_WRITE)
     public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Privilege resource) {
@@ -97,7 +97,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
 
     // delete
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Secured(Privileges.CAN_PRIVILEGE_WRITE)
     public void delete(@PathVariable("id") final Long id) {
