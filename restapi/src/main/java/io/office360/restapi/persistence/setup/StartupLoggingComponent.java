@@ -55,7 +55,7 @@ public class StartupLoggingComponent implements InitializingBean {
         logger.info("DATASOURCE = {}", dataSource.getConnection());
     }
 
-    private final String getValueOfProperty(final Environment environment, final String propertyKey, final String propertyDefaultValue, final List<String> acceptablePropertyValues) {
+    private String getValueOfProperty(final Environment environment, final String propertyKey, final String propertyDefaultValue, final List<String> acceptablePropertyValues) {
         String propValue = environment.getProperty(propertyKey, propertyDefaultValue);
 
         if (acceptablePropertyValues != null && !acceptablePropertyValues.contains(propValue)) {
