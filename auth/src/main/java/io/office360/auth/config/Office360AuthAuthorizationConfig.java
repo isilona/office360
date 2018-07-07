@@ -24,12 +24,18 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 public class Office360AuthAuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+
+    private final DataSource dataSource;
 
     @Autowired
-    @Qualifier("dataSource")
-    private DataSource dataSource;
+    public Office360AuthAuthorizationConfig(
+            AuthenticationManager authenticationManager,
+            @Qualifier("dataSource") DataSource dataSource
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.dataSource = dataSource;
+    }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {

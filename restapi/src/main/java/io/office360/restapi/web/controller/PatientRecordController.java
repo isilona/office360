@@ -24,14 +24,15 @@ import java.util.List;
 @RequestMapping(value = Office360Mappings.PATIENTS)
 public class PatientRecordController extends AbstractController<Patient> implements ISortingController<Patient> {
 
-    @Autowired
-    private IPatientService service;
+    private final IPatientService service;
+
+    private final IPatientJpaDao patientRepository;
 
     @Autowired
-    private IPatientJpaDao patientRepository;
-
-    public PatientRecordController() {
+    public PatientRecordController(IPatientService service, IPatientJpaDao patientRepository) {
         super(Patient.class);
+        this.service = service;
+        this.patientRepository = patientRepository;
     }
 
     // API

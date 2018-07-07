@@ -26,17 +26,26 @@ import static io.office360.auth.util.Office360AuthConstants.Roles;
 public class CommandLineAppStartupRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineAppStartupRunner.class);
 
-    @Autowired
-    private IAccountService accountService;
+    private final IAccountService accountService;
+
+    private final IRoleService roleService;
+
+    private final IPrivilegeService privilegeService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private IRoleService roleService;
-
-    @Autowired
-    private IPrivilegeService privilegeService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public CommandLineAppStartupRunner(
+            IAccountService accountService,
+            IRoleService roleService,
+            IPrivilegeService privilegeService,
+            PasswordEncoder passwordEncoder
+    ) {
+        this.accountService = accountService;
+        this.roleService = roleService;
+        this.privilegeService = privilegeService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void run(String... args) {

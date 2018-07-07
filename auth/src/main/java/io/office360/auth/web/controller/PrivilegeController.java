@@ -24,11 +24,12 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 @RequestMapping(value = Office360AuthMappings.PRIVILEGES)
 public class PrivilegeController extends AbstractController<Privilege> implements ISortingController<Privilege> {
 
-    @Autowired
-    private IPrivilegeService service;
+    private final IPrivilegeService service;
 
-    public PrivilegeController() {
+    @Autowired
+    public PrivilegeController(IPrivilegeService service) {
         super(Privilege.class);
+        this.service = service;
     }
 
     // API

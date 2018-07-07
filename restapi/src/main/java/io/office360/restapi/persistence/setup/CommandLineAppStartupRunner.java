@@ -15,8 +15,12 @@ import java.util.Arrays;
 public class CommandLineAppStartupRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineAppStartupRunner.class);
 
+    private final IPatientService patientService;
+
     @Autowired
-    private IPatientService patientService;
+    public CommandLineAppStartupRunner(IPatientService patientService) {
+        this.patientService = patientService;
+    }
 
     @Override
     public void run(String... args) {

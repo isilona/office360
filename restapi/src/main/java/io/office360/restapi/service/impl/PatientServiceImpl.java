@@ -12,11 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PatientServiceImpl extends AbstractService<Patient> implements IPatientService {
 
-    @Autowired
-    private IPatientJpaDao dao;
+    private final IPatientJpaDao dao;
 
-    public PatientServiceImpl() {
+    @Autowired
+    public PatientServiceImpl(IPatientJpaDao dao) {
         super();
+        this.dao = dao;
     }
 
     // API

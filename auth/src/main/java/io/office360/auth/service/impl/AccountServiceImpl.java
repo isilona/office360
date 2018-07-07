@@ -17,11 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AccountServiceImpl extends AbstractService<Account> implements IAccountService, UserDetailsService {
 
-    @Autowired
-    private IAccountJpaDao dao;
+    private final IAccountJpaDao dao;
 
-    public AccountServiceImpl() {
+    @Autowired
+    public AccountServiceImpl(IAccountJpaDao dao) {
         super();
+        this.dao = dao;
     }
 
     // API

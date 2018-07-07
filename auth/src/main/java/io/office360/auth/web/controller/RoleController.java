@@ -24,11 +24,12 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 @RequestMapping(value = Office360AuthMappings.ROLES)
 public class RoleController extends AbstractController<Role> implements ISortingController<Role> {
 
-    @Autowired
-    private IRoleService service;
+    private final IRoleService service;
 
-    public RoleController() {
+    @Autowired
+    public RoleController(IRoleService service) {
         super(Role.class);
+        this.service = service;
     }
 
     // API

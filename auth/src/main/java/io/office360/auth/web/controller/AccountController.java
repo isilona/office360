@@ -25,11 +25,12 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 @RequestMapping(value = Office360AuthMappings.USERS)
 public class AccountController extends AbstractController<Account> implements ISortingController<Account> {
 
-    @Autowired
-    private IAccountService service;
+    private final IAccountService service;
 
-    public AccountController() {
+    @Autowired
+    public AccountController(IAccountService service) {
         super(Account.class);
+        this.service = service;
     }
 
     // API

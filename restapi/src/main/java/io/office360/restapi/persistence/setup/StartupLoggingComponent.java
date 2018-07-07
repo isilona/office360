@@ -15,18 +15,22 @@ import java.util.List;
 
 @Component
 public class StartupLoggingComponent implements InitializingBean {
+
     private static final String PERSISTENCE_TARGET_KEY = "persistenceTarget";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    @Qualifier("dataSource")
-    DataSource dataSource;
+    private final DataSource dataSource;
+
+    private final Environment env;
 
     @Autowired
-    private Environment env;
-
-    public StartupLoggingComponent() {
+    public StartupLoggingComponent(
+            @Qualifier("dataSource") DataSource dataSource,
+            Environment env
+    ) {
         super();
+        this.dataSource = dataSource;
+        this.env = env;
     }
 
     //

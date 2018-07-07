@@ -16,11 +16,12 @@ import static io.office360.common.web.WebConstants.PATH_SEP;
 @Component
 final class SingleResourceRetrievedDiscoverabilityListener extends AbstractOffice360Listener<SingleResourceRetrievedEvent> {
 
-    @Autowired
-    private IUriMapper uriMapper;
+    private final IUriMapper uriMapper;
 
-    public SingleResourceRetrievedDiscoverabilityListener() {
+    @Autowired
+    public SingleResourceRetrievedDiscoverabilityListener(IUriMapper uriMapper) {
         super();
+        this.uriMapper = uriMapper;
     }
 
     //

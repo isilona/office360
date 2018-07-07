@@ -18,11 +18,12 @@ final class PaginatedResultsRetrievedDiscoverabilityListener extends AbstractOff
 
     private static final String PAGE = "page";
 
-    @Autowired
-    private IUriMapper uriMapper;
+    private final IUriMapper uriMapper;
 
-    public PaginatedResultsRetrievedDiscoverabilityListener() {
+    @Autowired
+    public PaginatedResultsRetrievedDiscoverabilityListener(IUriMapper uriMapper) {
         super();
+        this.uriMapper = uriMapper;
     }
 
     // API

@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public abstract class ResourceCreatedDiscoverabilityListener extends AbstractOffice360Listener<AfterResourceCreatedEvent> {
 
-    @Autowired
-    private IUriMapper uriMapper;
+    private final IUriMapper uriMapper;
 
-    public ResourceCreatedDiscoverabilityListener() {
+    @Autowired
+    public ResourceCreatedDiscoverabilityListener(IUriMapper uriMapper) {
         super();
+        this.uriMapper = uriMapper;
     }
 
     //
