@@ -31,8 +31,8 @@ public final class SpringSecurityUtil {
     // API
 
     public static User authenticate(final String key, final String uuid) {
-        final SpringSecurityPrincipal principal = new SpringSecurityPrincipal(randomAlphabetic(6), randomAlphabetic(6), true, Lists.<GrantedAuthority>newArrayList(), uuid);
-        SecurityContextHolder.getContext().setAuthentication(new RunAsUserToken(key, principal, null, Lists.<GrantedAuthority>newArrayList(), null));
+        final SpringSecurityPrincipal principal = new SpringSecurityPrincipal(randomAlphabetic(6), randomAlphabetic(6), true, Lists.newArrayList(), uuid);
+        SecurityContextHolder.getContext().setAuthentication(new RunAsUserToken(key, principal, null, Lists.newArrayList(), null));
 
         return principal;
     }

@@ -114,7 +114,7 @@ public class RoleServiceIntegrationTest extends SecServiceIntegrationTest<Role> 
     }
 
     protected final Role createNewEntity(final String name) {
-        return new Role(name, Sets.<Privilege>newHashSet());
+        return new Role(name, Sets.newHashSet());
     }
 
 }

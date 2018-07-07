@@ -1,5 +1,7 @@
 package io.office360.common.web.exception;
 
+import com.google.common.base.MoreObjects;
+
 public class ApiError {
 
     private int status;
@@ -42,9 +44,10 @@ public class ApiError {
 
     @Override
     public final String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("ApiError [status=").append(status).append(", message=").append(message).append(", developerMessage=").append(developerMessage).append("]");
-        return builder.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("status", status)
+                .add("message", message)
+                .add("developerMessage", developerMessage)
+                .toString();
     }
-
 }

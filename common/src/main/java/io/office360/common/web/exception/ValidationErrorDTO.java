@@ -1,5 +1,7 @@
 package io.office360.common.web.exception;
 
+import com.google.common.base.MoreObjects;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,8 @@ public class ValidationErrorDTO {
 
     @Override
     public final String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("ValidationErrorDTO [fieldErrors=").append(fieldErrors).append("]");
-        return builder.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("fieldErrors", fieldErrors)
+                .toString();
     }
-
 }

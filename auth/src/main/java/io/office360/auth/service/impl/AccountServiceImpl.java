@@ -43,7 +43,7 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
     }
 
     /**
-     * Loads the user from the datastore, by it's user name <br>
+     * Loads the user from the dataStore, by it's user name <br>
      */
     @Override
     public final UserDetails loadUserByUsername(final String username) {

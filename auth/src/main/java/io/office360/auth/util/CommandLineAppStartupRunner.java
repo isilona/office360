@@ -103,8 +103,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         Preconditions.checkNotNull(canUserRead);
         Preconditions.checkNotNull(canUserWrite);
 
-        createRoleIfNotExisting(Roles.ROLE_USER, Sets.<Privilege>newHashSet(canUserRead, canRoleRead, canPrivilegeRead));
-        createRoleIfNotExisting(Roles.ROLE_ADMIN, Sets.<Privilege>newHashSet(canUserRead, canUserWrite, canRoleRead, canRoleWrite, canPrivilegeRead, canPrivilegeWrite));
+        createRoleIfNotExisting(Roles.ROLE_USER, Sets.newHashSet(canUserRead, canRoleRead, canPrivilegeRead));
+        createRoleIfNotExisting(Roles.ROLE_ADMIN, Sets.newHashSet(canUserRead, canUserWrite, canRoleRead, canRoleWrite, canPrivilegeRead, canPrivilegeWrite));
 
     }
 
@@ -127,12 +127,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                 Office360AuthConstants.ADMIN_USERNAME,
                 Office360AuthConstants.ADMIN_EMAIL,
                 passwordEncoder.encode(Office360AuthConstants.ADMIN_PASS),
-                Sets.<Role>newHashSet(roleAdmin));
+                Sets.newHashSet(roleAdmin));
         createUserIfNotExisting(
                 Office360AuthConstants.USER_USERNAME,
                 Office360AuthConstants.USER_EMAIL,
                 passwordEncoder.encode(Office360AuthConstants.USER_PASS),
-                Sets.<Role>newHashSet(roleUser));
+                Sets.newHashSet(roleUser));
     }
 
     final void createUserIfNotExisting(final String username, final String loginName, final String pass, final Set<Role> roles) {

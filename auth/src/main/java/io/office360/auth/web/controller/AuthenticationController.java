@@ -39,11 +39,11 @@ public class AuthenticationController {
                 new Privilege(authority.getAuthority())
         ).collect(Collectors.toList());
 
-        final Role defaultRole = new Role("defaultRole", Sets.<Privilege>newHashSet(privileges));
+        final Role defaultRole = new Role("defaultRole", Sets.newHashSet(privileges));
 
         return new Account(authenticationInSpring.getName(),
                 (String) authenticationInSpring.getCredentials(),
-                Sets.<Role>newHashSet(defaultRole)
+                Sets.newHashSet(defaultRole)
         );
     }
 

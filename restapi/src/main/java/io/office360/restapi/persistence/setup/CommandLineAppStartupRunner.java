@@ -41,11 +41,11 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     // patient records
     public void createPatientRecords() {
-        createPatientRecordIfNotexist("john");
-        createPatientRecordIfNotexist("jane");
+        createPatientRecordIfNotExist("john");
+        createPatientRecordIfNotExist("jane");
     }
 
-    void createPatientRecordIfNotexist(String name) {
+    void createPatientRecordIfNotExist(String name) {
         final Patient entity = new Patient();
         entity.setName(name);
 

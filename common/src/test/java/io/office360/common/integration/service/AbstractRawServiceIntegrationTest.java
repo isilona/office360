@@ -82,7 +82,7 @@ public abstract class AbstractRawServiceIntegrationTest<T extends IEntity> {
         final List<T> allResources = getApi().findAll();
 
         // Then
-        assertThat(allResources, not(Matchers.<T>empty()));
+        assertThat(allResources, not(Matchers.empty()));
     }
 
     @Test

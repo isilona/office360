@@ -43,7 +43,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
 
     protected final T findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final T resource = findOneInternal(id);
-        eventPublisher.publishEvent(new SingleResourceRetrievedEvent<T>(clazz, uriBuilder, response));
+        eventPublisher.publishEvent(new SingleResourceRetrievedEvent<>(clazz, uriBuilder, response));
         return resource;
     }
 
@@ -58,7 +58,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
             throw new Office360ResourceNotFoundException();
         }
 
-        eventPublisher.publishEvent(new MultipleResourcesRetrievedEvent<T>(clazz, uriBuilder, response));
+        eventPublisher.publishEvent(new MultipleResourcesRetrievedEvent<>(clazz, uriBuilder, response));
         return getService().findAll();
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
         }
-        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<T>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
+        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
 
         return Lists.newArrayList(resultPage.getContent());
     }
@@ -77,7 +77,7 @@ public abstract class AbstractReadOnlyController<T extends IEntity> {
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
         }
-        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<T>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
+        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
 
         return Lists.newArrayList(resultPage.getContent());
     }

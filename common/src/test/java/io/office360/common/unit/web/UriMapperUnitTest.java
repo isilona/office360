@@ -23,7 +23,7 @@ public class UriMapperUnitTest {
     public final void whenEntityClassIsPassed_thenItsURIBaseIsReturned() {
 
         // When
-        final Class testedEntity = new TestedEntity().getClass();
+        final Class testedEntity = TestedEntity.class;
 
         // Then
         assertTrue(uriMapper.getUriBase(testedEntity).equals("testedentitys"));

@@ -4,7 +4,7 @@ public final class Office360AuthConstants {
 
     /**
      * Privileges <br/>
-     * - note: the fact that these Privileges are prefixed with `ROLES` is a Spring convention (which can be overriden if needed)
+     * - note: the fact that these Privileges are prefixed with `ROLES` is a Spring convention (which can be overridden if needed)
      */
     public static final String ADMIN_USERNAME = "admin";
     public static final String ADMIN_PASS = "adminpass";
