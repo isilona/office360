@@ -38,13 +38,7 @@ public abstract class AbstractOperationsService<T extends IEntity> implements IO
     @Override
     @Transactional(readOnly = true)
     public T findOne(final long id) {
-        final Optional<T> entity = getDao().findById(id);
-
-        if (entity.isPresent()) {
-            return entity.get();
-        } else {
-            return null;
-        }
+        return getDao().findById(id).orElse(null);
     }
 
     // find - all

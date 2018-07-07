@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
-import java.util.Optional;
 
 @Configuration
 @ComponentScan({"io.office360.restapi.web", "io.office360.common.web"})
@@ -26,22 +25,33 @@ public class Office360WebConfig implements WebMvcConfigurer {
     public void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
 
         //Look for the converter responsible for Un/Marshaling JSON
-        final Optional<HttpMessageConverter<?>> jackson2HttpMessageConverterFound = converters.stream().filter(c -> c instanceof AbstractJackson2HttpMessageConverter).findFirst();
-        if (jackson2HttpMessageConverterFound.isPresent()) {
-            final AbstractJackson2HttpMessageConverter converter = (AbstractJackson2HttpMessageConverter) jackson2HttpMessageConverterFound.get();
+        converters
+                .stream()
+                .filter(c -> c instanceof AbstractJackson2HttpMessageConverter)
+                .findFirst()
+                .ifPresent(httpMessageConverter -> {
+                    final AbstractJackson2HttpMessageConverter converter = (AbstractJackson2HttpMessageConverter) httpMessageConverter;
 
-            //Enable pretty print output
-            converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+                    //Enable pretty print output
+                    converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
-            // deserialization will fail whenever we are passing property that does not map to the DTO
-            converter.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        }
+                    // deserialization will fail whenever we are passing property that does not map to the DTO
+                    converter.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                });
 
-        final Optional<HttpMessageConverter<?>> jackson2XmlHttpMessageConverterFound = converters.stream().filter(c -> c instanceof MappingJackson2XmlHttpMessageConverter).findFirst();
-        if (jackson2XmlHttpMessageConverterFound.isPresent()) {
-            final MappingJackson2XmlHttpMessageConverter converter = (MappingJackson2XmlHttpMessageConverter) jackson2XmlHttpMessageConverterFound.get();
-            converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            converter.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        }
+        //Look for the converter responsible for Un/Marshaling XML
+        converters
+                .stream()
+                .filter(c -> c instanceof MappingJackson2XmlHttpMessageConverter)
+                .findFirst()
+                .ifPresent(httpMessageConverter -> {
+                    final MappingJackson2XmlHttpMessageConverter converter = (MappingJackson2XmlHttpMessageConverter) httpMessageConverter;
+
+                    //Enable pretty print output
+                    converter.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+
+                    // deserialization will fail whenever we are passing property that does not map to the DTO
+                    converter.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                });
     }
 }
