@@ -20,8 +20,6 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 
 import javax.sql.DataSource;
 
-import static io.office360.auth.util.Office360AuthConstants.Token.*;
-
 @Configuration
 @EnableAuthorizationServer
 public class Office360AuthAuthorizationConfig extends AuthorizationServerConfigurerAdapter {
@@ -75,8 +73,9 @@ public class Office360AuthAuthorizationConfig extends AuthorizationServerConfigu
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         KeyStoreKeyFactory keyStoreKeyFactory =
                 new KeyStoreKeyFactory(
-                        new ClassPathResource(FILE_NAME), FILE_PASSWORD.toCharArray());
-        converter.setKeyPair(keyStoreKeyFactory.getKeyPair(KEY_PAIR_ALIAS));
+                        new ClassPathResource("ms-auth.jks"),
+                        "ms-auth-pass".toCharArray());
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("ms-auth"));
         return converter;
     }
 

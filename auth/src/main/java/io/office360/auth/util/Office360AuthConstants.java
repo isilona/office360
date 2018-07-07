@@ -19,16 +19,6 @@ public final class Office360AuthConstants {
         throw new IllegalStateException();
     }
 
-    public static final class Token {
-
-        public static final String FILE_NAME = "ms-auth.jks";
-        public static final String FILE_PASSWORD = "ms-auth-pass";
-        public static final String KEY_PAIR_ALIAS = "ms-auth";
-        public static final Long ACCESS_TOKEN_VALIDITY_1_DAY = Long.valueOf(86400);
-        public static final Long REFRESH_TOKEN_VALIDITY = Long.valueOf(2592000);
-        public static final String CLIENT_ID = "trusted-app";
-    }
-
     // privileges
     public static final class Privileges {
 
