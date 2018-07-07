@@ -81,7 +81,8 @@ public class UtilClassUnitTest {
             try {
                 constructor.newInstance();
                 fail("Instantiating Unit class didn't throw Exception");
-            } catch (InvocationTargetException expectedException) {}
+            } catch (InvocationTargetException expectedException) {
+            }
         }
     }
 

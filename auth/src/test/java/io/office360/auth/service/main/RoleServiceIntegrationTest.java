@@ -44,7 +44,9 @@ public class RoleServiceIntegrationTest extends SecServiceIntegrationTest<Role> 
 
     // scenario
 
-    /** - known issue: this fails on a H2 database */
+    /**
+     * - known issue: this fails on a H2 database
+     */
     @Test
     @Ignore
     public final void givenEntityExistsWithAssociationScenarios_whenDeletingEverything_thenNoException() {
@@ -112,7 +114,7 @@ public class RoleServiceIntegrationTest extends SecServiceIntegrationTest<Role> 
     }
 
     protected final Role createNewEntity(final String name) {
-        return new Role(name, Sets.<Privilege> newHashSet());
+        return new Role(name, Sets.<Privilege>newHashSet());
     }
 
 }
