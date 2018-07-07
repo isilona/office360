@@ -1,15 +1,12 @@
 package io.office360.auth.web.controller;
 
-import io.office360.auth.Office360AuthServerApplication;
 import io.office360.auth.persistence.entity.Privilege;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,8 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
-@WebAppConfiguration
-@SpringBootTest(classes = Office360AuthServerApplication.class)
 public class PrivilegeControllerUnitTest {
 
     private MockMvc mvc;
