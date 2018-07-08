@@ -120,7 +120,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @ResponseStatus(HttpStatus.NO_CONTENT)
 //    @Secured(Privileges.CAN_PATIENT_RECORD_WRITE)
     public void delete(@PathVariable("id") final Long id) {
-        deleteByIdInternal(id);
+        deleteInternal(id);
     }
 
     // Spring

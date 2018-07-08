@@ -102,7 +102,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Secured(Privileges.CAN_PRIVILEGE_WRITE)
     public void delete(@PathVariable("id") final Long id) {
-        deleteByIdInternal(id);
+        deleteInternal(id);
     }
 
     // Spring

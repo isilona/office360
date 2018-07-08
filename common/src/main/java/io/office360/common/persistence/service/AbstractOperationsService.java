@@ -31,9 +31,17 @@ public abstract class AbstractOperationsService<T extends IEntity> implements IO
         super();
     }
 
-    // API
+    // API - CRUD
 
-    // find - one
+    // CREATE
+
+    @Override
+    public T create(final T entity) {
+        Preconditions.checkNotNull(entity);
+        return getDao().save(entity);
+    }
+
+    // READ
 
     @Override
     @Transactional(readOnly = true)
@@ -41,20 +49,48 @@ public abstract class AbstractOperationsService<T extends IEntity> implements IO
         return getDao().findById(id).orElse(null);
     }
 
-    // find - all
-
     @Override
     @Transactional(readOnly = true)
     public List<T> findAll() {
         return Lists.newArrayList(getDao().findAll());
     }
 
+    // UPDATE
+
     @Override
-    @Transactional(readOnly = true)
-    public Page<T> findAllPaginatedAndSorted(final int page, final int size, final String sortBy, final String sortOrder) {
-        final Sort sortInfo = constructSort(sortBy, sortOrder);
-        return getDao().findAll(PageRequest.of(page, size, sortInfo));
+    public void update(final T entity) {
+        Preconditions.checkNotNull(entity);
+
+        getDao().save(entity);
     }
+
+    // DELETE
+
+    @Override
+    public void delete(final long id) {
+        final Optional<T> entity = getDao().findById(id);
+        ServicePreconditions.checkEntityExists(entity);
+        if (entity.isPresent()) {
+            getDao().delete(entity.get());
+        } else {
+            throw new Office360EntityNotFoundException();
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        getDao().deleteAll();
+    }
+
+    // COUNT
+
+    @Override
+    public long count() {
+        return getDao().count();
+    }
+
+
+    // API - PAGING & SORTING
 
     @Override
     @Transactional(readOnly = true)
@@ -69,47 +105,13 @@ public abstract class AbstractOperationsService<T extends IEntity> implements IO
         return Lists.newArrayList(getDao().findAll(sortInfo));
     }
 
-    // save/create/persist
-
     @Override
-    public T create(final T entity) {
-        Preconditions.checkNotNull(entity);
-        return getDao().save(entity);
+    @Transactional(readOnly = true)
+    public Page<T> findAllPaginatedAndSorted(final int page, final int size, final String sortBy, final String sortOrder) {
+        final Sort sortInfo = constructSort(sortBy, sortOrder);
+        return getDao().findAll(PageRequest.of(page, size, sortInfo));
     }
 
-    // update/merge
-
-    @Override
-    public void update(final T entity) {
-        Preconditions.checkNotNull(entity);
-
-        getDao().save(entity);
-    }
-
-    // delete
-
-    @Override
-    public void deleteAll() {
-        getDao().deleteAll();
-    }
-
-    @Override
-    public void delete(final long id) {
-        final Optional<T> entity = getDao().findById(id);
-        ServicePreconditions.checkEntityExists(entity);
-        if (entity.isPresent()) {
-            getDao().delete(entity.get());
-        } else {
-            throw new Office360EntityNotFoundException();
-        }
-    }
-
-    // count
-
-    @Override
-    public long count() {
-        return getDao().count();
-    }
 
     // template method
 

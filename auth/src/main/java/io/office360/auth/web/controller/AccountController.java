@@ -118,7 +118,7 @@ public class AccountController extends AbstractController<Account> implements IS
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Secured(Privileges.CAN_USER_WRITE)
     public void delete(@PathVariable("id") final Long id) {
-        deleteByIdInternal(id);
+        deleteInternal(id);
     }
 
     // Spring

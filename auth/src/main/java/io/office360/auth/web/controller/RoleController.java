@@ -40,8 +40,13 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_ROLE_READ)
-    public List<Role> findAllPaginatedAndSorted(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
-                                                @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public List<Role> findAllPaginatedAndSorted(
+            @RequestParam(value = QueryConstants.PAGE) final int page,
+            @RequestParam(value = QueryConstants.SIZE) final int size,
+            @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
+            @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder,
+            final UriComponentsBuilder uriBuilder,
+            final HttpServletResponse response) {
         return findPaginatedAndSortedInternal(page, size, sortBy, sortOrder, uriBuilder, response);
     }
 
@@ -49,7 +54,11 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE})
     @ResponseBody
     @Secured(Privileges.CAN_ROLE_READ)
-    public List<Role> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public List<Role> findAllPaginated(
+            @RequestParam(value = QueryConstants.PAGE) final int page,
+            @RequestParam(value = QueryConstants.SIZE) final int size,
+            final UriComponentsBuilder uriBuilder,
+            final HttpServletResponse response) {
         return findPaginatedInternal(page, size, uriBuilder, response);
     }
 
@@ -57,7 +66,9 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @GetMapping(params = {QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_ROLE_READ)
-    public List<Role> findAllSorted(@RequestParam(value = QueryConstants.SORT_BY) final String sortBy, @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
+    public List<Role> findAllSorted(
+            @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
+            @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
         return findAllSortedInternal(sortBy, sortOrder);
     }
 
@@ -65,7 +76,10 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @GetMapping
     @ResponseBody
     @Secured(Privileges.CAN_ROLE_READ)
-    public List<Role> findAll(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public List<Role> findAll(
+            final HttpServletRequest request,
+            final UriComponentsBuilder uriBuilder,
+            final HttpServletResponse response) {
         return findAllInternal(request, uriBuilder, response);
     }
 
@@ -74,7 +88,10 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @GetMapping(value = "/{id}")
     @ResponseBody
     @Secured(Privileges.CAN_ROLE_READ)
-    public Role findOne(@PathVariable("id") final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public Role findOne(
+            @PathVariable("id") final Long id,
+            final UriComponentsBuilder uriBuilder,
+            final HttpServletResponse response) {
         return findOneInternal(id, uriBuilder, response);
     }
 
@@ -83,7 +100,10 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Secured(Privileges.CAN_ROLE_WRITE)
-    public void create(@RequestBody @Valid final Role resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public void create(
+            @RequestBody @Valid final Role resource,
+            final UriComponentsBuilder uriBuilder,
+            final HttpServletResponse response) {
         createInternal(resource, uriBuilder, response);
     }
 
@@ -92,7 +112,9 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(Privileges.CAN_ROLE_WRITE)
-    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Role resource) {
+    public void update(
+            @PathVariable("id") final Long id,
+            @RequestBody @Valid final Role resource) {
         updateInternal(id, resource);
     }
 
@@ -101,8 +123,9 @@ public class RoleController extends AbstractController<Role> implements ISorting
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Secured(Privileges.CAN_ROLE_WRITE)
-    public void delete(@PathVariable("id") final Long id) {
-        deleteByIdInternal(id);
+    public void delete(
+            @PathVariable("id") final Long id) {
+        deleteInternal(id);
     }
 
     // Spring
