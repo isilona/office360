@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public abstract class AbstractOperationsController<T extends IEntity> {
+public abstract class AbstractOperationsController<T extends IEntity> implements IOperationsController<T> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected Class<T> clazz;
@@ -40,7 +40,7 @@ public abstract class AbstractOperationsController<T extends IEntity> {
 
     // CREATE
 
-    protected final void createInternal(final T resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final void createInternal(final T resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestState(resource.getId() == null);
         final T existingResource = getService().create(resource);
@@ -51,7 +51,7 @@ public abstract class AbstractOperationsController<T extends IEntity> {
 
     // READ
 
-    protected final T findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final T findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final T resource = findOneInternal(id);
         eventPublisher.publishEvent(new SingleResourceRetrievedEvent<>(clazz, uriBuilder, response));
         return resource;
@@ -61,7 +61,7 @@ public abstract class AbstractOperationsController<T extends IEntity> {
         return RestPreconditions.checkNotNull(getService().findOne(id));
     }
 
-    protected final List<T> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final List<T> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         if (request.getParameterNames().hasMoreElements()) {
             throw new Office360ResourceNotFoundException();
         }
@@ -75,7 +75,7 @@ public abstract class AbstractOperationsController<T extends IEntity> {
     /**
      * - note: the operation is IDEMPOTENT <br/>
      */
-    protected final void updateInternal(final long id, final T resource) {
+    public final void updateInternal(final long id, final T resource) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestElementNotNull(resource.getId());
         RestPreconditions.checkRequestState(resource.getId() == id);
@@ -86,7 +86,7 @@ public abstract class AbstractOperationsController<T extends IEntity> {
 
     // DELETE
 
-    protected final void deleteInternal(final long id) {
+    public final void deleteInternal(final long id) {
         // InvalidDataAccessApiUsageException - ResourceNotFoundException
         // IllegalStateException - ResourceNotFoundException
         // DataAccessException - ignored
@@ -95,14 +95,14 @@ public abstract class AbstractOperationsController<T extends IEntity> {
 
     // COUNT
 
-    protected final long countInternal() {
+    public final long countInternal() {
         // InvalidDataAccessApiUsageException dataEx - ResourceNotFoundException
         return getService().count();
     }
 
     // API - PAGING & SORTING
 
-    protected final List<T> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final List<T> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<T> resultPage = getService().findAllPaginated(page, size);
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
@@ -112,11 +112,11 @@ public abstract class AbstractOperationsController<T extends IEntity> {
         return Lists.newArrayList(resultPage.getContent());
     }
 
-    protected final List<T> findAllSortedInternal(final String sortBy, final String sortOrder) {
+    public final List<T> findSortedInternal(final String sortBy, final String sortOrder) {
         return getService().findAllSorted(sortBy, sortOrder);
     }
 
-    protected final List<T> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final List<T> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<T> resultPage = getService().findAllPaginatedAndSorted(page, size, sortBy, sortOrder);
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
