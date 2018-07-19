@@ -4,12 +4,14 @@ import com.google.common.collect.Sets;
 import io.office360.auth.persistence.entity.Account;
 import io.office360.auth.service.IAccountService;
 import io.office360.common.persistence.service.IService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
+@Ignore
 public class AccountServiceIntegrationTest extends SecServiceIntegrationTest<Account> {
 
     @Autowired

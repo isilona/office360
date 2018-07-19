@@ -40,6 +40,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
 
     // CREATE
 
+    @Override
     public final void createInternal(final T resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestState(resource.getId() == null);
@@ -51,6 +52,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
 
     // READ
 
+    @Override
     public final T findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final T resource = findOneInternal(id);
         eventPublisher.publishEvent(new SingleResourceRetrievedEvent<>(clazz, uriBuilder, response));
@@ -61,6 +63,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
         return RestPreconditions.checkNotNull(getService().findOne(id));
     }
 
+    @Override
     public final List<T> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         if (request.getParameterNames().hasMoreElements()) {
             throw new Office360ResourceNotFoundException();
@@ -75,6 +78,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
     /**
      * - note: the operation is IDEMPOTENT <br/>
      */
+    @Override
     public final void updateInternal(final long id, final T resource) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestElementNotNull(resource.getId());
@@ -86,6 +90,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
 
     // DELETE
 
+    @Override
     public final void deleteInternal(final long id) {
         // InvalidDataAccessApiUsageException - ResourceNotFoundException
         // IllegalStateException - ResourceNotFoundException
@@ -95,6 +100,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
 
     // COUNT
 
+    @Override
     public final long countInternal() {
         // InvalidDataAccessApiUsageException dataEx - ResourceNotFoundException
         return getService().count();
@@ -102,6 +108,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
 
     // API - PAGING & SORTING
 
+    @Override
     public final List<T> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<T> resultPage = getService().findAllPaginated(page, size);
         if (page > resultPage.getTotalPages()) {
@@ -112,10 +119,12 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
         return Lists.newArrayList(resultPage.getContent());
     }
 
+    @Override
     public final List<T> findSortedInternal(final String sortBy, final String sortOrder) {
         return getService().findAllSorted(sortBy, sortOrder);
     }
 
+    @Override
     public final List<T> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<T> resultPage = getService().findAllPaginatedAndSorted(page, size, sortBy, sortOrder);
         if (page > resultPage.getTotalPages()) {

@@ -3,9 +3,11 @@ package io.office360.common.persistence.service;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import io.office360.common.interfaces.IDto;
 import io.office360.common.persistence.ServicePreconditions;
 import io.office360.common.persistence.exception.Office360EntityNotFoundException;
 import io.office360.common.persistence.model.IEntity;
+import io.office360.common.web.controller.data.mapping.IMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-public abstract class AbstractOperationsService<T extends IEntity> implements IOperationsService<T> {
+public abstract class AbstractOperationsService<T extends IEntity, D extends IDto> implements IOperationsService<T> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -46,7 +48,12 @@ public abstract class AbstractOperationsService<T extends IEntity> implements IO
     @Override
     @Transactional(readOnly = true)
     public T findOne(final long id) {
-        return getDao().findById(id).orElse(null);
+        T toReturn = getDao().findById(id).orElse(null);
+
+        // TODO : update this and also the other methods to use mapper
+        System.out.println(getMapper().entityToDto(toReturn));
+
+        return toReturn;
     }
 
     @Override
@@ -116,6 +123,8 @@ public abstract class AbstractOperationsService<T extends IEntity> implements IO
     // template method
 
     protected abstract PagingAndSortingRepository<T, Long> getDao();
+
+    protected abstract IMapper<D, T> getMapper();
 
     // template
 

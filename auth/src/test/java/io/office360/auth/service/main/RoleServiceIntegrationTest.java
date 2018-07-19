@@ -16,6 +16,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 
+@Ignore
 public class RoleServiceIntegrationTest extends SecServiceIntegrationTest<Role> {
 
     @Autowired
