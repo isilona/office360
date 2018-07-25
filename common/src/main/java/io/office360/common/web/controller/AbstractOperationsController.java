@@ -2,7 +2,7 @@ package io.office360.common.web.controller;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import io.office360.common.persistence.model.IEntity;
+import io.office360.common.interfaces.IDto;
 import io.office360.common.persistence.service.IOperationsService;
 import io.office360.common.web.RestPreconditions;
 import io.office360.common.web.events.AfterResourceCreatedEvent;
@@ -21,15 +21,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public abstract class AbstractOperationsController<T extends IEntity> implements IOperationsController<T> {
+public abstract class AbstractOperationsController<D extends IDto> implements IOperationsController<D> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected Class<T> clazz;
+    protected Class<D> clazz;
 
     @Autowired
     protected ApplicationEventPublisher eventPublisher;
 
-    public AbstractOperationsController(final Class<T> clazzToSet) {
+    public AbstractOperationsController(final Class<D> clazzToSet) {
         super();
 
         Preconditions.checkNotNull(clazzToSet);
@@ -41,10 +41,10 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
     // CREATE
 
     @Override
-    public final void createInternal(final T resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final void createInternal(final D resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestState(resource.getId() == null);
-        final T existingResource = getService().create(resource);
+        final D existingResource = getService().create(resource);
 
         // - note: mind the autoboxing and potential NPE when the resource has null id at this point (likely when working with DTOs)
         eventPublisher.publishEvent(new AfterResourceCreatedEvent<>(clazz, uriBuilder, response, existingResource.getId().toString()));
@@ -53,18 +53,18 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
     // READ
 
     @Override
-    public final T findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
-        final T resource = findOneInternal(id);
+    public final D findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        final D resource = findOneInternal(id);
         eventPublisher.publishEvent(new SingleResourceRetrievedEvent<>(clazz, uriBuilder, response));
         return resource;
     }
 
-    protected final T findOneInternal(final Long id) {
+    protected final D findOneInternal(final Long id) {
         return RestPreconditions.checkNotNull(getService().findOne(id));
     }
 
     @Override
-    public final List<T> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final List<D> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         if (request.getParameterNames().hasMoreElements()) {
             throw new Office360ResourceNotFoundException();
         }
@@ -79,7 +79,7 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
      * - note: the operation is IDEMPOTENT <br/>
      */
     @Override
-    public final void updateInternal(final long id, final T resource) {
+    public final void updateInternal(final long id, final D resource) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestElementNotNull(resource.getId());
         RestPreconditions.checkRequestState(resource.getId() == id);
@@ -109,8 +109,8 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
     // API - PAGING & SORTING
 
     @Override
-    public final List<T> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
-        final Page<T> resultPage = getService().findAllPaginated(page, size);
+    public final List<D> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        final Page<D> resultPage = getService().findAllPaginated(page, size);
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
         }
@@ -120,13 +120,13 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
     }
 
     @Override
-    public final List<T> findSortedInternal(final String sortBy, final String sortOrder) {
+    public final List<D> findSortedInternal(final String sortBy, final String sortOrder) {
         return getService().findAllSorted(sortBy, sortOrder);
     }
 
     @Override
-    public final List<T> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
-        final Page<T> resultPage = getService().findAllPaginatedAndSorted(page, size, sortBy, sortOrder);
+    public final List<D> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+        final Page<D> resultPage = getService().findAllPaginatedAndSorted(page, size, sortBy, sortOrder);
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
         }
@@ -137,6 +137,6 @@ public abstract class AbstractOperationsController<T extends IEntity> implements
 
     // template method
 
-    protected abstract IOperationsService<T> getService();
+    protected abstract IOperationsService<D> getService();
 
 }

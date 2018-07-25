@@ -6,7 +6,7 @@ import io.office360.auth.persistence.entity.Account;
 import io.office360.auth.service.IAccountService;
 import io.office360.auth.web.controller.data.mapping.AccountMapper;
 import io.office360.auth.web.controller.data.response.AccountDto;
-import io.office360.common.persistence.service.AbstractService;
+import io.office360.common.persistence.service.AbstractNameableService;
 import io.office360.common.web.controller.data.mapping.IMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class AccountServiceImpl extends AbstractService<Account, AccountDto> implements IAccountService, UserDetailsService {
+public class AccountServiceImpl extends AbstractNameableService<Account, AccountDto> implements IAccountService, UserDetailsService {
 
     private final IAccountJpaDao dao;
 
@@ -37,8 +37,9 @@ public class AccountServiceImpl extends AbstractService<Account, AccountDto> imp
 
     @Override
     @Transactional(readOnly = true)
-    public Account findByName(final String name) {
-        return dao.findByName(name);
+    public AccountDto findByName(final String name) {
+        Account found = dao.findByName(name);
+        return mapper.entityToDto(found);
     }
 
     // Spring
@@ -60,9 +61,9 @@ public class AccountServiceImpl extends AbstractService<Account, AccountDto> imp
     public final UserDetails loadUserByUsername(final String username) {
         Preconditions.checkNotNull(username);
 
-        final Account user = findByName(username);
+        final AccountDto user = findByName(username);
         if (user != null) {
-            return user;
+            return (Account) getMapper().dtoToEntity(user);
         } else {
             throw new UsernameNotFoundException("Username was not found: " + username);
         }

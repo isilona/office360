@@ -9,6 +9,12 @@ import io.office360.auth.persistence.entity.Role;
 import io.office360.auth.service.IAccountService;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.auth.service.IRoleService;
+import io.office360.auth.web.controller.data.mapping.AccountMapper;
+import io.office360.auth.web.controller.data.mapping.PrivilegeMapper;
+import io.office360.auth.web.controller.data.mapping.RoleMapper;
+import io.office360.auth.web.controller.data.response.AccountDto;
+import io.office360.auth.web.controller.data.response.PrivilegeDto;
+import io.office360.auth.web.controller.data.response.RoleDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +40,28 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final AccountMapper accountMapper;
+
+    private final PrivilegeMapper privilegeMapper;
+
+    private final RoleMapper roleMapper;
+
     @Autowired
     public CommandLineAppStartupRunner(
             IAccountService accountService,
             IRoleService roleService,
             IPrivilegeService privilegeService,
-            PasswordEncoder passwordEncoder
-    ) {
+            PasswordEncoder passwordEncoder,
+            AccountMapper accountMapper,
+            PrivilegeMapper privilegeMapper,
+            RoleMapper roleMapper) {
         this.accountService = accountService;
         this.roleService = roleService;
         this.privilegeService = privilegeService;
         this.passwordEncoder = passwordEncoder;
+        this.accountMapper = accountMapper;
+        this.privilegeMapper = privilegeMapper;
+        this.roleMapper = roleMapper;
     }
 
     @Override
@@ -79,22 +96,23 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     }
 
     final void createPrivilegeIfNotExisting(final String name) {
-        final Privilege entityByName = privilegeService.findByName(name);
+        final PrivilegeDto entityByName = privilegeService.findByName(name);
         if (entityByName == null) {
             final Privilege entity = new Privilege(name);
-            privilegeService.create(entity);
+            PrivilegeDto dto = privilegeMapper.entityToDto(entity);
+            privilegeService.create(dto);
         }
     }
 
     // Role
 
     private void createRoles() {
-        final Privilege canPrivilegeRead = privilegeService.findByName(Privileges.CAN_PRIVILEGE_READ);
-        final Privilege canPrivilegeWrite = privilegeService.findByName(Privileges.CAN_PRIVILEGE_WRITE);
-        final Privilege canRoleRead = privilegeService.findByName(Privileges.CAN_ROLE_READ);
-        final Privilege canRoleWrite = privilegeService.findByName(Privileges.CAN_ROLE_WRITE);
-        final Privilege canUserRead = privilegeService.findByName(Privileges.CAN_USER_READ);
-        final Privilege canUserWrite = privilegeService.findByName(Privileges.CAN_USER_WRITE);
+        final PrivilegeDto canPrivilegeRead = privilegeService.findByName(Privileges.CAN_PRIVILEGE_READ);
+        final PrivilegeDto canPrivilegeWrite = privilegeService.findByName(Privileges.CAN_PRIVILEGE_WRITE);
+        final PrivilegeDto canRoleRead = privilegeService.findByName(Privileges.CAN_ROLE_READ);
+        final PrivilegeDto canRoleWrite = privilegeService.findByName(Privileges.CAN_ROLE_WRITE);
+        final PrivilegeDto canUserRead = privilegeService.findByName(Privileges.CAN_USER_READ);
+        final PrivilegeDto canUserWrite = privilegeService.findByName(Privileges.CAN_USER_WRITE);
 
         Preconditions.checkNotNull(canPrivilegeRead);
         Preconditions.checkNotNull(canPrivilegeWrite);
@@ -103,43 +121,59 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         Preconditions.checkNotNull(canUserRead);
         Preconditions.checkNotNull(canUserWrite);
 
-        createRoleIfNotExisting(Roles.ROLE_USER, Sets.newHashSet(canUserRead, canRoleRead, canPrivilegeRead));
-        createRoleIfNotExisting(Roles.ROLE_ADMIN, Sets.newHashSet(canUserRead, canUserWrite, canRoleRead, canRoleWrite, canPrivilegeRead, canPrivilegeWrite));
+        createRoleIfNotExisting(
+                Roles.ROLE_USER,
+                Sets.newHashSet(
+                        privilegeMapper.dtoToEntity(canUserRead),
+                        privilegeMapper.dtoToEntity(canRoleRead),
+                        privilegeMapper.dtoToEntity(canPrivilegeRead))
+        );
+        createRoleIfNotExisting(
+                Roles.ROLE_ADMIN,
+                Sets.newHashSet(
+                        privilegeMapper.dtoToEntity(canUserRead),
+                        privilegeMapper.dtoToEntity(canUserWrite),
+                        privilegeMapper.dtoToEntity(canRoleRead),
+                        privilegeMapper.dtoToEntity(canRoleWrite),
+                        privilegeMapper.dtoToEntity(canPrivilegeRead),
+                        privilegeMapper.dtoToEntity(canPrivilegeWrite)));
 
     }
 
     final void createRoleIfNotExisting(final String name, final Set<Privilege> privileges) {
-        final Role entityByName = roleService.findByName(name);
+        final RoleDto entityByName = roleService.findByName(name);
         if (entityByName == null) {
             final Role entity = new Role(name);
             entity.setPrivileges(privileges);
-            roleService.create(entity);
+            RoleDto dto = roleMapper.entityToDto(entity);
+            roleService.create(dto);
         }
     }
 
     // Account/Account
 
     final void createUsers() {
-        final Role roleAdmin = roleService.findByName(Roles.ROLE_ADMIN);
-        final Role roleUser = roleService.findByName(Roles.ROLE_USER);
+        final RoleDto roleAdmin = roleService.findByName(Roles.ROLE_ADMIN);
+        final RoleDto roleUser = roleService.findByName(Roles.ROLE_USER);
 
         createUserIfNotExisting(
                 Office360AuthConstants.ADMIN_USERNAME,
                 Office360AuthConstants.ADMIN_EMAIL,
                 passwordEncoder.encode(Office360AuthConstants.ADMIN_PASS),
-                Sets.newHashSet(roleAdmin));
+                Sets.newHashSet(roleMapper.dtoToEntity(roleAdmin)));
         createUserIfNotExisting(
                 Office360AuthConstants.USER_USERNAME,
                 Office360AuthConstants.USER_EMAIL,
                 passwordEncoder.encode(Office360AuthConstants.USER_PASS),
-                Sets.newHashSet(roleUser));
+                Sets.newHashSet(roleMapper.dtoToEntity(roleUser)));
     }
 
     final void createUserIfNotExisting(final String username, final String loginName, final String pass, final Set<Role> roles) {
-        final Account entityByName = accountService.findByName(loginName);
+        final AccountDto entityByName = accountService.findByName(loginName);
         if (entityByName == null) {
             final Account entity = new Account(username, loginName, pass, roles);
-            accountService.create(entity);
+            AccountDto dto = accountMapper.entityToDto(entity);
+            accountService.create(dto);
         }
     }
 }

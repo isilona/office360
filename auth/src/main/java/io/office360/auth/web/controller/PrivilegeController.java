@@ -1,8 +1,8 @@
 package io.office360.auth.web.controller;
 
-import io.office360.auth.persistence.entity.Privilege;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.auth.util.Office360AuthMappings;
+import io.office360.auth.web.controller.data.response.PrivilegeDto;
 import io.office360.common.util.QueryConstants;
 import io.office360.common.web.controller.AbstractController;
 import io.office360.common.web.controller.IPagingAndSortingOperationsController;
@@ -22,13 +22,13 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 
 @Controller
 @RequestMapping(value = Office360AuthMappings.PRIVILEGES)
-public class PrivilegeController extends AbstractController<Privilege> implements IPagingAndSortingOperationsController<Privilege> {
+public class PrivilegeController extends AbstractController<PrivilegeDto> implements IPagingAndSortingOperationsController<PrivilegeDto> {
 
     private final IPrivilegeService service;
 
     @Autowired
     public PrivilegeController(IPrivilegeService service) {
-        super(Privilege.class);
+        super(PrivilegeDto.class);
         this.service = service;
     }
 
@@ -40,7 +40,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @ResponseStatus(HttpStatus.CREATED)
     @Secured(Privileges.CAN_PRIVILEGE_WRITE)
     public void create(
-            @RequestBody @Valid final Privilege resource,
+            @RequestBody @Valid final PrivilegeDto resource,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
         createInternal(resource, uriBuilder, response);
@@ -51,7 +51,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @GetMapping(value = "/{id}")
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
-    public Privilege findOne(
+    public PrivilegeDto findOne(
             @PathVariable("id") final Long id,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
@@ -61,7 +61,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @GetMapping
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
-    public List<Privilege> findAll(
+    public List<PrivilegeDto> findAll(
             final HttpServletRequest request,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
@@ -73,7 +73,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(Privileges.CAN_PRIVILEGE_WRITE)
-    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Privilege resource) {
+    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final PrivilegeDto resource) {
         updateInternal(id, resource);
     }
 
@@ -91,7 +91,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE})
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
-    public List<Privilege> findAllPaginated(
+    public List<PrivilegeDto> findAllPaginated(
             @RequestParam(value = QueryConstants.PAGE) final int page,
             @RequestParam(value = QueryConstants.SIZE) final int size,
             final UriComponentsBuilder uriBuilder,
@@ -102,7 +102,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @GetMapping(params = {QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
-    public List<Privilege> findAllSorted(
+    public List<PrivilegeDto> findAllSorted(
             @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
             @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
         return findSortedInternal(sortBy, sortOrder);
@@ -111,7 +111,7 @@ public class PrivilegeController extends AbstractController<Privilege> implement
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_PRIVILEGE_READ)
-    public List<Privilege> findAllPaginatedAndSorted(
+    public List<PrivilegeDto> findAllPaginatedAndSorted(
             @RequestParam(value = QueryConstants.PAGE) final int page,
             @RequestParam(value = QueryConstants.SIZE) final int size,
             @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,

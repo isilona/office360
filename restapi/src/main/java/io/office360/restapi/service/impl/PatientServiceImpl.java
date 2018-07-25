@@ -1,6 +1,6 @@
 package io.office360.restapi.service.impl;
 
-import io.office360.common.persistence.service.AbstractService;
+import io.office360.common.persistence.service.AbstractOperationsService;
 import io.office360.common.web.controller.data.mapping.IMapper;
 import io.office360.restapi.persistence.dao.IPatientJpaDao;
 import io.office360.restapi.persistence.model.Patient;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PatientServiceImpl extends AbstractService<Patient, PatientDto> implements IPatientService {
+public class PatientServiceImpl extends AbstractOperationsService<Patient, PatientDto> implements IPatientService {
 
     private final IPatientJpaDao dao;
 
@@ -32,8 +32,9 @@ public class PatientServiceImpl extends AbstractService<Patient, PatientDto> imp
 
     @Override
     @Transactional(readOnly = true)
-    public Patient findByName(final String name) {
-        return dao.findByName(name);
+    public PatientDto findByName(final String name) {
+        Patient found = dao.findByName(name);
+        return mapper.entityToDto(found);
     }
 
     @Override

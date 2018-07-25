@@ -5,7 +5,7 @@ import io.office360.auth.persistence.entity.Role;
 import io.office360.auth.service.IRoleService;
 import io.office360.auth.web.controller.data.mapping.RoleMapper;
 import io.office360.auth.web.controller.data.response.RoleDto;
-import io.office360.common.persistence.service.AbstractService;
+import io.office360.common.persistence.service.AbstractNameableService;
 import io.office360.common.web.controller.data.mapping.IMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class RoleServiceImpl extends AbstractService<Role, RoleDto> implements IRoleService {
+public class RoleServiceImpl extends AbstractNameableService<Role, RoleDto> implements IRoleService {
 
     private final IRoleJpaDao dao;
 
@@ -31,8 +31,9 @@ public class RoleServiceImpl extends AbstractService<Role, RoleDto> implements I
     // get/find
 
     @Override
-    public Role findByName(final String name) {
-        return getDao().findByName(name);
+    public RoleDto findByName(final String name) {
+        Role found = dao.findByName(name);
+        return mapper.entityToDto(found);
     }
 
     @Override

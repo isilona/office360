@@ -1,26 +1,27 @@
-package io.office360.common.interfaces.operations;
+package io.office360.common.persistence.service;
 
-import java.io.Serializable;
+import io.office360.common.interfaces.IDto;
+
 import java.util.List;
 
-public interface ICrudOperations<T extends Serializable> {
+public interface ICrudOperationsService<D extends IDto> {
 
     // CREATE
 
-    T create(final T resource);
+    D create(final D resource);
 
     // READ
 
-    T findOne(final long id);
+    D findOne(final long id);
 
     /**
      * - contract: if nothing is found, an empty list will be returned to the calling client <br>
      */
-    List<T> findAll();
+    List<D> findAll();
 
     // UPDATE
 
-    void update(final T resource);
+    void update(final D resource);
 
     // DELETE
 

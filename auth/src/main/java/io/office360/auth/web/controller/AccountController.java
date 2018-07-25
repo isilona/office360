@@ -3,6 +3,7 @@ package io.office360.auth.web.controller;
 import io.office360.auth.persistence.entity.Account;
 import io.office360.auth.service.IAccountService;
 import io.office360.auth.util.Office360AuthMappings;
+import io.office360.auth.web.controller.data.response.AccountDto;
 import io.office360.common.security.SpringSecurityUtil;
 import io.office360.common.util.QueryConstants;
 import io.office360.common.web.controller.AbstractController;
@@ -23,13 +24,13 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 
 @Controller
 @RequestMapping(value = Office360AuthMappings.USERS)
-public class AccountController extends AbstractController<Account> implements IOperationsController<Account> {
+public class AccountController extends AbstractController<AccountDto> implements IOperationsController<AccountDto> {
 
     private final IAccountService service;
 
     @Autowired
     public AccountController(IAccountService service) {
-        super(Account.class);
+        super(AccountDto.class);
         this.service = service;
     }
 
@@ -40,7 +41,7 @@ public class AccountController extends AbstractController<Account> implements IO
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(
-            @RequestBody @Valid final Account resource,
+            @RequestBody @Valid final AccountDto resource,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
         createInternal(resource, uriBuilder, response);
@@ -51,7 +52,7 @@ public class AccountController extends AbstractController<Account> implements IO
     @GetMapping(value = "/{id}")
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
-    public Account findOne(
+    public AccountDto findOne(
             @PathVariable("id") final Long id,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
@@ -61,7 +62,7 @@ public class AccountController extends AbstractController<Account> implements IO
     @GetMapping
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
-    public List<Account> findAll(
+    public List<AccountDto> findAll(
             final HttpServletRequest request,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
@@ -73,7 +74,7 @@ public class AccountController extends AbstractController<Account> implements IO
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Secured(Privileges.CAN_USER_WRITE)
-    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Account resource) {
+    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final AccountDto resource) {
         updateInternal(id, resource);
     }
 
@@ -91,7 +92,7 @@ public class AccountController extends AbstractController<Account> implements IO
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
-    public List<Account> findAllPaginatedAndSorted(
+    public List<AccountDto> findAllPaginatedAndSorted(
             @RequestParam(value = QueryConstants.PAGE) final int page,
             @RequestParam(value = QueryConstants.SIZE) final int size,
             @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
@@ -103,14 +104,14 @@ public class AccountController extends AbstractController<Account> implements IO
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE})
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
-    public List<Account> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public List<AccountDto> findAllPaginated(@RequestParam(value = QueryConstants.PAGE) final int page, @RequestParam(value = QueryConstants.SIZE) final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         return findPaginatedInternal(page, size, uriBuilder, response);
     }
 
     @GetMapping(params = {QueryConstants.SORT_BY})
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
-    public List<Account> findAllSorted(@RequestParam(value = QueryConstants.SORT_BY) final String sortBy, @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
+    public List<AccountDto> findAllSorted(@RequestParam(value = QueryConstants.SORT_BY) final String sortBy, @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
         return findSortedInternal(sortBy, sortOrder);
     }
 
@@ -121,7 +122,7 @@ public class AccountController extends AbstractController<Account> implements IO
     @GetMapping(value = "/current")
     @ResponseBody
     @Secured(Privileges.CAN_USER_READ)
-    public Account current() {
+    public AccountDto current() {
         final Account currentUser = (Account) SpringSecurityUtil.getCurrentUserDetails();
         if (currentUser == null) {
             return null;

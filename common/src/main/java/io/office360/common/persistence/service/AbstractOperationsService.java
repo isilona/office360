@@ -19,11 +19,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Transactional
-public abstract class AbstractOperationsService<T extends IEntity, D extends IDto> implements IOperationsService<T> {
+public abstract class AbstractOperationsService<T extends IEntity, D extends IDto>
+        implements IOperationsService<D> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -38,37 +41,41 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
     // CREATE
 
     @Override
-    public T create(final T entity) {
-        Preconditions.checkNotNull(entity);
-        return getDao().save(entity);
+    public D create(final D dto) {
+        Preconditions.checkNotNull(dto);
+        T toSave = getMapper().dtoToEntity(dto);
+        T saved = getDao().save(toSave);
+
+        return getMapper().entityToDto(saved);
     }
 
     // READ
 
     @Override
     @Transactional(readOnly = true)
-    public T findOne(final long id) {
-        T toReturn = getDao().findById(id).orElse(null);
-
-        // TODO : update this and also the other methods to use mapper
-        System.out.println(getMapper().entityToDto(toReturn));
-
-        return toReturn;
+    public D findOne(final long id) {
+        T found = getDao().findById(id).orElse(null);
+        return getMapper().entityToDto(found);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<T> findAll() {
-        return Lists.newArrayList(getDao().findAll());
+    public List<D> findAll() {
+        List<T> found = Lists.newArrayList(getDao().findAll());
+        List<D> toReturn = new LinkedList<>();
+        for (T item : found) {
+            toReturn.add(getMapper().entityToDto(item));
+        }
+        return toReturn;
     }
 
     // UPDATE
 
     @Override
-    public void update(final T entity) {
-        Preconditions.checkNotNull(entity);
-
-        getDao().save(entity);
+    public void update(final D dto) {
+        Preconditions.checkNotNull(dto);
+        T toSave = getMapper().dtoToEntity(dto);
+        getDao().save(toSave);
     }
 
     // DELETE
@@ -101,22 +108,46 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
 
     @Override
     @Transactional(readOnly = true)
-    public Page<T> findAllPaginated(final int page, final int size) {
-        return getDao().findAll(PageRequest.of(page, size));
+    public Page<D> findAllPaginated(final int page, final int size) {
+        Page<T> found = getDao().findAll(PageRequest.of(page, size));
+        Page<D> toReturn = found.map(new Function<T, D>() {
+            @Override
+            public D apply(T entity) {
+                return getMapper().entityToDto(entity);
+            }
+        });
+
+        return toReturn;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<T> findAllSorted(final String sortBy, final String sortOrder) {
+    public List<D> findAllSorted(final String sortBy, final String sortOrder) {
         final Sort sortInfo = constructSort(sortBy, sortOrder);
-        return Lists.newArrayList(getDao().findAll(sortInfo));
+
+        List<T> found = Lists.newArrayList(getDao().findAll(sortInfo));
+        List<D> toReturn = new LinkedList<>();
+        for (T item : found) {
+            toReturn.add(getMapper().entityToDto(item));
+        }
+
+        return toReturn;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<T> findAllPaginatedAndSorted(final int page, final int size, final String sortBy, final String sortOrder) {
+    public Page<D> findAllPaginatedAndSorted(final int page, final int size, final String sortBy, final String sortOrder) {
         final Sort sortInfo = constructSort(sortBy, sortOrder);
-        return getDao().findAll(PageRequest.of(page, size, sortInfo));
+
+        Page<T> found = getDao().findAll(PageRequest.of(page, size, sortInfo));
+        Page<D> toReturn = found.map(new Function<T, D>() {
+            @Override
+            public D apply(T entity) {
+                return getMapper().entityToDto(entity);
+            }
+        });
+
+        return toReturn;
     }
 
 

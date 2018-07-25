@@ -3,18 +3,19 @@ package io.office360.auth.web.controller.data.response;
 import com.google.common.base.MoreObjects;
 
 import java.util.Objects;
+import java.util.Set;
 
-public class AccountDto extends BaseDto {
-
+public class AccountDto extends NamedBaseDto {
 
     private String email;
 
     private String password;
 
+    private Set<RoleDto> roles;
+
     public AccountDto() {
         super();
     }
-
 
     public String getEmail() {
         return email;
@@ -30,6 +31,15 @@ public class AccountDto extends BaseDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public Set<RoleDto> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleDto> roles) {
+        this.roles = roles;
     }
 
     @Override

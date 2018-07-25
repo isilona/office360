@@ -1,8 +1,8 @@
 package io.office360.restapi.persistence.setup;
 
 
-import io.office360.restapi.persistence.model.Patient;
 import io.office360.restapi.service.IPatientService;
+import io.office360.restapi.web.controller.data.response.PatientDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     }
 
     void createPatientRecordIfNotExist(String name) {
-        final Patient entity = new Patient();
+        final PatientDto entity = new PatientDto();
         entity.setName(name);
 
         if (patientService.findByName(name) == null) {

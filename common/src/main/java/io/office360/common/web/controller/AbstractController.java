@@ -1,5 +1,6 @@
 package io.office360.common.web.controller;
 
+import io.office360.common.interfaces.IDto;
 import io.office360.common.persistence.model.IEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-public abstract class AbstractController<T extends IEntity> extends AbstractOperationsController<T> {
+public abstract class AbstractController<D extends IDto> extends AbstractOperationsController<D> {
 
     @Autowired
-    public AbstractController(final Class<T> clazzToSet) {
+    public AbstractController(final Class<D> clazzToSet) {
         super(clazzToSet);
     }
 

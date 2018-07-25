@@ -8,6 +8,7 @@ import io.office360.restapi.persistence.dao.IPatientJpaDao;
 import io.office360.restapi.persistence.model.Patient;
 import io.office360.restapi.service.IPatientService;
 import io.office360.restapi.util.Office360Mappings;
+import io.office360.restapi.web.controller.data.response.PatientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = Office360Mappings.PATIENTS)
-public class PatientRecordController extends AbstractController<Patient> implements IPagingAndSortingOperationsController<Patient> {
+public class PatientRecordController extends AbstractController<PatientDto> implements IPagingAndSortingOperationsController<PatientDto> {
 
     private final IPatientService service;
 
@@ -30,7 +31,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
 
     @Autowired
     public PatientRecordController(IPatientService service, IPatientJpaDao patientRepository) {
-        super(Patient.class);
+        super(PatientDto.class);
         this.service = service;
         this.patientRepository = patientRepository;
     }
@@ -42,7 +43,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(
-            @RequestBody @Valid final Patient resource,
+            @RequestBody @Valid final PatientDto resource,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
         createInternal(resource, uriBuilder, response);
@@ -53,7 +54,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @GetMapping(value = "/{id}")
     @ResponseBody
     //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
-    public Patient findOne(
+    public PatientDto findOne(
             @PathVariable("id") final Long id,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
@@ -63,7 +64,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @GetMapping
     @ResponseBody
     //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
-    public List<Patient> findAll(
+    public List<PatientDto> findAll(
             final HttpServletRequest request,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
@@ -75,7 +76,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     //    @Secured(Privileges.CAN_PATIENT_RECORD_WRITE)
-    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final Patient resource) {
+    public void update(@PathVariable("id") final Long id, @RequestBody @Valid final PatientDto resource) {
         updateInternal(id, resource);
     }
 
@@ -93,7 +94,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE, QueryConstants.SORT_BY})
     @ResponseBody
     //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
-    public List<Patient> findAllPaginatedAndSorted(
+    public List<PatientDto> findAllPaginatedAndSorted(
             @RequestParam(value = QueryConstants.PAGE) final int page,
             @RequestParam(value = QueryConstants.SIZE) final int size,
             @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
@@ -106,7 +107,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @GetMapping(params = {QueryConstants.PAGE, QueryConstants.SIZE})
     @ResponseBody
     //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
-    public List<Patient> findAllPaginated(
+    public List<PatientDto> findAllPaginated(
             @RequestParam(value = QueryConstants.PAGE) final int page,
             @RequestParam(value = QueryConstants.SIZE) final int size,
             final UriComponentsBuilder uriBuilder,
@@ -117,7 +118,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @GetMapping(params = {QueryConstants.SORT_BY})
     @ResponseBody
     //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
-    public List<Patient> findAllSorted(
+    public List<PatientDto> findAllSorted(
             @RequestParam(value = QueryConstants.SORT_BY) final String sortBy,
             @RequestParam(value = QueryConstants.SORT_ORDER) final String sortOrder) {
         return findSortedInternal(sortBy, sortOrder);
@@ -133,7 +134,7 @@ public class PatientRecordController extends AbstractController<Patient> impleme
     @GetMapping(value = "/search")
     @ResponseBody
     //    @Secured(Privileges.CAN_PATIENT_RECORD_READ)
-    public Patient findOneByName(@RequestParam("name") final String name) {
+    public PatientDto findOneByName(@RequestParam("name") final String name) {
         return service.findByName(name);
     }
 
