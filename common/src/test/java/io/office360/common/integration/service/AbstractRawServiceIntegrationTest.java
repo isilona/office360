@@ -167,6 +167,7 @@ public abstract class AbstractRawServiceIntegrationTest<T extends IDto> {
         assertNotNull(getApi().findOne(existingResource.getId()));
     }
 
+    @Ignore
     @Test
     public void whenResourceIsCreated_thenSavedResourceIsEqualToOriginalResource() {
         final T originalResource = createNewEntity();
