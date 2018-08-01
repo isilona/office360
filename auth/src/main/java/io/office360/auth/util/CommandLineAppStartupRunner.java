@@ -9,12 +9,12 @@ import io.office360.auth.persistence.entity.Role;
 import io.office360.auth.service.IAccountService;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.auth.service.IRoleService;
-import io.office360.auth.web.account.AccountMapper;
-import io.office360.auth.web.privilege.PrivilegeMapper;
-import io.office360.auth.web.role.RoleMapper;
 import io.office360.auth.web.account.AccountDto;
+import io.office360.auth.web.account.AccountMapper;
 import io.office360.auth.web.privilege.PrivilegeDto;
+import io.office360.auth.web.privilege.PrivilegeMapper;
 import io.office360.auth.web.role.RoleDto;
+import io.office360.auth.web.role.RoleMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,20 +158,25 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         createUserIfNotExisting(
                 Office360AuthConstants.ADMIN_USERNAME,
-                Office360AuthConstants.ADMIN_EMAIL,
                 passwordEncoder.encode(Office360AuthConstants.ADMIN_PASS),
+                Office360AuthConstants.ADMIN_EMAIL,
                 Sets.newHashSet(roleMapper.dtoToEntity(roleAdmin)));
         createUserIfNotExisting(
                 Office360AuthConstants.USER_USERNAME,
-                Office360AuthConstants.USER_EMAIL,
                 passwordEncoder.encode(Office360AuthConstants.USER_PASS),
+                Office360AuthConstants.USER_EMAIL,
                 Sets.newHashSet(roleMapper.dtoToEntity(roleUser)));
     }
 
-    final void createUserIfNotExisting(final String username, final String loginName, final String pass, final Set<Role> roles) {
-        final AccountDto entityByName = accountService.findByName(loginName);
+    final void createUserIfNotExisting(final String username, final String pass, final String email, final Set<Role> roles) {
+        final AccountDto entityByName = accountService.findByUsername(username);
         if (entityByName == null) {
-            final Account entity = new Account(username, loginName, pass, roles);
+            final Account entity =
+                    new Account.Builder(username, pass).
+                            setEmail(email).
+                            setRoles(roles).
+                            setName(username).
+                            build();
             AccountDto dto = accountMapper.entityToDto(entity);
             accountService.create(dto);
         }

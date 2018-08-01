@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class AccountDto extends NamedBaseDto {
 
+    private String username;
+
     private String email;
 
     private String password;
@@ -17,6 +19,14 @@ public class AccountDto extends NamedBaseDto {
 
     public AccountDto() {
         super();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -50,20 +60,26 @@ public class AccountDto extends NamedBaseDto {
         if (!(o instanceof AccountDto)) return false;
         if (!super.equals(o)) return false;
         AccountDto that = (AccountDto) o;
-        return Objects.equals(email, that.email) &&
-                Objects.equals(password, that.password);
+        return Objects.equals(username, that.username) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(roles, that.roles);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), email, password);
+        return Objects.hash(super.hashCode(), username, email, password, roles);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
+                .add("username", username)
                 .add("email", email)
+                .add("password", password)
+                .add("roles", roles)
+                .add("name", name)
                 .add("id", id)
                 .toString();
     }

@@ -8,4 +8,6 @@ public interface IAccountJpaDao extends
         JpaRepository<Account, Long>,
         IByNameApi<Account> {
     //
+
+    Account findByUsername(String username);
 }

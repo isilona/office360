@@ -41,10 +41,9 @@ public class AuthenticationController {
 
         final Role defaultRole = new Role("defaultRole", Sets.newHashSet(privileges));
 
-        return new Account(authenticationInSpring.getName(),
-                (String) authenticationInSpring.getCredentials(),
-                Sets.newHashSet(defaultRole)
-        );
+        return new Account.Builder(authenticationInSpring.getName(), (String) authenticationInSpring.getCredentials()).
+                setRoles(Sets.newHashSet(defaultRole)).
+                build();
     }
 
 }

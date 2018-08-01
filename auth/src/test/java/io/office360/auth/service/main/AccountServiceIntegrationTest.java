@@ -3,8 +3,8 @@ package io.office360.auth.service.main;
 import com.google.common.collect.Sets;
 import io.office360.auth.persistence.entity.Account;
 import io.office360.auth.service.IAccountService;
-import io.office360.auth.web.account.AccountMapper;
 import io.office360.auth.web.account.AccountDto;
+import io.office360.auth.web.account.AccountMapper;
 import io.office360.common.persistence.service.INameableService;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -46,12 +46,19 @@ public class AccountServiceIntegrationTest extends SecServiceIntegrationTest<Acc
 
     @Override
     protected final AccountDto createNewEntity() {
-        Account entity = new Account(randomAlphabetic(8), randomAlphabetic(8), Sets.newHashSet());
+        Account entity =
+                new Account.Builder(randomAlphabetic(8), randomAlphabetic(8)).
+                        setEmail(randomAlphabetic(8)).
+                        setRoles(Sets.newHashSet()).
+                        build();
         return accountMapper.entityToDto(entity);
     }
 
     protected final AccountDto createNewEntity(final String name) {
-        Account entity = new Account(name, randomAlphabetic(8), Sets.newHashSet());
+        Account entity = new Account.Builder(name, randomAlphabetic(8)).
+                setEmail(randomAlphabetic(8)).
+                setRoles(Sets.newHashSet()).
+                build();
         return accountMapper.entityToDto(entity);
     }
 

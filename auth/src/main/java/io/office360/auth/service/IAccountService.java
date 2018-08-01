@@ -5,4 +5,6 @@ import io.office360.common.persistence.service.INameableService;
 
 public interface IAccountService extends INameableService<AccountDto> {
 
+    AccountDto findByUsername(String username);
+
 }

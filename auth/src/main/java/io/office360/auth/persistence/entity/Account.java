@@ -14,11 +14,11 @@ public class Account extends NamedBaseEntity implements UserDetails {
     @Column(unique = true)
     private String username;
 
-    @Column(unique = true, nullable = true)
-    private String email;
-
     @Column(nullable = false)
     private String password;
+
+    @Column(unique = true, nullable = true)
+    private String email;
 
     @ManyToMany( /* cascade = { CascadeType.REMOVE }, */fetch = FetchType.EAGER)
     @JoinTable(
@@ -46,23 +46,6 @@ public class Account extends NamedBaseEntity implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
-    }
-
-    public Account(final String nameToSet, final String passwordToSet, final Set<Role> rolesToSet) {
-        super();
-
-        name = nameToSet;
-        password = passwordToSet;
-        roles = rolesToSet;
-    }
-
-    public Account(final String usernameToSet, final String nameToSet, final String passwordToSet, final Set<Role> rolesToSet) {
-        this();
-
-        username = usernameToSet;
-        name = nameToSet;
-        password = passwordToSet;
-        roles = rolesToSet;
     }
 
     // API
@@ -182,5 +165,53 @@ public class Account extends NamedBaseEntity implements UserDetails {
                 .add("email", email)
                 .add("password", password)
                 .toString();
+    }
+
+    public static class Builder {
+
+        private Long id;
+        private String name;
+        private String username;
+        private String password;
+        private String email;
+        private Set<Role> roles;
+
+        public Builder(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder setRoles(Set<Role> roles) {
+            this.roles = roles;
+            return this;
+        }
+
+        public Account build() {
+            Account account = new Account();
+            account.username = this.username;
+            account.password = this.password;
+
+            account.id = this.id;
+            account.name = this.name;
+            account.email = this.email;
+            account.roles = this.roles;
+
+            return account;
+        }
     }
 }

@@ -42,6 +42,8 @@ public class AccountServiceImpl extends AbstractNameableService<Account, Account
         return mapper.entityToDto(found);
     }
 
+
+
     // Spring
 
     @Override
@@ -61,11 +63,17 @@ public class AccountServiceImpl extends AbstractNameableService<Account, Account
     public final UserDetails loadUserByUsername(final String username) {
         Preconditions.checkNotNull(username);
 
-        final AccountDto user = findByName(username);
+        final AccountDto user = findByUsername(username);
         if (user != null) {
             return (Account) getMapper().dtoToEntity(user);
         } else {
             throw new UsernameNotFoundException("Username was not found: " + username);
         }
+    }
+
+    @Override
+    public AccountDto findByUsername(String username) {
+        Account found = dao.findByUsername(username);
+        return mapper.entityToDto(found);
     }
 }
