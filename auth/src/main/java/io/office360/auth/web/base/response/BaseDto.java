@@ -1,4 +1,4 @@
-package io.office360.auth.web.controller.data.response;
+package io.office360.auth.web.base.response;
 
 import io.office360.common.interfaces.IDto;
 

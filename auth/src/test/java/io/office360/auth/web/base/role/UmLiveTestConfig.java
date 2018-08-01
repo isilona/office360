@@ -1,14 +1,13 @@
-package io.office360.auth.web.controller.role;
+package io.office360.auth.web.base.role;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
 @ComponentScan({ "io.office360.auth.persistence.entity" })
-@PropertySource({ "classpath:web-${webTarget:local}.properties" })
+//@PropertySource({ "classpath:web-${webTarget:local}.properties" })
 public class UmLiveTestConfig {
 
     public UmLiveTestConfig() {

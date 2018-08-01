@@ -1,6 +1,8 @@
-package io.office360.auth.web.controller.data.response;
+package io.office360.auth.web.account;
 
 import com.google.common.base.MoreObjects;
+import io.office360.auth.web.base.response.NamedBaseDto;
+import io.office360.auth.web.role.RoleDto;
 
 import java.util.Objects;
 import java.util.Set;

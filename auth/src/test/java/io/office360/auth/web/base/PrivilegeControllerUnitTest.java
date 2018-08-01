@@ -1,6 +1,7 @@
-package io.office360.auth.web.controller;
+package io.office360.auth.web.base;
 
-import io.office360.auth.web.controller.data.response.PrivilegeDto;
+import io.office360.auth.web.privilege.PrivilegeController;
+import io.office360.auth.web.privilege.PrivilegeDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

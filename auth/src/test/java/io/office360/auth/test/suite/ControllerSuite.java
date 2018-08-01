@@ -1,6 +1,6 @@
 package io.office360.auth.test.suite;
 
-import io.office360.auth.web.controller.PrivilegeControllerUnitTest;
+import io.office360.auth.web.base.PrivilegeControllerUnitTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

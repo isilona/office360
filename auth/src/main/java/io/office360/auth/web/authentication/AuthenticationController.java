@@ -1,4 +1,4 @@
-package io.office360.auth.web.controller;
+package io.office360.auth.web.authentication;
 
 import com.google.common.collect.Sets;
 import io.office360.auth.persistence.entity.Account;

@@ -1,4 +1,4 @@
-package io.office360.auth.web.controller;
+package io.office360.auth.web.base.controller;
 
 import io.office360.auth.util.Office360AuthMappings;
 import org.springframework.http.HttpHeaders;

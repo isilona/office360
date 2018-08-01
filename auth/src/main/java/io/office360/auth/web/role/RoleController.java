@@ -1,8 +1,7 @@
-package io.office360.auth.web.controller;
+package io.office360.auth.web.role;
 
 import io.office360.auth.service.IRoleService;
 import io.office360.auth.util.Office360AuthMappings;
-import io.office360.auth.web.controller.data.response.RoleDto;
 import io.office360.common.util.QueryConstants;
 import io.office360.common.web.controller.AbstractController;
 import io.office360.common.web.controller.IPagingAndSortingOperationsController;

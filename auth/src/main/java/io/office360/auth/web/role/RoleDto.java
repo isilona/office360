@@ -1,4 +1,7 @@
-package io.office360.auth.web.controller.data.response;
+package io.office360.auth.web.role;
+
+import io.office360.auth.web.base.response.NamedBaseDto;
+import io.office360.auth.web.privilege.PrivilegeDto;
 
 import java.util.Set;
 
