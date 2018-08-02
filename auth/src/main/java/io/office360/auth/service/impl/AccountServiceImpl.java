@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +25,31 @@ public class AccountServiceImpl extends AbstractOperationsService<Account, Accou
 
     private final AccountMapper mapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public AccountServiceImpl(IAccountJpaDao dao, AccountMapper mapper) {
+    public AccountServiceImpl(IAccountJpaDao dao, AccountMapper mapper, PasswordEncoder passwordEncoder) {
         super();
         this.dao = dao;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // API
+
+    @Override
+    public AccountDto create(final AccountDto dto) {
+        Preconditions.checkNotNull(dto);
+
+        // TODO : Check to do encoding in UI
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(encodedPassword);
+
+        Account toSave = mapper.dtoToEntity(dto);
+        Account saved = getDao().save(toSave);
+
+        return mapper.entityToDto(saved);
+    }
 
     // find
 

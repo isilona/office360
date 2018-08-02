@@ -1,5 +1,6 @@
 package io.office360.auth.service.main;
 
+import io.office360.auth.config.Office360AuthSecurityConfig;
 import io.office360.auth.spring.Office360AuthContextConfig;
 import io.office360.auth.spring.Office360AuthPersistenceJpaConfig;
 import io.office360.auth.spring.Office360AuthServiceConfig;
@@ -16,7 +17,8 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 @ContextConfiguration(classes = {
         Office360AuthPersistenceJpaConfig.class,
         Office360AuthServiceConfig.class,
-        Office360AuthContextConfig.class
+        Office360AuthContextConfig.class,
+        Office360AuthSecurityConfig.class
 }, loader = AnnotationConfigContextLoader.class)
 public abstract class SecServiceIntegrationTest<T extends INameableDto> extends AbstractServiceIntegrationTest<T> {
 

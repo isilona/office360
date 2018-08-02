@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -38,8 +37,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     private final IPrivilegeService privilegeService;
 
-    private final PasswordEncoder passwordEncoder;
-
     private final AccountMapper accountMapper;
 
     private final PrivilegeMapper privilegeMapper;
@@ -51,14 +48,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
             IAccountService accountService,
             IRoleService roleService,
             IPrivilegeService privilegeService,
-            PasswordEncoder passwordEncoder,
             AccountMapper accountMapper,
             PrivilegeMapper privilegeMapper,
             RoleMapper roleMapper) {
         this.accountService = accountService;
         this.roleService = roleService;
         this.privilegeService = privilegeService;
-        this.passwordEncoder = passwordEncoder;
         this.accountMapper = accountMapper;
         this.privilegeMapper = privilegeMapper;
         this.roleMapper = roleMapper;
@@ -158,12 +153,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         createUserIfNotExisting(
                 Office360AuthConstants.ADMIN_USERNAME,
-                passwordEncoder.encode(Office360AuthConstants.ADMIN_PASS),
+                Office360AuthConstants.ADMIN_PASS,
                 Office360AuthConstants.ADMIN_EMAIL,
                 Sets.newHashSet(roleMapper.dtoToEntity(roleAdmin)));
         createUserIfNotExisting(
                 Office360AuthConstants.USER_USERNAME,
-                passwordEncoder.encode(Office360AuthConstants.USER_PASS),
+                Office360AuthConstants.USER_PASS,
                 Office360AuthConstants.USER_EMAIL,
                 Sets.newHashSet(roleMapper.dtoToEntity(roleUser)));
     }
