@@ -41,24 +41,20 @@ public class AccountServiceIntegrationTest extends SecServiceIntegrationTest<Acc
 
     @Override
     protected final INameableService<AccountDto> getApi() {
-        return accountService;
+//        return accountService;
+        return null;
     }
 
     @Override
     protected final AccountDto createNewEntity() {
-        Account entity =
-                new Account.Builder(randomAlphabetic(8), randomAlphabetic(8)).
-                        setEmail(randomAlphabetic(8)).
-                        setRoles(Sets.newHashSet()).
-                        build();
+        Account entity = new Account.Builder(randomAlphabetic(8), randomAlphabetic(8))
+                .setRoles(Sets.newHashSet()).build();
         return accountMapper.entityToDto(entity);
     }
 
     protected final AccountDto createNewEntity(final String name) {
-        Account entity = new Account.Builder(name, randomAlphabetic(8)).
-                setEmail(randomAlphabetic(8)).
-                setRoles(Sets.newHashSet()).
-                build();
+        Account entity = new Account.Builder(name, randomAlphabetic(8))
+                .setRoles(Sets.newHashSet()).build();
         return accountMapper.entityToDto(entity);
     }
 

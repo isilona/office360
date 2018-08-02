@@ -175,7 +175,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                     new Account.Builder(username, pass).
                             setEmail(email).
                             setRoles(roles).
-                            setName(username).
                             build();
             AccountDto dto = accountMapper.entityToDto(entity);
             accountService.create(dto);

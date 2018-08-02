@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class Account extends NamedBaseEntity implements UserDetails {
+public class Account extends BaseEntity implements UserDetails {
 
     @Column(unique = true)
     private String username;
@@ -144,7 +144,6 @@ public class Account extends NamedBaseEntity implements UserDetails {
                 enabled == account.enabled &&
                 Objects.equals(id, account.id) &&
                 Objects.equals(username, account.username) &&
-                Objects.equals(name, account.name) &&
                 Objects.equals(email, account.email) &&
                 Objects.equals(password, account.password) &&
                 Objects.equals(roles, account.roles);
@@ -152,7 +151,7 @@ public class Account extends NamedBaseEntity implements UserDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, name, email, password, roles,
+        return Objects.hash(id, username, email, password, roles,
                 accountNonExpired, accountNonLocked, credentialsNonExpired, enabled);
     }
 
@@ -161,7 +160,6 @@ public class Account extends NamedBaseEntity implements UserDetails {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("username", username)
-                .add("name", name)
                 .add("email", email)
                 .add("password", password)
                 .toString();
@@ -170,7 +168,6 @@ public class Account extends NamedBaseEntity implements UserDetails {
     public static class Builder {
 
         private Long id;
-        private String name;
         private String username;
         private String password;
         private String email;
@@ -183,11 +180,6 @@ public class Account extends NamedBaseEntity implements UserDetails {
 
         public Builder setId(Long id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            this.name = name;
             return this;
         }
 
@@ -207,7 +199,6 @@ public class Account extends NamedBaseEntity implements UserDetails {
             account.password = this.password;
 
             account.id = this.id;
-            account.name = this.name;
             account.email = this.email;
             account.roles = this.roles;
 
