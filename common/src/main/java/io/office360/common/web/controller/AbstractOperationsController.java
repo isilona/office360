@@ -21,15 +21,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public abstract class AbstractOperationsController<D extends IDto> implements IOperationsController<D> {
+public abstract class AbstractOperationsController implements IOperationsController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected Class<D> clazz;
+    protected Class<? extends IDto> clazz;
 
     @Autowired
     protected ApplicationEventPublisher eventPublisher;
 
-    public AbstractOperationsController(final Class<D> clazzToSet) {
+    public <D extends IDto> AbstractOperationsController(final Class<D> clazzToSet) {
         super();
 
         Preconditions.checkNotNull(clazzToSet);
@@ -41,35 +41,35 @@ public abstract class AbstractOperationsController<D extends IDto> implements IO
     // CREATE
 
     @Override
-    public final void createInternal(final D resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final <D extends IDto> void createInternal(final D resource, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestState(resource.getId() == null);
         final D existingResource = getService().create(resource);
 
         // - note: mind the autoboxing and potential NPE when the resource has null id at this point (likely when working with DTOs)
-        eventPublisher.publishEvent(new AfterResourceCreatedEvent<>(clazz, uriBuilder, response, existingResource.getId().toString()));
+        eventPublisher.publishEvent(new AfterResourceCreatedEvent(clazz, uriBuilder, response, existingResource.getId().toString()));
     }
 
     // READ
 
     @Override
-    public final D findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final <D extends IDto> D findOneInternal(final Long id, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final D resource = findOneInternal(id);
-        eventPublisher.publishEvent(new SingleResourceRetrievedEvent<>(clazz, uriBuilder, response));
+        eventPublisher.publishEvent(new SingleResourceRetrievedEvent(clazz, uriBuilder, response));
         return resource;
     }
 
-    protected final D findOneInternal(final Long id) {
+    protected final <D extends IDto> D findOneInternal(final Long id) {
         return RestPreconditions.checkNotNull(getService().findOne(id));
     }
 
     @Override
-    public final List<D> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final <D extends IDto> List<D> findAllInternal(final HttpServletRequest request, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         if (request.getParameterNames().hasMoreElements()) {
             throw new Office360ResourceNotFoundException();
         }
 
-        eventPublisher.publishEvent(new MultipleResourcesRetrievedEvent<>(clazz, uriBuilder, response));
+        eventPublisher.publishEvent(new MultipleResourcesRetrievedEvent(clazz, uriBuilder, response));
         return getService().findAll();
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractOperationsController<D extends IDto> implements IO
      * - note: the operation is IDEMPOTENT <br/>
      */
     @Override
-    public final void updateInternal(final long id, final D resource) {
+    public final <D extends IDto> void updateInternal(final long id, final D resource) {
         RestPreconditions.checkRequestElementNotNull(resource);
         RestPreconditions.checkRequestElementNotNull(resource.getId());
         RestPreconditions.checkRequestState(resource.getId() == id);
@@ -109,34 +109,34 @@ public abstract class AbstractOperationsController<D extends IDto> implements IO
     // API - PAGING & SORTING
 
     @Override
-    public final List<D> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final <D extends IDto> List<D> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<D> resultPage = getService().findAllPaginated(page, size);
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
         }
-        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
+        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
 
         return Lists.newArrayList(resultPage.getContent());
     }
 
     @Override
-    public final List<D> findSortedInternal(final String sortBy, final String sortOrder) {
+    public final <D extends IDto> List<D> findSortedInternal(final String sortBy, final String sortOrder) {
         return getService().findAllSorted(sortBy, sortOrder);
     }
 
     @Override
-    public final List<D> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
+    public final <D extends IDto> List<D> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response) {
         final Page<D> resultPage = getService().findAllPaginatedAndSorted(page, size, sortBy, sortOrder);
         if (page > resultPage.getTotalPages()) {
             throw new Office360ResourceNotFoundException();
         }
-        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<>(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
+        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent(clazz, uriBuilder, response, page, resultPage.getTotalPages(), size));
 
         return Lists.newArrayList(resultPage.getContent());
     }
 
     // template method
 
-    protected abstract IOperationsService<D> getService();
+    protected abstract IOperationsService getService();
 
 }

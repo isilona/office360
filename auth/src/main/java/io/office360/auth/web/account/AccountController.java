@@ -23,7 +23,7 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 
 @Controller
 @RequestMapping(value = Office360AuthMappings.USERS)
-public class AccountController extends AbstractController<AccountDto> implements IOperationsController<AccountDto> {
+public class AccountController extends AbstractController implements IOperationsController {
 
     private final IAccountService service;
 
@@ -40,7 +40,7 @@ public class AccountController extends AbstractController<AccountDto> implements
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(
-            @RequestBody @Valid final AccountDto resource,
+            @RequestBody @Valid final AccountRegisterDto resource,
             final UriComponentsBuilder uriBuilder,
             final HttpServletResponse response) {
         createInternal(resource, uriBuilder, response);

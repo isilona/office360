@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PrivilegeServiceImpl extends AbstractNameableService<Privilege, PrivilegeDto> implements IPrivilegeService {
+public class PrivilegeServiceImpl extends AbstractNameableService implements IPrivilegeService {
 
     private final IPrivilegeJpaDao dao;
 

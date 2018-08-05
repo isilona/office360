@@ -106,7 +106,7 @@ public class RoleServiceIntegrationTest extends SecServiceIntegrationTest<RoleDt
     // template method
 
     @Override
-    protected final INameableService<RoleDto> getApi() {
+    protected final INameableService getApi() {
         return roleService;
     }
 

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-public abstract class AbstractController<D extends IDto> extends AbstractOperationsController<D> {
+public abstract class AbstractController extends AbstractOperationsController {
 
-    @Autowired
-    public AbstractController(final Class<D> clazzToSet) {
+//    @Autowired
+    public <D extends IDto> AbstractController(final Class<D> clazzToSet) {
         super(clazzToSet);
     }
 

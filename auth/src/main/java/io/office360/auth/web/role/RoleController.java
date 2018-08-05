@@ -21,7 +21,7 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 
 @Controller
 @RequestMapping(value = Office360AuthMappings.ROLES)
-public class RoleController extends AbstractController<RoleDto> implements IPagingAndSortingOperationsController<RoleDto> {
+public class RoleController extends AbstractController implements IPagingAndSortingOperationsController {
 
     private final IRoleService service;
 

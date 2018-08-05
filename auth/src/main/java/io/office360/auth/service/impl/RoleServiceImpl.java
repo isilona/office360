@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class RoleServiceImpl extends AbstractNameableService<Role, RoleDto> implements IRoleService {
+public class RoleServiceImpl extends AbstractNameableService implements IRoleService {
 
     private final IRoleJpaDao dao;
 

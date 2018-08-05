@@ -106,6 +106,6 @@ public abstract class AbstractServiceIntegrationTest<T extends INameableDto> ext
     // template method
 
     @Override
-    protected abstract INameableService<T> getApi();
+    protected abstract INameableService getApi();
 
 }

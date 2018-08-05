@@ -283,7 +283,7 @@ public abstract class AbstractRawServiceIntegrationTest<T extends IDto> {
 
     protected abstract T createNewEntity();
 
-    protected abstract IOperationsService<T> getApi();
+    protected abstract IOperationsService getApi();
 
     protected T persistNewEntity() {
         return getApi().create(createNewEntity());

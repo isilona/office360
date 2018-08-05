@@ -2,10 +2,10 @@ package io.office360.common.persistence.service;
 
 import io.office360.common.interfaces.INameableDto;
 
-public interface INameableService<D extends INameableDto> extends IOperationsService<D> {
+public interface INameableService extends IOperationsService {
 
     //
 
-    D findByName(String name);
+    <D extends INameableDto> D findByName(String name);
 
 }

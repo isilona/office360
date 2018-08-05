@@ -37,7 +37,7 @@ public class PrivilegeServiceIntegrationTest extends SecServiceIntegrationTest<P
     // template method
 
     @Override
-    protected final INameableService<PrivilegeDto> getApi() {
+    protected final INameableService getApi() {
         return privilegeService;
     }
 

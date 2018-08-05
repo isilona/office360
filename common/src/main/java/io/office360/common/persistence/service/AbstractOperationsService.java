@@ -25,8 +25,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Transactional
-public abstract class AbstractOperationsService<T extends IEntity, D extends IDto>
-        implements IOperationsService<D> {
+public abstract class AbstractOperationsService
+        implements IOperationsService {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -41,40 +41,39 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
     // CREATE
 
     @Override
-    public D create(final D dto) {
+    public <D extends IDto> D create(final D dto) {
         Preconditions.checkNotNull(dto);
-        T toSave = getMapper().dtoToEntity(dto);
-        T saved = getDao().save(toSave);
+        IEntity toSave = getMapper().dtoToEntity(dto);
+        IEntity saved = getDao().save(toSave);
 
-        return getMapper().entityToDto(saved);
+        return (D) getMapper().entityToDto(saved);
     }
 
     // READ
 
     @Override
     @Transactional(readOnly = true)
-    public D findOne(final long id) {
-        T found = getDao().findById(id).orElse(null);
-        return getMapper().entityToDto(found);
+    public <D extends IDto> D findOne(final long id) {
+        IEntity found = getDao().findById(id).orElse(null);
+        return (D) getMapper().entityToDto(found);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<D> findAll() {
-        List<T> found = Lists.newArrayList(getDao().findAll());
-        List<D> toReturn = new LinkedList<>();
-        for (T item : found) {
+    public List<IDto> findAll() {
+        List<IEntity> found = Lists.newArrayList(getDao().findAll());
+        List<IDto> toReturn = new LinkedList<>();
+        for (IEntity item : found) {
             toReturn.add(getMapper().entityToDto(item));
         }
         return toReturn;
     }
 
     // UPDATE
-
     @Override
-    public void update(final D dto) {
+    public <D extends IDto> void update(final D dto) {
         Preconditions.checkNotNull(dto);
-        T toSave = getMapper().dtoToEntity(dto);
+        IEntity toSave = getMapper().dtoToEntity(dto);
         getDao().save(toSave);
     }
 
@@ -82,7 +81,7 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
 
     @Override
     public void delete(final long id) {
-        final Optional<T> entity = getDao().findById(id);
+        final Optional<IEntity> entity = getDao().findById(id);
         ServicePreconditions.checkEntityExists(entity);
         if (entity.isPresent()) {
             getDao().delete(entity.get());
@@ -108,11 +107,11 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
 
     @Override
     @Transactional(readOnly = true)
-    public Page<D> findAllPaginated(final int page, final int size) {
-        Page<T> found = getDao().findAll(PageRequest.of(page, size));
-        Page<D> toReturn = found.map(new Function<T, D>() {
+    public Page<IDto> findAllPaginated(final int page, final int size) {
+        Page<IEntity> found = getDao().findAll(PageRequest.of(page, size));
+        Page<IDto> toReturn = found.map(new Function<IEntity, IDto>() {
             @Override
-            public D apply(T entity) {
+            public IDto apply(IEntity entity) {
                 return getMapper().entityToDto(entity);
             }
         });
@@ -122,12 +121,12 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
 
     @Override
     @Transactional(readOnly = true)
-    public List<D> findAllSorted(final String sortBy, final String sortOrder) {
+    public List<IDto> findAllSorted(final String sortBy, final String sortOrder) {
         final Sort sortInfo = constructSort(sortBy, sortOrder);
 
-        List<T> found = Lists.newArrayList(getDao().findAll(sortInfo));
-        List<D> toReturn = new LinkedList<>();
-        for (T item : found) {
+        List<IEntity> found = Lists.newArrayList(getDao().findAll(sortInfo));
+        List<IDto> toReturn = new LinkedList<>();
+        for (IEntity item : found) {
             toReturn.add(getMapper().entityToDto(item));
         }
 
@@ -136,13 +135,13 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
 
     @Override
     @Transactional(readOnly = true)
-    public Page<D> findAllPaginatedAndSorted(final int page, final int size, final String sortBy, final String sortOrder) {
+    public Page<IDto> findAllPaginatedAndSorted(final int page, final int size, final String sortBy, final String sortOrder) {
         final Sort sortInfo = constructSort(sortBy, sortOrder);
 
-        Page<T> found = getDao().findAll(PageRequest.of(page, size, sortInfo));
-        Page<D> toReturn = found.map(new Function<T, D>() {
+        Page<IEntity> found = getDao().findAll(PageRequest.of(page, size, sortInfo));
+        Page<IDto> toReturn = found.map(new Function<IEntity, IDto>() {
             @Override
-            public D apply(T entity) {
+            public IDto apply(IEntity entity) {
                 return getMapper().entityToDto(entity);
             }
         });
@@ -153,9 +152,9 @@ public abstract class AbstractOperationsService<T extends IEntity, D extends IDt
 
     // template method
 
-    protected abstract PagingAndSortingRepository<T, Long> getDao();
+    protected abstract <T extends IEntity> PagingAndSortingRepository<T, Long> getDao();
 
-    protected abstract IMapper<D, T> getMapper();
+    protected abstract <D extends IDto, T extends IEntity> IMapper<D, T> getMapper();
 
     // template
 

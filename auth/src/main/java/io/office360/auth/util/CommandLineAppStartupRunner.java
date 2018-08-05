@@ -10,7 +10,8 @@ import io.office360.auth.service.IAccountService;
 import io.office360.auth.service.IPrivilegeService;
 import io.office360.auth.service.IRoleService;
 import io.office360.auth.web.account.AccountDto;
-import io.office360.auth.web.account.AccountMapper;
+import io.office360.auth.web.account.AccountRegisterDto;
+import io.office360.auth.web.account.AccountRegisterMapper;
 import io.office360.auth.web.privilege.PrivilegeDto;
 import io.office360.auth.web.privilege.PrivilegeMapper;
 import io.office360.auth.web.role.RoleDto;
@@ -37,7 +38,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     private final IPrivilegeService privilegeService;
 
-    private final AccountMapper accountMapper;
+    private final AccountRegisterMapper accountRegisterMapper;
 
     private final PrivilegeMapper privilegeMapper;
 
@@ -48,13 +49,13 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
             IAccountService accountService,
             IRoleService roleService,
             IPrivilegeService privilegeService,
-            AccountMapper accountMapper,
+            AccountRegisterMapper accountRegisterMapper,
             PrivilegeMapper privilegeMapper,
             RoleMapper roleMapper) {
         this.accountService = accountService;
         this.roleService = roleService;
         this.privilegeService = privilegeService;
-        this.accountMapper = accountMapper;
+        this.accountRegisterMapper = accountRegisterMapper;
         this.privilegeMapper = privilegeMapper;
         this.roleMapper = roleMapper;
     }
@@ -171,7 +172,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
                             setEmail(email).
                             setRoles(roles).
                             build();
-            AccountDto dto = accountMapper.entityToDto(entity);
+            AccountRegisterDto dto = accountRegisterMapper.entityToDto(entity);
             accountService.create(dto);
         }
     }

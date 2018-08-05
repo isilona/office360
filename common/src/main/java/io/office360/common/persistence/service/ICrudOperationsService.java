@@ -4,24 +4,24 @@ import io.office360.common.interfaces.IDto;
 
 import java.util.List;
 
-public interface ICrudOperationsService<D extends IDto> {
+public interface ICrudOperationsService {
 
     // CREATE
 
-    D create(final D resource);
+    <D extends IDto> D create(final D resource);
 
     // READ
 
-    D findOne(final long id);
+    <D extends IDto> D findOne(final long id);
 
     /**
      * - contract: if nothing is found, an empty list will be returned to the calling client <br>
      */
-    List<D> findAll();
+    <D extends IDto> List<D> findAll();
 
     // UPDATE
 
-    void update(final D resource);
+    <D extends IDto> void update(final D resource);
 
     // DELETE
 

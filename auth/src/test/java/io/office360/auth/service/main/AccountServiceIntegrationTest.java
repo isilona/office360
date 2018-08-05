@@ -40,7 +40,7 @@ public class AccountServiceIntegrationTest extends SecServiceIntegrationTest<Acc
     // template method
 
     @Override
-    protected final INameableService<AccountDto> getApi() {
+    protected final INameableService getApi() {
 //        return accountService;
         return null;
     }

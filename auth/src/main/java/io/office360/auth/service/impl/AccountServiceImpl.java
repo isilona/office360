@@ -6,6 +6,9 @@ import io.office360.auth.persistence.entity.Account;
 import io.office360.auth.service.IAccountService;
 import io.office360.auth.web.account.AccountDto;
 import io.office360.auth.web.account.AccountMapper;
+import io.office360.auth.web.account.AccountRegisterDto;
+import io.office360.auth.web.account.AccountRegisterMapper;
+import io.office360.common.interfaces.IDto;
 import io.office360.common.persistence.service.AbstractOperationsService;
 import io.office360.common.web.controller.data.mapping.IMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,36 +22,43 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class AccountServiceImpl extends AbstractOperationsService<Account, AccountDto> implements IAccountService, UserDetailsService {
+public class AccountServiceImpl extends AbstractOperationsService implements IAccountService, UserDetailsService {
 
     private final IAccountJpaDao dao;
 
     private final AccountMapper mapper;
 
+    private final AccountRegisterMapper registerMapper;
+
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AccountServiceImpl(IAccountJpaDao dao, AccountMapper mapper, PasswordEncoder passwordEncoder) {
+    public AccountServiceImpl(IAccountJpaDao dao,
+                              AccountMapper mapper,
+                              AccountRegisterMapper registerMapper,
+                              PasswordEncoder passwordEncoder) {
         super();
         this.dao = dao;
         this.mapper = mapper;
+        this.registerMapper = registerMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
     // API
 
     @Override
-    public AccountDto create(final AccountDto dto) {
-        Preconditions.checkNotNull(dto);
+    public <D extends IDto> D create(D dto) {
+        AccountRegisterDto casted = (AccountRegisterDto) dto;
 
-        // TODO : Check to do encoding in UI
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
-        dto.setPassword(encodedPassword);
+        Preconditions.checkNotNull(casted);
 
-        Account toSave = mapper.dtoToEntity(dto);
+        // TODO : Check to do encoding in UI then use the default create method
+        String encodedPassword = passwordEncoder.encode(casted.getPassword());
+        casted.setPassword(encodedPassword);
+
+        Account toSave = registerMapper.dtoToEntity(casted);
         Account saved = getDao().save(toSave);
-
-        return mapper.entityToDto(saved);
+        return (D) registerMapper.entityToDto(saved);
     }
 
     // find
@@ -61,7 +71,7 @@ public class AccountServiceImpl extends AbstractOperationsService<Account, Accou
     }
 
     @Override
-    protected IMapper getMapper() {
+    protected IMapper<AccountDto, Account> getMapper() {
         return mapper;
     }
 
@@ -74,7 +84,7 @@ public class AccountServiceImpl extends AbstractOperationsService<Account, Accou
 
         final AccountDto user = findByUsername(username);
         if (user != null) {
-            return (Account) getMapper().dtoToEntity(user);
+            return getMapper().dtoToEntity(user);
         } else {
             throw new UsernameNotFoundException("Username was not found: " + username);
         }

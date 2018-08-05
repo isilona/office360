@@ -23,7 +23,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = Office360Mappings.PATIENTS)
-public class PatientRecordController extends AbstractController<PatientDto> implements IPagingAndSortingOperationsController<PatientDto> {
+public class PatientRecordController extends AbstractController implements IPagingAndSortingOperationsController {
 
     private final IPatientService service;
 

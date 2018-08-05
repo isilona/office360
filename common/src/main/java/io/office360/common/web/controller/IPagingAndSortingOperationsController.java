@@ -6,12 +6,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public interface IPagingAndSortingOperationsController<D extends IDto> {
+public interface IPagingAndSortingOperationsController {
 
-    List<D> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response);
+    <D extends IDto> List<D> findPaginatedInternal(final int page, final int size, final UriComponentsBuilder uriBuilder, final HttpServletResponse response);
 
-    List<D> findSortedInternal(final String sortBy, final String sortOrder);
+    <D extends IDto> List<D> findSortedInternal(final String sortBy, final String sortOrder);
 
-    List<D> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response);
+    <D extends IDto> List<D> findPaginatedAndSortedInternal(final int page, final int size, final String sortBy, final String sortOrder, final UriComponentsBuilder uriBuilder, final HttpServletResponse response);
 
 }

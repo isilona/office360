@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PatientServiceImpl extends AbstractOperationsService<Patient, PatientDto> implements IPatientService {
+public class PatientServiceImpl extends AbstractOperationsService implements IPatientService {
 
     private final IPatientJpaDao dao;
 

@@ -21,7 +21,7 @@ import static io.office360.auth.util.Office360AuthConstants.Privileges;
 
 @Controller
 @RequestMapping(value = Office360AuthMappings.PRIVILEGES)
-public class PrivilegeController extends AbstractController<PrivilegeDto> implements IPagingAndSortingOperationsController<PrivilegeDto> {
+public class PrivilegeController extends AbstractController implements IPagingAndSortingOperationsController {
 
     private final IPrivilegeService service;
 
